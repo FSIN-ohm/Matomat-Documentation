@@ -8,7 +8,7 @@
   <meta name="description" content="None">
   
   <link rel="shortcut icon" href="img/favicon.ico">
-  <title>Matomat documentation - Matomat Documentation</title>
+  <title>MatΩhmat documentation - Matomat Documentation</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
   <link rel="stylesheet" href="css/theme.css" type="text/css" />
@@ -17,7 +17,7 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Matomat documentation";
+    var mkdocs_page_name = "Mat\u03a9hmat documentation";
     var mkdocs_page_input_path = "index.md";
     var mkdocs_page_url = null;
   </script>
@@ -50,10 +50,20 @@
           
             <li class="toctree-l1 current">
 		
-    <a class="current" href=".">Matomat documentation</a>
+    <a class="current" href=".">MatΩhmat documentation</a>
     <ul class="subnav">
             
-    <li class="toctree-l2"><a href="#matomat-documentation">Matomat documentation</a></li>
+    <li class="toctree-l2"><a href="#mathmat-documentation">MatΩhmat documentation</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#the-server">The Server</a></li>
+        
+            <li><a class="toctree-l3" href="#the-admin-fronted">The Admin-Fronted</a></li>
+        
+            <li><a class="toctree-l3" href="#the-user-frontend">The User-Frontend</a></li>
+        
+        </ul>
     
 
     </ul>
@@ -81,7 +91,7 @@
     
       
     
-    <li>Matomat documentation</li>
+    <li>MatΩhmat documentation</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -91,8 +101,37 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="matomat-documentation">Matomat documentation</h1>
-<p>Write your stuff here.</p>
+                <h1 id="mathmat-documentation">MatΩhmat documentation</h1>
+<p>MatΩhmat is a cash system designed to cell Mate, sweets and other joyful goods :D.
+MatΩhmat is created by and for the <a href="https://fachschaft.in.th-nuernberg.de/">students of the IT-Fculty</a> of
+the <a href="https://th-nuernberg.de">TH Nuermberg</a> University. 
+It is the successor of the <a href="https://k4cg.org">k4cg</a> <a href="https://github.com/k4cg/matomat">Matomat</a> and
+the <a href="https://fablab-nuernberg.de/">Fablabl NBG</a> <a href="https://matom.at/">Matomat</a>.</p>
+<p>MatΩhmat allows users to register and have an account where they can pay money to. From this account they can then
+buy what is Provided by the <a href="https://fachschaft.in.th-nuernberg.de/">Fachschaft</a>.</p>
+<p>The design of the system is modern, open, and mostly designed with technologies that IT students of
+<a href="https://th-nuernberg.de">TH Nuermberg</a> are able to understand. This should enable future generations of students
+to administrate, and extend the system with cool features.</p>
+<p>MatΩhmat consists of three major parts, </p>
+<ul>
+<li>a Server using MySQL to store all Persistent information, and handle Background Jobs.</li>
+<li>a web based Admin frontend with which is possible to administrate the system.</li>
+<li>a frontend based on a Raspbery PI which handles the interaction with the users.</li>
+</ul>
+<p><img alt="Overview" src="/img/matohmat_arch.svg" /></p>
+<h3 id="the-server">The Server</h3>
+<p>The core is the Server with which all other parts of MatΩhmat communicate with through a <a href="https://en.wikipedia.org/wiki/Representational_state_transfer">REST-API</a>
+ based on the <a href="https://de.wikipedia.org/wiki/JavaScript_Object_Notation">JSON</a> protocol.
+The Server is written in java using the <a href="https://spring.io/">Spring Framework</a> for providing the REST-API, and
+<a href="http://hibernate.org/">Hibernate</a> to communicate with the <a href="https://www.mysql.com/de/">MySQL</a> database.</p>
+<h3 id="the-admin-fronted">The Admin-Fronted</h3>
+<p>The Admin-Frontend is written HTML, CSS, and <a href="https://www.typescriptlang.org/">TypeScript</a> using the <a href="https://angular.io/">Angular</a>
+framework. It is a web application that can be delivered by a static web sever like <a href="https://www.nginx.com/resources/wiki/">Nginx</a>.
+All the the persistent data it need it gets form the <a href="#the_server">MatΩhmat Server</a>.</p>
+<h3 id="the-user-frontend">The User-Frontend</h3>
+<p>The User-Frontend is a little wooden box containing a touch display a RaspberryPI, and a RFID scanner. It displays a
+touch friendly webpage hosted on the device itself. The page comunicates directly with the <a href="#the_server">MatΩhmat Server</a>
+through its REST-API. It is created using pure HTML5, CSS and JavaScript.</p>
               
             </div>
           </div>
@@ -131,6 +170,6 @@
 </html>
 
 <!--
-MkDocs version : 1.0.3
-Build Date UTC : 2018-10-30 14:30:32
+MkDocs version : 1.0.4
+Build Date UTC : 2018-11-16 11:24:39
 -->
