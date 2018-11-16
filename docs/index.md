@@ -19,7 +19,7 @@ MatΩhmat consists of three major parts,
  - a web based Admin frontend with which is possible to administrate the system.
  - a frontend based on a Raspbery PI which handles the interaction with the users.
 
-![Overview](/img/matohmat_arch.svg)
+![Overview](img/matohmat_arch.svg)
 
 ### The Server
 The core is the Server with which all other parts of MatΩhmat communicate with through a [REST-API](https://en.wikipedia.org/wiki/Representational_state_transfer)
