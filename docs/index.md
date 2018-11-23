@@ -25,7 +25,7 @@ MatΩhmat consists of three major parts,
 The core is the Server with which all other parts of MatΩhmat communicate with through a [REST-API](https://en.wikipedia.org/wiki/Representational_state_transfer)
  based on the [JSON](https://de.wikipedia.org/wiki/JavaScript_Object_Notation) protocol.
 The Server is written in java using the [Spring Framework](https://spring.io/) for providing the REST-API, and
-[Hibernate](http://hibernate.org/) to communicate with the [MySQL](https://www.mysql.com/de/) database.
+[Hibernate](http://hibernate.org/orm/documentation/5.3/) to communicate with the [MySQL](https://www.mysql.com/de/) database.
 
 ### The Admin-Fronted
 The Admin-Frontend is written HTML, CSS, and [TypeScript](https://www.typescriptlang.org/) using the [Angular](https://angular.io/)
