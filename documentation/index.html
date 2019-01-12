@@ -138,13 +138,18 @@
 <li>Open powershell or cmd, and type: <code>pip3 install mkdocs</code>.</li>
 </ol>
 <h2 id="macos">MacOS</h2>
-<p>MacOS already comes along with python, however pip is still missing. The easyest, and most nondistructive way is to install the MacOS package manager <a href="https://brew.sh/index_de">homebrew</a> first. The advantage of homebrew are that it will only modify your home directory, but not the root dir. So your OS will not be touched by this.</p>
+<p>MacOS already comes with Python already installed, however pip is still missing. The easyest, and most nondistructive way is to install the MacOS package manager <a href="https://brew.sh/index_de">homebrew</a> first. The advantage of homebrew are that it will only modify your home directory, but not the root dir. So your OS will not be touched by this.</p>
 <ol>
 <li>Install <a href="https://brew.sh/index_de">homebrew</a></li>
-<li>Install Python from homebrew, which will also install pip. Run this command:
-<code>brew install python</code>.</li>
-<li>Install mkdocs:
-<code>pip3 install mkdocs</code></li>
+<li>Install Python from homebrew, which will also install pip. </li>
+<li>Run this command: <code>brew install python</code></li>
+<li>Install mkdocs: <code>pip3 install mkdocs</code></li>
+</ol>
+<p>Alternativeley, without Homebrew, you can use the depreceated but preinstalled <code>easy_install</code> tool to install pip: </p>
+<ol>
+<li>Run <code>sudo easy_install pip</code> to install pip</li>
+<li>Update pip with <code>sudo pip install --upgrade pip</code></li>
+<li>Run <code>sudo pip install mkdocs</code> to install mkdocs</li>
 </ol>
 <h2 id="linuxbsd">Linux/*BSD</h2>
 <p>Also Linux/*BSD comes pre installed with python. Most distributions also deliver pip by default. If its not installed you may need to figure out how to install pip3 through the package manager of your system.</p>
