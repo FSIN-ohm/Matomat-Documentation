@@ -17,13 +17,18 @@ Mkdos is written in [python](https://www.python.org/) and is distributed through
 
 ## MacOS
 
-MacOS already comes along with python, however pip is still missing. The easyest, and most nondistructive way is to install the MacOS package manager [homebrew](https://brew.sh/index_de) first. The advantage of homebrew are that it will only modify your home directory, but not the root dir. So your OS will not be touched by this.
+MacOS already comes with Python already installed, however pip is still missing. The easyest, and most nondistructive way is to install the MacOS package manager [homebrew](https://brew.sh/index_de) first. The advantage of homebrew are that it will only modify your home directory, but not the root dir. So your OS will not be touched by this.
 
 1. Install [homebrew](https://brew.sh/index_de)
-2. Install Python from homebrew, which will also install pip. Run this command:
-`brew install python`.
-3. Install mkdocs:
-`pip3 install mkdocs`
+2. Install Python from homebrew, which will also install pip. 
+3. Run this command: `brew install python`
+4. Install mkdocs: `pip3 install mkdocs`
+
+Alternativeley, without Homebrew, you can use the depreceated but preinstalled `easy_install` tool to install pip: 
+
+1. Run `sudo easy_install pip` to install pip
+2. Update pip with `sudo pip install --upgrade pip`
+3. Run `sudo pip install mkdocs` to install mkdocs
 
 ## Linux/*BSD
 
