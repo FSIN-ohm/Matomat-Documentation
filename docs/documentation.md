@@ -38,6 +38,18 @@ Also Linux/*BSD comes pre installed with python. Most distributions also deliver
 2. Run `pip3 install mkdocs` to install mkdocs only for the current user,
 or run `sudo pip3 install mkdocs` to install mkdocs systemwide. Last one has the higher chance to work properly.
 
+## Android/ChromeOS
+This might sound funny, but according to the growing amount of Android tablets with keyboard, and ChromeBooks this might actually be useful.
+
+1. Install the [Tremux App](https://termux.com/) from [f-droid](https://f-droid.org/packages/com.termux/).
+2. Launch Termux and type `apt update`
+3. Install python and git with the command: `apt install git python`
+4. Now install mkdocs with `pip install mkdocs`.
+
+From here on everything will be the same as on Desktop. If you want to edit the files you can (besides vim or emacs which are available through Termux) use your favourite text editor on android. This is possible by opening the files with the Termux integration of the build in android file manager:
+![termux_files](/img/termux_files.png)
+
+
 ## Update
 Sometimes mkdocs changes the way how to serve, or the syntax will differ. This is why you should make sure to always run the latest version of mkdocs. To ensure this simply run `pip3 install --upgrade mkdocs` or `sudo pip3 install --upgrade mkdocs` if you installed pip system wide on a linux/bsd system.
 
