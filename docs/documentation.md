@@ -1,7 +1,7 @@
 Documentation
 =============
 
-The Documentation you are currently reading is written using [mkdocs](https://www.mkdocs.org/). It is a tool that will generate a static website based on files writting in [markdown](https://www.markdownguide.org/). Markdown has the advantage that it is simple to read and write, and that there are several tools that can translate a markdown file into languages like html or latex.
+The Documentation you are currently reading is written using [mkdocs](https://www.mkdocs.org/). It is a tool that will generate a static website based on [markdown](https://www.markdownguide.org/) files. Markdown has the advantage that it is simple to read and write, and that there are several tools that can translate a markdown file into languages like html or latex.
 
 # Installation
 
@@ -52,7 +52,7 @@ This might sound funny, but according to the growing amount of Android tablets w
 4. Now install mkdocs with `pip install mkdocs`.
 
 From here on everything will be the same as on Desktop. If you want to edit the files you can (besides vim or emacs which are available through Termux) use your favourite text editor on android. This is possible by opening the files with the Termux integration of the build in android file manager:
-![termux_files](/img/termux_files.png)
+![termux_files](img/termux_files.png)
 
 
 ## Update
