@@ -10,7 +10,8 @@ Here is the documentation of it, so one who wants to program a client, or change
 - Endpoint: `/admin`
 - Endpoint: `/admins`
 
-#### Query all admins `GET /admins`
+#### Query all admins
+`GET /admins`
 
 - `items=<number>` number of items per page. If this parameter is not given it will return all admins in one request.
 - `page=<number>` only works in combination with the `items` parameter. If not given, the first page will be returned.
@@ -20,18 +21,70 @@ Here is the documentation of it, so one who wants to program a client, or change
 # User
 
 - Endpoint: `/user`
-- Endpoint. `/users`
+- Endpoint: `/users`
+- Endpoint: `/me`
 
-#### Query all users `GET /users`
+#### Query all users
+`GET /users`
+
 This request requires Admin privileges.
 
 - `items=<number>` number of items per page. If this parameter is not given it will return all users in one request.
 - `page=<number>` only works in combination with the `items` parameter. If not given, the first page will be returned.
 
-#### Query one specific user `GET /user/<user_id>`
+#### Query one specific user
+`GET /user/<user_id>`
+
 This request requires Admin privileges.
 
+#### Query a user based on his basic auth header
+`GET /me`
 
+This will require a user to send a basic auth header with his credentials.
+
+#### Reply of User queries
+The reply of the user queries will be JSON that contains these informations:
+```
+{
+   id:<user id as long>,
+   balance:<balance in cent as integer>,
+   last_seen:<last login date as string>,
+   available:<is user available as boolean>
+}
+```
+Example:
+```
+{
+   id:1234,
+   balance:2565,
+   last_seen:"2019:05:15",
+   available:true
+}
+```
+
+#### Create new user
+
+`POST /user`
+
+A create new user may be sent without auth header, however if no basic auth header is given it requires
+that the request contains a valid client key. These keys are used to permit privileged clients to create new users.
+If an admin auth header is given the `client_key` can be empty or left out, and should not even be used here.
+Regular users are not permitted to register new users. Only admins or priviliged clients.
+The body of the post must contain this data:
+```
+{
+   client_key:<key of the client priviliged to create new users. Can be left out if adbmin basic auth is given>,
+   auth_hash:<first 25 bytes of the auth hash (sha256) generated from the user id>
+}
+```
+
+Example:
+```
+{
+   client_key:"09d374ebf788ca96d5c5ad8cfc778317d8efa692766accc609eb5932ccf19c94",
+   auth_hash:"6d78392a5886177fe5b86e585"
+}
+```
 
 ----
 
@@ -40,7 +93,8 @@ This request requires Admin privileges.
 - Endpoint: `/product`
 - Endpoint: `/products`
 
-#### Query all products `GET /products`
+#### Query all products
+`GET /products`
 
 - `items=<number>` number of items per page. If this parameter is not given it will return all products in one request.
 - `page=<number>` only works in combination with the `items` parameter. If not given, the first page will be returned.
@@ -52,7 +106,8 @@ This request requires Admin privileges.
 - Endpoint: `/transaction`
 - Endpoint: `/transactions`
 
-#### Query transactions `GET /transactions`
+#### Query transactions
+`GET /transactions`
 
 - `items=<number>` number of items per page. If this parameter is not given it will return 100 items of the first page.
 - `page=<number>` only works in combination with the `items` parameter. If not given, the first page will be returned.
