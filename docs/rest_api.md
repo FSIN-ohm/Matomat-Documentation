@@ -9,12 +9,80 @@ Here is the documentation of it, so one who wants to program a client, or change
 
 - Endpoint: `/admin`
 - Endpoint: `/admins`
+- 
 
 #### Query all admins
 `GET /admins`
 
+This request requires Admin privileges.
+
 - `items=<number>` number of items per page. If this parameter is not given it will return all admins in one request.
 - `page=<number>` only works in combination with the `items` parameter. If not given, the first page will be returned.
+
+
+__Reply__
+
+```json
+{
+   data:[
+      {
+         id:<admin id as long>,
+         user_id:<user id as long>,
+         balance:<balance in cent as integer>,
+         last_seen:<last login date as string>,
+         available:<is user available as boolean>,
+         username:<admin username>,
+         email:<email address>
+      },
+      <furhter admins>
+   ],
+   status: "ok"
+}
+```
+
+#### Query one specific admin
+`GET /admin/<user name>`
+
+This request requires Admin privileges.
+
+__Reply__
+```
+{
+   id:<admin id as long>,
+   user_id:<user id as long>,
+   balance:<balance in cent as integer>,
+   last_seen:<last login date as string>,
+   available:<is user available as boolean>,
+   user_name:<admin username>,
+   email:<email address>,
+   status: "ok"
+}
+```
+
+#### Create a new admin
+
+This request requires Admin privileges.
+
+Only an existing admin can create new admins.
+
+`POST /admin`
+
+__Request__
+
+```
+{
+   user_name:<admin username>,
+   password:<admin password>,
+   email:<email address>,
+}
+```
+
+__Reply__
+```
+{
+   status:"ok"
+}
+```
 
 ----
 
@@ -32,35 +100,58 @@ This request requires Admin privileges.
 - `items=<number>` number of items per page. If this parameter is not given it will return all users in one request.
 - `page=<number>` only works in combination with the `items` parameter. If not given, the first page will be returned.
 
+__Reply__
+
+```
+{
+   data:[
+      {
+         id:<user id as long>,
+         balance:<balance in cent as integer>,
+         last_seen:<last login date as string>,
+         available:<is user available as boolean>
+      },
+      <furhter users>
+   ],
+   status:"ok"
+}
+```
+
 #### Query one specific user
 `GET /user/<user_id>`
 
 This request requires Admin privileges.
+
+__Reply__
+
+```
+{
+   id:<user id as long>,
+   balance:<balance in cent as integer>,
+   last_seen:<last login date as string>,
+   available:<is user available as boolean>,
+   status: "ok"
+}
+```
+
 
 #### Query a user based on his basic auth header
 `GET /me`
 
 This will require a user to send a basic auth header with his credentials.
 
-#### Reply of User queries
-The reply of the user queries will be JSON that contains these informations:
+__Reply__
+
 ```
 {
    id:<user id as long>,
    balance:<balance in cent as integer>,
    last_seen:<last login date as string>,
-   available:<is user available as boolean>
+   available:<is user available as boolean>,
+   status: "ok"
 }
 ```
-Example:
-```
-{
-   id:1234,
-   balance:2565,
-   last_seen:"2019:05:15",
-   available:true
-}
-```
+
 
 #### Create new user
 
@@ -86,6 +177,15 @@ Example:
 }
 ```
 
+__Reply__
+
+```
+{
+   status: "ok"
+}
+```
+
+
 ----
 
 # Product
@@ -94,10 +194,97 @@ Example:
 - Endpoint: `/products`
 
 #### Query all products
+
 `GET /products`
 
 - `items=<number>` number of items per page. If this parameter is not given it will return all products in one request.
 - `page=<number>` only works in combination with the `items` parameter. If not given, the first page will be returned.
+- `onlyAvaialbe=<true/false>` if true will only return products that are available. If false or not given it will return all products in database.
+
+__Reply__
+```
+{
+   data:[
+      {
+         id:<product id as long>,
+         name:<product name as string>,
+         price:<product price in cent as ing>,
+         thumbnail:<url of image thumbnail as string>,
+         reorder_point:<reorder point as int>,
+         is_available:<is available as boolean>
+      },
+      <more products>
+   ],
+   status:"ok"
+]
+```
+
+#### Query for specific product
+
+`GET /product/<product_id>`
+
+__Reply__
+```
+{
+   id:<product id as long>,
+   name:<product name as string>,
+   price:<product price in cent as ing>,
+   thumbnail:<url of image thumbnail as string>,
+   reorder_point:<reorder point as int>,
+   is_available:<is available as boolean>,
+   status:"ok"
+}
+```
+
+#### Add product
+
+`POST /product`
+
+This request requires Admin privileges.
+
+__Request__
+
+```
+{
+   name:<product name as string>,
+   price:<product price in cent as long>,
+   thumbnail:<url of image thumbnail as string>,
+   reorder_point:<reorder point as int>
+}   
+```
+
+__Reply__
+```
+{
+   status:"ok"
+}
+```
+
+#### Update product
+
+`UPDATE /product/<product id>`
+
+This request requires Admin privileges.
+
+This is ment for changing the values of already existing products.
+
+__Request__
+
+```
+{
+   name:<product name as string>,
+   price:<product price in cent as long>,
+   thumbnail:<url of image thumbnail as string>,
+   reorder_point:<reorder point as int>
+}   
+```
+
+__Reply__
+```
+{
+   status:"ok"
+}
+```
 
 ----
 
@@ -109,9 +296,30 @@ Example:
 #### Query transactions
 `GET /transactions`
 
+If this request is made by a regular user it will only display the transactions of the current user.
+
 - `items=<number>` number of items per page. If this parameter is not given it will return 100 items of the first page.
 - `page=<number>` only works in combination with the `items` parameter. If not given, the first page will be returned.
-- `user=<user_hash>` get all transactions of the given user.
+- `user=<user_hash>` get all transactions of the given user. __Atention__ this requires admin privileges.
+- `type=<purchase/deposit/withdraw/transfer/order/all>` this will only show the transactions of a specific type. If left out or set to `all` it will show all the made.
+
+__Reply__
+```
+{
+   data:[
+      {
+         id:<transaction id as long>,
+         date:<transaction date as string>,
+         sender:<user id of the sender as long>,
+         recipient:<user id of the recipient as long>,
+         amount:<amount of money transfared in cent as long>,
+         transaction_type:<type of the transaction as string
+      },
+      <more products>
+   ],
+   status:"ok"
+]
+```
 
 ----
 # Authentication
@@ -132,3 +340,24 @@ So if a user has the id: `123456789` this will undergo these steps:
 3. Build auth string: `:6d78392a5886177fe5b86e585`
 4. `base64(:6d78392a5886177fe5b86e585)` = `OjZkNzgzOTJhNTg4NjE3N2ZlNWI4NmU1ODU=`
 5. Build auth header: `Authorization: Basic OjZkNzgzOTJhNTg4NjE3N2ZlNWI4NmU1ODU=`
+
+----
+
+# Error handling
+If something fails on the server site you will get a JSON reply containing an error. This applies for querys as well
+as commands equally. Every reply form the server will have a `status` attribute in the JSON reply. This attribute can
+either be `ok` or `failed`. If something failed there will also be an `error_message` attribute containing a string
+that gives further description about why the operation failed.
+This is an example of what it will lock like if an operation failed:
+
+```
+{
+   status: "failed",
+   error_message: "Could not connect to database"
+}
+```
+
+
+
+__ATENTION__ If you process a reply from a server make sure to always process the `status` reply first, as command/query specific
+attributes are not send if the operation failed.
