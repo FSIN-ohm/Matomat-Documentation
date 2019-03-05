@@ -46,13 +46,15 @@ This request requires Admin privileges.
 __Reply__
 ```
 {
-   id:<admin id as long>,
-   user_id:<user id as long>,
-   balance:<balance in cent as integer>,
-   last_seen:<last login date as string>,
-   available:<is user available as boolean>,
-   user_name:<admin username>,
-   email:<email address>,
+   data:{
+      id:<admin id as long>,
+      user_id:<user id as long>,
+      balance:<balance in cent as integer>,
+      last_seen:<last login date as string>,
+      available:<is user available as boolean>,
+      user_name:<admin username>,
+      email:<email address>
+   },
    status: "ok"
 }
 ```
@@ -67,13 +69,15 @@ It will return the user represented by the basic auth credentials.
 __Reply__
 ```
 {
-   id:<admin id as long>,
-   user_id:<user id as long>,
-   balance:<balance in cent as integer>,
-   last_seen:<last login date as string>,
-   available:<is user available as boolean>,
-   user_name:<admin username>,
-   email:<email address>,
+   data: {
+      id:<admin id as long>,
+      user_id:<user id as long>,
+      balance:<balance in cent as integer>,
+      last_seen:<last login date as string>,
+      available:<is user available as boolean>,
+      user_name:<admin username>,
+      email:<email address>
+   },
    status: "ok"
 }
 ```
@@ -92,7 +96,7 @@ __Request__
 {
    user_name:<admin username>,
    password:<admin password>,
-   email:<email address>,
+   email:<email address>
 }
 ```
 
@@ -145,10 +149,12 @@ __Reply__
 
 ```
 {
-   id:<user id as long>,
-   balance:<balance in cent as integer>,
-   last_seen:<last login date as string>,
-   available:<is user available as boolean>,
+   data: {
+      id:<user id as long>,
+      balance:<balance in cent as integer>,
+      last_seen:<last login date as string>,
+      available:<is user available as boolean>
+   },
    status: "ok"
 }
 ```
@@ -165,10 +171,12 @@ __Reply__
 
 ```
 {
-   id:<user id as long>,
-   balance:<balance in cent as integer>,
-   last_seen:<last login date as string>,
-   available:<is user available as boolean>,
+   data: {
+      id:<user id as long>,
+      balance:<balance in cent as integer>,
+      last_seen:<last login date as string>,
+      available:<is user available as boolean>
+   },
    status: "ok"
 }
 ```
@@ -246,12 +254,14 @@ __Reply__
 __Reply__
 ```
 {
-   id:<product id as long>,
-   name:<product name as string>,
-   price:<product price in cent as ing>,
-   thumbnail:<url of image thumbnail as string>,
-   reorder_point:<reorder point as int>,
-   is_available:<is available as boolean>,
+   data: {
+      id:<product id as long>,
+      name:<product name as string>,
+      price:<product price in cent as ing>,
+      thumbnail:<url of image thumbnail as string>,
+      reorder_point:<reorder point as int>,
+      is_available:<is available as boolean>
+   },
    status:"ok"
 }
 ```
@@ -311,6 +321,8 @@ __Reply__
 # Transaction
 
 __Endpoint: `/transactions`__
+__Endpoint: `/transfares`__
+__Endpoint: `/purchases`__
 
 #### Query transactions
 
@@ -320,8 +332,8 @@ If this request is made by a regular user it will only display the transactions 
 
 - `items=<number>` number of items per page. If this parameter is not given it will return 100 items of the first page.
 - `page=<number>` only works in combination with the `items` parameter. If not given, the first page will be returned.
-- `user=<user_hash>` get all transactions of the given user. __Atention__ this requires admin privileges.
-- `type=<purchase/deposit/withdraw/transfer/order/all>` this will only show the transactions of a specific type. If left out or set to `all` it will show all the made.
+- `user=<user_hash>` get all transactions of the given user. __Atention__ this requires admin privileges. made.
+- `type=<purchse/deposit/withdraw/transfer/order/all>` this will only show the transactions of a specific type. If left out or set to `all` it will show all the
 
 __Reply__
 ```
@@ -333,10 +345,91 @@ __Reply__
          sender:<user id of the sender as long>,
          recipient:<user id of the recipient as long>,
          amount:<amount of money transfared in cent as long>,
-         transaction_type:<type of the transaction as string
+         transaction_type:<type of the transaction as string>
       },
       <more products>
    ],
+   status:"ok"
+]
+```
+
+#### Query one specific transaction
+
+__CAUTION__ this may only return transactions of the current user (if not admin). Return a 404 if the transaction
+exists but does not belong the the user currently logged
+
+`GET /transactions/<transaction id>`
+
+__Reply__
+```
+{
+   data: {
+      id:<transaction id as long>,
+      date:<transaction date as string>,
+      sender:<user id of the sender as long>,
+      recipient:<user id of the recipient as long>,
+      amount:<amount of money transfared in cent as long>,
+      transaction_type:<type of the transaction as string>
+   },
+   status:"ok"
+]
+```
+
+#### Query purchases
+
+Purchases have more data embedded then regular transactions therefore there is an extra purchases endpoint.
+If this request is made by a regular user it will only display the purchases of the current user.
+
+
+- `items=<number>` number of items per page. If this parameter is not given it will return 100 items of the first page.
+- `page=<number>` only works in combination with the `items` parameter. If not given, the first page will be returned.
+- `user=<user_hash>` get all transactions of the given user. __Atention__ this requires admin privileges. made.
+
+
+__Reply__
+```
+{
+   data:[
+      {
+         id:<transaction id as long>,
+         date:<transaction date as string>,
+         sender:<user id of the sender as long>,
+         recipient:<user id of the recipient as long>,
+         amount:<amount of money transfared in cent as long>,
+         products: [
+            <product id as long>,
+            <product id as long>,
+            <etc>
+         ]
+      },
+      <more products>
+   ],
+   status:"ok"
+]
+```
+
+#### Query one specific purchases
+
+__CAUTION__ this may only return purchases of the current user (if not admin). Return a 404 if the transaction
+exists but does not belong the the user currently logged
+
+`GET /transactions/<purchase id>`
+
+__Reply__
+```
+{
+   data: {
+      id:<transaction id as long>,
+      date:<transaction date as string>,
+      sender:<user id of the sender as long>,
+      recipient:<user id of the recipient as long>,
+      amount:<amount of money transfared in cent as long>,
+      products: [
+         <product id as long>,
+         <product id as long>,
+         <etc>
+      ]
+   },
    status:"ok"
 ]
 ```
@@ -376,8 +469,6 @@ This is an example of what it will lock like if an operation failed:
    error_message: "Could not connect to database"
 }
 ```
-
-
 
 __ATENTION__ If you process a reply from a server make sure to always process the `status` reply first, as command/query specific
 attributes are not send if the operation failed.
