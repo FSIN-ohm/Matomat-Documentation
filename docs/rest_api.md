@@ -7,9 +7,7 @@ Here is the documentation of it, so one who wants to program a client, or change
 ----
 # Admin
 
-- Endpoint: `/admin`
-- Endpoint: `/admins`
-- 
+__Endpoint: `/admins`__
 
 #### Query all admins
 `GET /admins`
@@ -41,9 +39,30 @@ __Reply__
 ```
 
 #### Query one specific admin
-`GET /admin/<user name>`
+`GET /admins/<admin_id>`
 
 This request requires Admin privileges.
+
+__Reply__
+```
+{
+   id:<admin id as long>,
+   user_id:<user id as long>,
+   balance:<balance in cent as integer>,
+   last_seen:<last login date as string>,
+   available:<is user available as boolean>,
+   user_name:<admin username>,
+   email:<email address>,
+   status: "ok"
+}
+```
+
+#### Query one specific admin
+`GET /admins/me`
+
+This request requires Admin privileges.
+
+It will return the user represented by the basic auth credentials.
 
 __Reply__
 ```
@@ -63,9 +82,9 @@ __Reply__
 
 This request requires Admin privileges.
 
-Only an existing admin can create new admins.
+Every existing admin can create new admins.
 
-`POST /admin`
+`POST /admins`
 
 __Request__
 
@@ -88,11 +107,10 @@ __Reply__
 
 # User
 
-- Endpoint: `/user`
-- Endpoint: `/users`
-- Endpoint: `/me`
+__Endpoint: `/users`__
 
 #### Query all users
+
 `GET /users`
 
 This request requires Admin privileges.
@@ -118,7 +136,8 @@ __Reply__
 ```
 
 #### Query one specific user
-`GET /user/<user_id>`
+
+`GET /users/<user_id>`
 
 This request requires Admin privileges.
 
@@ -136,9 +155,11 @@ __Reply__
 
 
 #### Query a user based on his basic auth header
-`GET /me`
+
+`GET /users/me`
 
 This will require a user to send a basic auth header with his credentials.
+It will return the user represented by the basic auth credentials.
 
 __Reply__
 
@@ -190,8 +211,7 @@ __Reply__
 
 # Product
 
-- Endpoint: `/product`
-- Endpoint: `/products`
+__Endpoint: `/products`__
 
 #### Query all products
 
@@ -221,7 +241,7 @@ __Reply__
 
 #### Query for specific product
 
-`GET /product/<product_id>`
+`GET /products/<product_id>`
 
 __Reply__
 ```
@@ -238,7 +258,7 @@ __Reply__
 
 #### Add product
 
-`POST /product`
+`POST /products`
 
 This request requires Admin privileges.
 
@@ -262,7 +282,7 @@ __Reply__
 
 #### Update product
 
-`UPDATE /product/<product id>`
+`UPDATE /products/<product id>`
 
 This request requires Admin privileges.
 
@@ -290,10 +310,10 @@ __Reply__
 
 # Transaction
 
-- Endpoint: `/transaction`
-- Endpoint: `/transactions`
+__Endpoint: `/transactions`__
 
 #### Query transactions
+
 `GET /transactions`
 
 If this request is made by a regular user it will only display the transactions of the current user.
