@@ -321,14 +321,15 @@ __Reply__
 # Transaction
 
 __Endpoint: `/transactions`__
-__Endpoint: `/transfares`__
-__Endpoint: `/purchases`__
 
 #### Query transactions
 
 `GET /transactions`
 
 If this request is made by a regular user it will only display the transactions of the current user.
+
+If a transaction is of type `order` or `purchase`it will also contain an attribute `products` which will be a list
+of products that where ordered or soled.
 
 - `items=<number>` number of items per page. If this parameter is not given it will return 100 items of the first page.
 - `page=<number>` only works in combination with the `items` parameter. If not given, the first page will be returned.
@@ -347,7 +348,20 @@ __Reply__
          amount:<amount of money transfared in cent as long>,
          transaction_type:<type of the transaction as string>
       },
-      <more products>
+      {
+         id:<transaction id as long>,
+         date:<transaction date as string>,
+         sender:<user id of the sender as long>,
+         recipient:<user id of the recipient as long>,
+         amount:<amount of money transfared in cent as long>,
+         transaction_type:<order/purchase>
+         products: [
+            <product id>,
+            <produtc id>,
+            <etc>
+         ]
+      },
+      <more transactions>
    ],
    status:"ok"
 ]
@@ -374,64 +388,161 @@ __Reply__
    status:"ok"
 ]
 ```
+#### Make new transfer
 
-#### Query purchases
+If you want to make a transfer, a user can not change the sender this a sender
+does not have to be given for a user. However only admins can change both
+sender and receiver. Also a user may not send money to himself.
 
-Purchases have more data embedded then regular transactions therefore there is an extra purchases endpoint.
-If this request is made by a regular user it will only display the purchases of the current user.
+`POST /transactions/transfer`
 
+__Request for admins__
+```
+{
+   sender: <id of the sender>,
+   receiver: <id of the receiver>,
+   amount: <amount of money transfared in cent as long>
+}
+```
 
-- `items=<number>` number of items per page. If this parameter is not given it will return 100 items of the first page.
-- `page=<number>` only works in combination with the `items` parameter. If not given, the first page will be returned.
-- `user=<user_hash>` get all transactions of the given user. __Atention__ this requires admin privileges. made.
-
+__Request for users__
+```
+{
+   receiver: <id of the receiver>,
+   amount: <amount of money transfared in cent as long>
+}
+```
 
 __Reply__
 ```
 {
-   data:[
+   status:"ok"
+}
+```
+
+#### Make new transfer
+
+If you want to make a transfer, a user can not change the sender this a sender
+does not have to be given for a user. However only admins can change both
+sender and receiver. Also a user may not send money to himself.
+
+`POST /transactions/transfer`
+
+__Request for admins__
+```
+{
+   sender: <id of the sender>,
+   receiver: <id of the receiver>,
+   amount: <amount of money transfared in cent as long>
+}
+```
+
+__Request for users__
+```
+{
+   receiver: <id of the receiver>,
+   amount: <amount of money transfared in cent as long>
+}
+```
+
+__Reply__
+```
+{
+   status:"ok"
+}
+```
+
+#### Make new deposit transaction
+
+`POST /transactions/deposit`
+
+__Request__
+
+```
+{
+   amount:<amount of money in cent as long>
+}
+```
+
+__Reply__
+```
+{
+   status:"ok"
+}
+```
+
+#### Make new withdrawal transaction
+
+`POST /transactions/withdrawl`
+
+This can only be done by admins.
+
+__Request__
+
+```
+{
+   amount:<amount of money in cent as long>
+}
+```
+
+__Reply__
+```
+{
+   status:"ok"
+}
+```
+
+#### Make new [order](https://www.youtube.com/watch?v=BJcpajX7EdU) transaction
+
+`POST /transactions/order`
+
+This can only be done by admins.
+
+__Request__
+
+```
+{
+   cost:<amount of money the order cost in cent as long>,
+   orders: [
       {
-         id:<transaction id as long>,
-         date:<transaction date as string>,
-         sender:<user id of the sender as long>,
-         recipient:<user id of the recipient as long>,
-         amount:<amount of money transfared in cent as long>,
-         products: [
-            <product id as long>,
-            <product id as long>,
-            <etc>
-         ]
+         product: <product id>,
+         amount: <count of this product ordered>
       },
-      <more products>
-   ],
-   status:"ok"
-]
+      <more products added by this order>
+   ]
+}
 ```
-
-#### Query one specific purchases
-
-__CAUTION__ this may only return purchases of the current user (if not admin). Return a 404 if the transaction
-exists but does not belong the the user currently logged
-
-`GET /transactions/<purchase id>`
 
 __Reply__
 ```
 {
-   data: {
-      id:<transaction id as long>,
-      date:<transaction date as string>,
-      sender:<user id of the sender as long>,
-      recipient:<user id of the recipient as long>,
-      amount:<amount of money transfared in cent as long>,
-      products: [
-         <product id as long>,
-         <product id as long>,
-         <etc>
-      ]
-   },
    status:"ok"
-]
+}
+```
+
+#### Make new purchase transaction
+
+`POST /transactions/purchases`
+
+__Request__
+
+```
+{
+   orders: [
+      {
+         product: <product id>,
+         amount: <count of this product ordered>
+      },
+      <more products added by this order>
+   ]
+}
+```
+
+__Reply__
+```
+{
+   status:"ok"
+}
 ```
 
 ----
