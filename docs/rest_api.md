@@ -2,7 +2,7 @@ REST API
 ========
 
 All parts of Matohmat communicate through a common JSON based REST API.
-Here is the documentation of it, so one who wants to program a client, or change the server.
+Here is the documentation of it, its ment for the ones who wants to program a client, or change the server.
 
 ----
 # Admin
