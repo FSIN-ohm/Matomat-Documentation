@@ -37,7 +37,7 @@ __Reply__
    status: "ok"
 }
 ```
-
+----
 #### Query one specific admin
 `GET /admins/<admin_id>`
 
@@ -58,7 +58,7 @@ __Reply__
    status: "ok"
 }
 ```
-
+----
 #### Query one specific admin
 `GET /admins/me`
 
@@ -81,7 +81,7 @@ __Reply__
    status: "ok"
 }
 ```
-
+----
 #### Create a new admin
 
 This request requires Admin privileges.
@@ -108,7 +108,6 @@ __Reply__
 ```
 
 ----
-
 # User
 
 __Endpoint: `/users`__
@@ -139,6 +138,7 @@ __Reply__
 }
 ```
 
+----
 #### Query one specific user
 
 `GET /users/<user_id>`
@@ -159,7 +159,7 @@ __Reply__
 }
 ```
 
-
+----
 #### Query a user based on his basic auth header
 
 `GET /users/me`
@@ -181,7 +181,7 @@ __Reply__
 }
 ```
 
-
+----
 #### Create new user
 
 `POST /user`
@@ -246,7 +246,7 @@ __Reply__
    status:"ok"
 ]
 ```
-
+----
 #### Query for specific product
 
 `GET /products/<product_id>`
@@ -265,7 +265,7 @@ __Reply__
    status:"ok"
 }
 ```
-
+----
 #### Add product
 
 `POST /products`
@@ -289,7 +289,7 @@ __Reply__
    status:"ok"
 }
 ```
-
+----
 #### Update product
 
 `UPDATE /products/<product id>`
@@ -317,7 +317,7 @@ __Reply__
 ```
 
 ----
-
+----
 # Transaction
 
 __Endpoint: `/transactions`__
@@ -366,7 +366,7 @@ __Reply__
    status:"ok"
 ]
 ```
-
+----
 #### Query one specific transaction
 
 __CAUTION__ this may only return transactions of the current user (if not admin). Return a 404 if the transaction
@@ -388,6 +388,8 @@ __Reply__
    status:"ok"
 ]
 ```
+
+----
 #### Make new transfer
 
 If you want to make a transfer, a user can not change the sender this a sender
@@ -419,7 +421,7 @@ __Reply__
    status:"ok"
 }
 ```
-
+----
 #### Make new transfer
 
 If you want to make a transfer, a user can not change the sender this a sender
@@ -451,7 +453,7 @@ __Reply__
    status:"ok"
 }
 ```
-
+----
 #### Make new deposit transaction
 
 `POST /transactions/deposit`
@@ -470,7 +472,7 @@ __Reply__
    status:"ok"
 }
 ```
-
+----
 #### Make new withdrawal transaction
 
 `POST /transactions/withdrawl`
@@ -491,7 +493,7 @@ __Reply__
    status:"ok"
 }
 ```
-
+----
 #### Make new [order](https://www.youtube.com/watch?v=BJcpajX7EdU) transaction
 
 `POST /transactions/order`
@@ -519,7 +521,7 @@ __Reply__
    status:"ok"
 }
 ```
-
+----
 #### Make new purchase transaction
 
 `POST /transactions/purchases`
