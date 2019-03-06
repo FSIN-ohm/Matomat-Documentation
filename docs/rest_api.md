@@ -20,7 +20,7 @@ This request requires Admin privileges.
 
 __Reply__
 
-```json
+```
 {
    data:[
       {
