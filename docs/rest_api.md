@@ -471,3 +471,23 @@ So if a user has the "id": `123456789` this will undergo these steps:
 3. Build auth string: `:6d78392a5886177fe5b86e585`
 4. `base64(:6d78392a5886177fe5b86e585)` = `OjZkNzgzOTJhNTg4NjE3N2ZlNWI4NmU1ODU=`
 5. Build auth header: `Authorization: Basic OjZkNzgzOTJhNTg4NjE3N2ZlNWI4NmU1ODU=`
+
+----
+
+# Error handlying
+
+First of all a HTTP code will be returned by every request. This is the codes used by this api, and what they mean:
+
+- `200` when send a query and the answer was sent
+- `400` the request was malformed
+- `401` when something was requested but the login was wrong
+- `404` If an entry is not found after a query was send.
+- `500` Server errored
+
+All the error codes beside the success code 200 will also return a JSON containing an error message which can be displayed by the client:
+
+```
+{
+   "error_message":"<this is an error message>"
+}
+```
