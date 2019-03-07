@@ -21,21 +21,19 @@ This request requires Admin privileges.
 __Reply__
 
 ```json
-{
-   data:[
-      {
-         id:<admin id as long>,
-         user_id:<user id as long>,
-         balance:<balance in cent as integer>,
-         last_seen:<last login date as string>,
-         available:<is user available as boolean>,
-         username:<admin username>,
-         email:<email address>
-      },
-      <furhter admins>
-   ],
-   status: "ok"
-}
+[
+   {
+      "id":<admin id as long>,
+      "user_id":<user id as long>,
+      "balance":<balance in cent as integer>,
+      "last_seen":<last login date as string>,
+      "available":<is user available as boolean>,
+      "username":<admin username>,
+      "email":<email address>
+   },
+   <furhter admins>
+]
+
 ```
 ----
 #### Query one specific admin
@@ -46,16 +44,13 @@ This request requires Admin privileges.
 __Reply__
 ```
 {
-   data:{
-      id:<admin id as long>,
-      user_id:<user id as long>,
-      balance:<balance in cent as integer>,
-      last_seen:<last login date as string>,
-      available:<is user available as boolean>,
-      user_name:<admin username>,
-      email:<email address>
-   },
-   status: "ok"
+   "id":<admin id as long>,
+   "user_id":<user id as long>,
+   "balance":<balance in cent as integer>,
+   "last_seen":<last login date as string>,
+   "available":<is user available as boolean>,
+   "user_name":<admin username>,
+   "email":<email address>
 }
 ```
 ----
@@ -69,16 +64,13 @@ It will return the user represented by the basic auth credentials.
 __Reply__
 ```
 {
-   data: {
-      id:<admin id as long>,
-      user_id:<user id as long>,
-      balance:<balance in cent as integer>,
-      last_seen:<last login date as string>,
-      available:<is user available as boolean>,
-      user_name:<admin username>,
-      email:<email address>
-   },
-   status: "ok"
+    "id":<admin id as long>,
+    "user_id":<user id as long>,
+    "balance":<balance in cent as integer>,
+    "last_seen":<last login date as string>,
+    "available":<is user available as boolean>,
+    "user_name":<admin username>,
+    "email":<email address>
 }
 ```
 ----
@@ -94,16 +86,9 @@ __Request__
 
 ```
 {
-   user_name:<admin username>,
-   password:<admin password>,
-   email:<email address>
-}
-```
-
-__Reply__
-```
-{
-   status:"ok"
+   "user_name":<admin username>,
+   "password":<admin password>,
+   "email":<email address>
 }
 ```
 
@@ -125,16 +110,10 @@ __Reply__
 
 ```
 {
-   data:[
-      {
-         id:<user id as long>,
-         balance:<balance in cent as integer>,
-         last_seen:<last login date as string>,
-         available:<is user available as boolean>
-      },
-      <furhter users>
-   ],
-   status:"ok"
+    "id":<user id as long>,
+    "balance":<balance in cent as integer>,
+    "last_seen":<last login date as string>,
+    "available":<is user available as boolean>
 }
 ```
 
@@ -149,13 +128,10 @@ __Reply__
 
 ```
 {
-   data: {
-      id:<user id as long>,
-      balance:<balance in cent as integer>,
-      last_seen:<last login date as string>,
-      available:<is user available as boolean>
-   },
-   status: "ok"
+    "id":<user id as long>,
+    "balance":<balance in cent as integer>,
+    "last_seen":<last login date as string>,
+    "available":<is user available as boolean>
 }
 ```
 
@@ -171,13 +147,10 @@ __Reply__
 
 ```
 {
-   data: {
-      id:<user id as long>,
-      balance:<balance in cent as integer>,
-      last_seen:<last login date as string>,
-      available:<is user available as boolean>
-   },
-   status: "ok"
+    "id":<user id as long>,
+    "balance":<balance in cent as integer>,
+    "last_seen":<last login date as string>,
+    "available":<is user available as boolean>
 }
 ```
 
@@ -193,27 +166,18 @@ Regular users are not permitted to register new users. Only admins or priviliged
 The body of the post must contain this data:
 ```
 {
-   client_key:<key of the client priviliged to create new users. Can be left out if adbmin basic auth is given>,
-   auth_hash:<first 25 bytes of the auth hash (sha256) generated from the user id>
+   "client_key":<key of the client priviliged to create new users. Can be left out if adbmin basic auth is given>,
+   "auth_hash":<first 25 bytes of the auth hash (sha256) generated from the user id>
 }
 ```
 
 Example:
 ```
 {
-   client_key:"09d374ebf788ca96d5c5ad8cfc778317d8efa692766accc609eb5932ccf19c94",
-   auth_hash:"6d78392a5886177fe5b86e585"
+   "client_key":"09d374ebf788ca96d5c5ad8cfc778317d8efa692766accc609eb5932ccf19c94",
+   "auth_hash":"6d78392a5886177fe5b86e585"
 }
 ```
-
-__Reply__
-
-```
-{
-   status: "ok"
-}
-```
-
 
 ----
 
@@ -232,19 +196,13 @@ __Endpoint: `/products`__
 __Reply__
 ```
 {
-   data:[
-      {
-         id:<product id as long>,
-         name:<product name as string>,
-         price:<product price in cent as ing>,
-         thumbnail:<url of image thumbnail as string>,
-         reorder_point:<reorder point as int>,
-         is_available:<is available as boolean>
-      },
-      <more products>
-   ],
-   status:"ok"
-]
+    "id":<product id as long>,
+    "name":<product name as string>,
+    "price":<product price in cent as ing>,
+    "thumbnail":<url of image thumbnail as string>,
+    "reorder_point":<reorder point as int>,
+    "is_available":<is available as boolean>
+}
 ```
 ----
 #### Query for specific product
@@ -254,15 +212,12 @@ __Reply__
 __Reply__
 ```
 {
-   data: {
-      id:<product id as long>,
-      name:<product name as string>,
-      price:<product price in cent as ing>,
-      thumbnail:<url of image thumbnail as string>,
-      reorder_point:<reorder point as int>,
-      is_available:<is available as boolean>
-   },
-   status:"ok"
+    "id":<product id as long>,
+    "name":<product name as string>,
+    "price":<product price in cent as ing>,
+    "thumbnail":<url of image thumbnail as string>,
+    "reorder_point":<reorder point as int>,
+    "is_available":<is available as boolean>
 }
 ```
 ----
@@ -276,19 +231,13 @@ __Request__
 
 ```
 {
-   name:<product name as string>,
-   price:<product price in cent as long>,
-   thumbnail:<url of image thumbnail as string>,
-   reorder_point:<reorder point as int>
+   "name":<product name as string>,
+   "price":<product price in cent as long>,
+   "thumbnail":<url of image thumbnail as string>,
+   "reorder_point":<reorder point as int>
 }   
 ```
 
-__Reply__
-```
-{
-   status:"ok"
-}
-```
 ----
 #### Update product
 
@@ -302,21 +251,13 @@ __Request__
 
 ```
 {
-   name:<product name as string>,
-   price:<product price in cent as long>,
-   thumbnail:<url of image thumbnail as string>,
-   reorder_point:<reorder point as int>
+   "name":<product name as string>,
+   "price":<product price in cent as long>,
+   "thumbnail":<url of image thumbnail as string>,
+   "reorder_point":<reorder point as int>
 }   
 ```
 
-__Reply__
-```
-{
-   status:"ok"
-}
-```
-
-----
 ----
 # Transaction
 
@@ -338,23 +279,22 @@ of products that where ordered or soled.
 
 __Reply__
 ```
-{
-   data:[
-      {
-         id:<transaction id as long>,
-         date:<transaction date as string>,
-         sender:<user id of the sender as long>,
-         recipient:<user id of the recipient as long>,
-         amount:<amount of money transfared in cent as long>,
-         transaction_type:<type of the transaction as string>
+[
+    {
+        "id":<transaction id as long>,
+         "date":<transaction date as string>,
+         "sender":<user id of the sender as long>,
+         "receiver":<user id of the receiver as long>,
+         "amount":<amount of money transfared in cent as long>,
+         "transaction_type":"<type of the transaction as string>
       },
       {
-         id:<transaction id as long>,
-         date:<transaction date as string>,
-         sender:<user id of the sender as long>,
-         recipient:<user id of the recipient as long>,
-         amount:<amount of money transfared in cent as long>,
-         transaction_type:<order/purchase>
+         "id":<transaction id as long>,
+         "date":<transaction date as string>,
+         "sender":<user id of the sender as long>,
+         "receiver":<user id of the receiver as long>,
+         "amount":<amount of money transfared in cent as long>,
+         "transaction_type":"<order/purchase>
          products: [
             <product id>,
             <produtc id>,
@@ -362,8 +302,6 @@ __Reply__
          ]
       },
       <more transactions>
-   ],
-   status:"ok"
 ]
 ```
 ----
@@ -377,16 +315,13 @@ exists but does not belong the the user currently logged
 __Reply__
 ```
 {
-   data: {
-      id:<transaction id as long>,
-      date:<transaction date as string>,
-      sender:<user id of the sender as long>,
-      recipient:<user id of the recipient as long>,
-      amount:<amount of money transfared in cent as long>,
-      transaction_type:<type of the transaction as string>
-   },
-   status:"ok"
-]
+    "id":<transaction id as long>,
+    "date":<transaction date as string>,
+    "sender":<user id of the sender as long>,
+    "receiver":<user id of the receiver as long>,
+    "amount":<amount of money transfared in cent as long>,
+    "transaction_type":"<type of the transaction as string>
+}
 ```
 
 ----
@@ -401,26 +336,21 @@ sender and receiver. Also a user may not send money to himself.
 __Request for admins__
 ```
 {
-   sender: <id of the sender>,
-   receiver: <id of the receiver>,
-   amount: <amount of money transfared in cent as long>
+   "sender": <id of the sender>,
+   "receiver": <id of the receiver>,
+   "amount": <amount of money transfared in cent as long>
 }
 ```
 
 __Request for users__
 ```
 {
-   receiver: <id of the receiver>,
-   amount: <amount of money transfared in cent as long>
+   "receiver": <id of the receiver>,
+   "amount": <amount of money transfared in cent as long>
 }
 ```
 
-__Reply__
-```
-{
-   status:"ok"
-}
-```
+
 ----
 #### Make new transfer
 
@@ -433,26 +363,21 @@ sender and receiver. Also a user may not send money to himself.
 __Request for admins__
 ```
 {
-   sender: <id of the sender>,
-   receiver: <id of the receiver>,
-   amount: <amount of money transfared in cent as long>
+   "sender": <id of the sender>,
+   "receiver": <id of the receiver>,
+   "amount": <amount of money transfared in cent as long>
 }
 ```
 
 __Request for users__
 ```
 {
-   receiver: <id of the receiver>,
-   amount: <amount of money transfared in cent as long>
+   "receiver": <id of the receiver>,
+   "amount": <amount of money transfared in cent as long>
 }
 ```
 
-__Reply__
-```
-{
-   status:"ok"
-}
-```
+
 ----
 #### Make new deposit transaction
 
@@ -462,16 +387,11 @@ __Request__
 
 ```
 {
-   amount:<amount of money in cent as long>
+   "amount":<amount of money in cent as long>
 }
 ```
 
-__Reply__
-```
-{
-   status:"ok"
-}
-```
+
 ----
 #### Make new withdrawal transaction
 
@@ -483,16 +403,11 @@ __Request__
 
 ```
 {
-   amount:<amount of money in cent as long>
+   "amount":<amount of money in cent as long>
 }
 ```
 
-__Reply__
-```
-{
-   status:"ok"
-}
-```
+
 ----
 #### Make new [order](https://www.youtube.com/watch?v=BJcpajX7EdU) transaction
 
@@ -507,20 +422,15 @@ __Request__
    cost:<amount of money the order cost in cent as long>,
    orders: [
       {
-         product: <product id>,
-         amount: <count of this product ordered>
+         "product": <product id>,
+         "amount": <count of this product ordered>
       },
       <more products added by this order>
    ]
 }
 ```
 
-__Reply__
-```
-{
-   status:"ok"
-}
-```
+
 ----
 #### Make new purchase transaction
 
@@ -532,20 +442,15 @@ __Request__
 {
    orders: [
       {
-         product: <product id>,
-         amount: <count of this product ordered>
+         "product": <product id>,
+         "amount": <count of this product ordered>
       },
       <more products added by this order>
    ]
 }
 ```
 
-__Reply__
-```
-{
-   status:"ok"
-}
-```
+
 
 ----
 # Authentication
@@ -559,29 +464,10 @@ So as an example the user `test` and the password `passwd` would generate this h
 
 The auth header for a regular user is the double dot followed by the first 25 signes of the base64 encoded sha2 hash of the id entered by the user (mostlikely the RFID of the Ohmcard):
 `Authorization: Basic base64(:head(count=25, sha256sum(format=base64, <user_id>)))`
-So if a user has the id: `123456789` this will undergo these steps:
+So if a user has the "id": `123456789` this will undergo these steps:
 
 1. `sha256sum(123456789)` =  `6d78392a5886177fe5b86e585a0b695a2bcd01a05504b3c4e38bc8eeb21e8326`
 2. `head(count=25, 6d78392a5886177fe5b86e585a0b695a2bcd01a05504b3c4e38bc8eeb21e8326` = `6d78392a5886177fe5b86e585`
 3. Build auth string: `:6d78392a5886177fe5b86e585`
 4. `base64(:6d78392a5886177fe5b86e585)` = `OjZkNzgzOTJhNTg4NjE3N2ZlNWI4NmU1ODU=`
 5. Build auth header: `Authorization: Basic OjZkNzgzOTJhNTg4NjE3N2ZlNWI4NmU1ODU=`
-
-----
-
-# Error handling
-If something fails on the server site you will get a JSON reply containing an error. This applies for querys as well
-as commands equally. Every reply form the server will have a `status` attribute in the JSON reply. This attribute can
-either be `ok` or `failed`. If something failed there will also be an `error_message` attribute containing a string
-that gives further description about why the operation failed.
-This is an example of what it will lock like if an operation failed:
-
-```
-{
-   status: "failed",
-   error_message: "Could not connect to database"
-}
-```
-
-__ATENTION__ If you process a reply from a server make sure to always process the `status` reply first, as command/query specific
-attributes are not send if the operation failed.
