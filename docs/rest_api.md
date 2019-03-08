@@ -4,6 +4,10 @@ REST API
 All parts of Matohmat communicate through a common JSON based REST API.
 Here is the documentation of it, its ment for the ones who wants to program a client, or change the server.
 
+The rest api on the server side is implemented using the [spring rest](https://docs.spring.io/spring/docs/current/spring-framework-reference/index.html).
+[Here](https://spring.io/guides/gs/rest-service/) is a tutorial about how to write RESTful Apps with spring.
+
+
 ----
 # Admin
 
