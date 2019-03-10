@@ -58,7 +58,8 @@ __Reply__
 }
 ```
 ----
-#### Query one specific admin
+#### Query the loged in admin
+
 `GET /admins/me`
 
 This request requires Admin privileges.
@@ -97,6 +98,30 @@ __Request__
 ```
 
 ----
+
+#### Change an admin
+
+`PATCH /admins/<admin id>`
+
+This request requires Admin privileges.
+
+__Request__
+```
+{
+   "user_name":<admin username>,
+   "password":<admin password>,
+   "email":<email address>
+}
+```
+
+----
+#### Delete an admin
+
+`DELETE /admins/<admin id>`
+
+This request requires Admin privileges.
+
+----
 # User
 
 __Endpoint: `/users`__
@@ -113,12 +138,15 @@ This request requires Admin privileges.
 __Reply__
 
 ```
-{
-    "id":<user id as long>,
-    "balance":<balance in cent as integer>,
-    "last_seen":<last login date as string>,
-    "available":<is user available as boolean>
-}
+[
+   {
+       "id":<user id as long>,
+       "balance":<balance in cent as integer>,
+       "last_seen":<last login date as string>,
+       "available":<is user available as boolean>
+   },
+   <more users>
+]
 ```
 
 ----
@@ -140,7 +168,7 @@ __Reply__
 ```
 
 ----
-#### Query a user based on his basic auth header
+#### Query the current loged in user
 
 `GET /users/me`
 
@@ -184,6 +212,13 @@ Example:
 ```
 
 ----
+#### Delete an user
+
+`DELETE /users/<admin id>`
+
+This request requires Admin privileges.
+
+----
 
 # Product
 
@@ -199,13 +234,16 @@ __Endpoint: `/products`__
 
 __Reply__
 ```
-{
-    "id":<product id as long>,
-    "name":<product name as string>,
-    "price":<product price in cent as ing>,
-    "thumbnail":<url of image thumbnail as string>,
-    "reorder_point":<reorder point as int>,
-    "is_available":<is available as boolean>
+[
+   {
+       "id":<product id as long>,
+       "name":<product name as string>,
+       "price":<product price in cent as ing>,
+       "thumbnail":<url of image thumbnail as string>,
+       "reorder_point":<reorder point as int>,
+       "is_available":<is available as boolean>
+   },
+   <more products>
 }
 ```
 ----
@@ -245,7 +283,7 @@ __Request__
 ----
 #### Update product
 
-`UPDATE /products/<product id>`
+`PATCH /products/<product id>`
 
 This request requires Admin privileges.
 
@@ -263,6 +301,13 @@ __Request__
 ```
 
 ----
+#### Delete a product
+
+`DELETE /products/<admin id>`
+
+This request requires Admin privileges.
+
+----
 # Transaction
 
 __Endpoint: `/transactions`__
@@ -276,9 +321,14 @@ If this request is made by a regular user it will only display the transactions 
 If a transaction is of type `order` or `purchase`it will also contain an attribute `products` which will be a list
 of products that where ordered or soled.
 
+An order is a special kind of purchase, where there is not only an `amount`, by means the value of the sum of the price
+of all products, but also a `buy_cost`, which is the price we paied at the marched for the products.
+So the `amount` will be the price for which we sell the products, and `buy_cost` will be the price we buy them with.
+The difference between `buy_cost` and `amount` will then be our __income__.
+
 - `items=<number>` number of items per page. If this parameter is not given it will return 100 items of the first page.
 - `page=<number>` only works in combination with the `items` parameter. If not given, the first page will be returned.
-- `user=<user_hash>` get all transactions of the given user. __Atention__ this requires admin privileges. made.
+- `user=<user_id>` get all transactions of the given user. __Atention__ this requires admin privileges. made.
 - `type=<purchse/deposit/withdraw/transfer/order/all>` this will only show the transactions of a specific type. If left out or set to `all` it will show all the
 
 __Reply__
@@ -286,26 +336,40 @@ __Reply__
 [
     {
         "id":<transaction id as long>,
-         "date":<transaction date as string>,
-         "sender":<user id of the sender as long>,
-         "receiver":<user id of the receiver as long>,
-         "amount":<amount of money transfared in cent as long>,
-         "transaction_type":"<type of the transaction as string>
-      },
-      {
-         "id":<transaction id as long>,
-         "date":<transaction date as string>,
-         "sender":<user id of the sender as long>,
-         "receiver":<user id of the receiver as long>,
-         "amount":<amount of money transfared in cent as long>,
-         "transaction_type":"<order/purchase>
-         products: [
+        "date":<transaction date as string>,
+        "sender":<user id of the sender as long>,
+        "receiver":<user id of the receiver as long>,
+        "amount":<amount of money transfered in cent as long>,
+        "transaction_type":"<type of the transaction as string>
+    },
+    {
+        "id":<transaction id as long>,
+        "date":<transaction date as string>,
+        "sender":<user id of the sender as long>,
+        "receiver":<user id of the receiver as long>,
+        "amount":<amount of money transfered in cent as long>,
+        "transaction_type":"purchase"
+        "products": [
+          <product id>,
+          <produtc id>,
+          <etc>
+       ]
+    },
+    {
+        "id":<transaction id as long>,
+        "date":<transaction date as string>,
+        "sender":<user id of the sender as long>,
+        "receiver":<user id of the receiver as long>,
+        "amount":<amount of money transfered in cent as long>,
+        "buy_cost":<amount of money the order cost at the merchand in cent as long>,
+        "transaction_type":"order",
+        "products": [
             <product id>,
             <produtc id>,
             <etc>
-         ]
-      },
-      <more transactions>
+        ]
+    },
+    <more transactions>
 ]
 ```
 ----
@@ -323,7 +387,7 @@ __Reply__
     "date":<transaction date as string>,
     "sender":<user id of the sender as long>,
     "receiver":<user id of the receiver as long>,
-    "amount":<amount of money transfared in cent as long>,
+    "amount":<amount of money transfered in cent as long>,
     "transaction_type":"<type of the transaction as string>
 }
 ```
@@ -342,7 +406,7 @@ __Request for admins__
 {
    "sender": <id of the sender>,
    "receiver": <id of the receiver>,
-   "amount": <amount of money transfared in cent as long>
+   "amount": <amount of money transfered in cent as long>
 }
 ```
 
@@ -350,34 +414,7 @@ __Request for users__
 ```
 {
    "receiver": <id of the receiver>,
-   "amount": <amount of money transfared in cent as long>
-}
-```
-
-
-----
-#### Make new transfer
-
-If you want to make a transfer, a user can not change the sender this a sender
-does not have to be given for a user. However only admins can change both
-sender and receiver. Also a user may not send money to himself.
-
-`POST /transactions/transfer`
-
-__Request for admins__
-```
-{
-   "sender": <id of the sender>,
-   "receiver": <id of the receiver>,
-   "amount": <amount of money transfared in cent as long>
-}
-```
-
-__Request for users__
-```
-{
-   "receiver": <id of the receiver>,
-   "amount": <amount of money transfared in cent as long>
+   "amount": <amount of money transfered in cent as long>
 }
 ```
 
@@ -423,8 +460,8 @@ __Request__
 
 ```
 {
-   cost:<amount of money the order cost in cent as long>,
-   orders: [
+   "buy_cost":<amount of money the order cost in cent as long>,
+   "orders": [
       {
          "product": <product id>,
          "amount": <count of this product ordered>
@@ -444,7 +481,7 @@ __Request__
 
 ```
 {
-   orders: [
+   "orders": [
       {
          "product": <product id>,
          "amount": <count of this product ordered>
