@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Rest api - Matomat Documentation</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Rest api";
+    var mkdocs_page_input_path = "rest_api.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Matomat Documentation</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">MatΩhmat documentation</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../contribute/">Contribute</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../documentation/">Documentation</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">Rest api</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#rest-api">REST API</a></li>
+    
+
+    <li class="toctree-l2"><a href="#admin">Admin</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#query-all-admins">Query all admins</a></li>
+        
+            <li><a class="toctree-l3" href="#query-one-specific-admin">Query one specific admin</a></li>
+        
+            <li><a class="toctree-l3" href="#query-the-loged-in-admin">Query the loged in admin</a></li>
+        
+            <li><a class="toctree-l3" href="#create-a-new-admin">Create a new admin</a></li>
+        
+            <li><a class="toctree-l3" href="#change-an-admin">Change an admin</a></li>
+        
+            <li><a class="toctree-l3" href="#delete-an-admin">Delete an admin</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l2"><a href="#user">User</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#query-all-users">Query all users</a></li>
+        
+            <li><a class="toctree-l3" href="#query-one-specific-user">Query one specific user</a></li>
+        
+            <li><a class="toctree-l3" href="#query-the-current-loged-in-user">Query the current loged in user</a></li>
+        
+            <li><a class="toctree-l3" href="#create-new-user">Create new user</a></li>
+        
+            <li><a class="toctree-l3" href="#delete-an-user">Delete an user</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l2"><a href="#product">Product</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#query-all-products">Query all products</a></li>
+        
+            <li><a class="toctree-l3" href="#query-for-specific-product">Query for specific product</a></li>
+        
+            <li><a class="toctree-l3" href="#add-product">Add product</a></li>
+        
+            <li><a class="toctree-l3" href="#update-product">Update product</a></li>
+        
+            <li><a class="toctree-l3" href="#delete-a-product">Delete a product</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l2"><a href="#transaction">Transaction</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#query-transactions">Query transactions</a></li>
+        
+            <li><a class="toctree-l3" href="#query-one-specific-transaction">Query one specific transaction</a></li>
+        
+            <li><a class="toctree-l3" href="#make-new-transfer">Make new transfer</a></li>
+        
+            <li><a class="toctree-l3" href="#make-new-deposit-transaction">Make new deposit transaction</a></li>
+        
+            <li><a class="toctree-l3" href="#make-new-withdrawal-transaction">Make new withdrawal transaction</a></li>
+        
+            <li><a class="toctree-l3" href="#make-new-order-transaction">Make new order transaction</a></li>
+        
+            <li><a class="toctree-l3" href="#make-new-purchase-transaction">Make new purchase transaction</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l2"><a href="#authentication">Authentication</a></li>
+    
+
+    <li class="toctree-l2"><a href="#error-handlying">Error handlying</a></li>
+    
+
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Matomat Documentation</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Rest api</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="rest-api">REST API</h1>
+<p>All parts of Matohmat communicate through a common JSON based REST API.
+Here is the documentation of it, its ment for the ones who wants to program a client, or change the server.</p>
+<p>The rest api on the server side is implemented using the <a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/index.html">spring rest</a>.
+<a href="https://spring.io/guides/gs/rest-service/">Here</a> is a tutorial about how to write RESTful Apps with spring.</p>
+<hr />
+<h1 id="admin">Admin</h1>
+<p><strong>Endpoint: <code>/admins</code></strong></p>
+<h4 id="query-all-admins">Query all admins</h4>
+<p><code>GET /admins</code></p>
+<p>This request requires Admin privileges.</p>
+<ul>
+<li><code>items=&lt;number&gt;</code> number of items per page. If this parameter is not given it will return all admins in one request.</li>
+<li><code>page=&lt;number&gt;</code> only works in combination with the <code>items</code> parameter. If not given, the first page will be returned.</li>
+</ul>
+<p><strong>Reply</strong></p>
+<pre><code>[
+   {
+      &quot;id&quot;:&lt;admin id as long&gt;,
+      &quot;user_id&quot;:&lt;user id as long&gt;,
+      &quot;balance&quot;:&lt;balance in cent as integer&gt;,
+      &quot;last_seen&quot;:&lt;last login date as string&gt;,
+      &quot;available&quot;:&lt;is user available as boolean&gt;,
+      &quot;username&quot;:&lt;admin username&gt;,
+      &quot;email&quot;:&lt;email address&gt;
+   },
+   &lt;furhter admins&gt;
+]
+</code></pre>
+
+<hr />
+<h4 id="query-one-specific-admin">Query one specific admin</h4>
+<p><code>GET /admins/&lt;admin_id&gt;</code></p>
+<p>This request requires Admin privileges.</p>
+<p><strong>Reply</strong></p>
+<pre><code>{
+   &quot;id&quot;:&lt;admin id as long&gt;,
+   &quot;user_id&quot;:&lt;user id as long&gt;,
+   &quot;balance&quot;:&lt;balance in cent as integer&gt;,
+   &quot;last_seen&quot;:&lt;last login date as string&gt;,
+   &quot;available&quot;:&lt;is user available as boolean&gt;,
+   &quot;user_name&quot;:&lt;admin username&gt;,
+   &quot;email&quot;:&lt;email address&gt;
+}
+</code></pre>
+
+<hr />
+<h4 id="query-the-loged-in-admin">Query the loged in admin</h4>
+<p><code>GET /admins/me</code></p>
+<p>This request requires Admin privileges.</p>
+<p>It will return the user represented by the basic auth credentials.</p>
+<p><strong>Reply</strong></p>
+<pre><code>{
+    &quot;id&quot;:&lt;admin id as long&gt;,
+    &quot;user_id&quot;:&lt;user id as long&gt;,
+    &quot;balance&quot;:&lt;balance in cent as integer&gt;,
+    &quot;last_seen&quot;:&lt;last login date as string&gt;,
+    &quot;available&quot;:&lt;is user available as boolean&gt;,
+    &quot;user_name&quot;:&lt;admin username&gt;,
+    &quot;email&quot;:&lt;email address&gt;
+}
+</code></pre>
+
+<hr />
+<h4 id="create-a-new-admin">Create a new admin</h4>
+<p>This request requires Admin privileges.</p>
+<p>Every existing admin can create new admins.</p>
+<p><code>POST /admins</code></p>
+<p><strong>Request</strong></p>
+<pre><code>{
+   &quot;user_name&quot;:&lt;admin username&gt;,
+   &quot;password&quot;:&lt;admin password&gt;,
+   &quot;email&quot;:&lt;email address&gt;
+}
+</code></pre>
+
+<hr />
+<h4 id="change-an-admin">Change an admin</h4>
+<p><code>PATCH /admins/&lt;admin id&gt;</code></p>
+<p>This request requires Admin privileges.</p>
+<p><strong>Request</strong></p>
+<pre><code>{
+   &quot;user_name&quot;:&lt;admin username&gt;,
+   &quot;password&quot;:&lt;admin password&gt;,
+   &quot;email&quot;:&lt;email address&gt;
+}
+</code></pre>
+
+<hr />
+<h4 id="delete-an-admin">Delete an admin</h4>
+<p><code>DELETE /admins/&lt;admin id&gt;</code></p>
+<p>This request requires Admin privileges.</p>
+<hr />
+<h1 id="user">User</h1>
+<p><strong>Endpoint: <code>/users</code></strong></p>
+<h4 id="query-all-users">Query all users</h4>
+<p><code>GET /users</code></p>
+<p>This request requires Admin privileges.</p>
+<ul>
+<li><code>items=&lt;number&gt;</code> number of items per page. If this parameter is not given it will return all users in one request.</li>
+<li><code>page=&lt;number&gt;</code> only works in combination with the <code>items</code> parameter. If not given, the first page will be returned.</li>
+</ul>
+<p><strong>Reply</strong></p>
+<pre><code>[
+   {
+       &quot;id&quot;:&lt;user id as long&gt;,
+       &quot;balance&quot;:&lt;balance in cent as integer&gt;,
+       &quot;last_seen&quot;:&lt;last login date as string&gt;,
+       &quot;available&quot;:&lt;is user available as boolean&gt;
+   },
+   &lt;more users&gt;
+]
+</code></pre>
+
+<hr />
+<h4 id="query-one-specific-user">Query one specific user</h4>
+<p><code>GET /users/&lt;user_id&gt;</code></p>
+<p>This request requires Admin privileges.</p>
+<p><strong>Reply</strong></p>
+<pre><code>{
+    &quot;id&quot;:&lt;user id as long&gt;,
+    &quot;balance&quot;:&lt;balance in cent as integer&gt;,
+    &quot;last_seen&quot;:&lt;last login date as string&gt;,
+    &quot;available&quot;:&lt;is user available as boolean&gt;
+}
+</code></pre>
+
+<hr />
+<h4 id="query-the-current-loged-in-user">Query the current loged in user</h4>
+<p><code>GET /users/me</code></p>
+<p>This will require a user to send a basic auth header with his credentials.
+It will return the user represented by the basic auth credentials.</p>
+<p><strong>Reply</strong></p>
+<pre><code>{
+    &quot;id&quot;:&lt;user id as long&gt;,
+    &quot;balance&quot;:&lt;balance in cent as integer&gt;,
+    &quot;last_seen&quot;:&lt;last login date as string&gt;,
+    &quot;available&quot;:&lt;is user available as boolean&gt;
+}
+</code></pre>
+
+<hr />
+<h4 id="create-new-user">Create new user</h4>
+<p><code>POST /user</code></p>
+<p>A create new user may be sent without auth header, however if no basic auth header is given it requires
+that the request contains a valid client key. These keys are used to permit privileged clients to create new users.
+If an admin auth header is given the <code>client_key</code> can be empty or left out, and should not even be used here.
+Regular users are not permitted to register new users. Only admins or priviliged clients.
+The body of the post must contain this data:</p>
+<pre><code>{
+   &quot;client_key&quot;:&lt;key of the client priviliged to create new users. Can be left out if adbmin basic auth is given&gt;,
+   &quot;auth_hash&quot;:&lt;first 25 bytes of the auth hash (sha256) generated from the user id&gt;
+}
+</code></pre>
+
+<p>Example:</p>
+<pre><code>{
+   &quot;client_key&quot;:&quot;09d374ebf788ca96d5c5ad8cfc778317d8efa692766accc609eb5932ccf19c94&quot;,
+   &quot;auth_hash&quot;:&quot;6d78392a5886177fe5b86e585&quot;
+}
+</code></pre>
+
+<hr />
+<h4 id="delete-an-user">Delete an user</h4>
+<p><code>DELETE /users/&lt;admin id&gt;</code></p>
+<p>This request requires Admin privileges.</p>
+<hr />
+<h1 id="product">Product</h1>
+<p><strong>Endpoint: <code>/products</code></strong></p>
+<h4 id="query-all-products">Query all products</h4>
+<p><code>GET /products</code></p>
+<ul>
+<li><code>items=&lt;number&gt;</code> number of items per page. If this parameter is not given it will return all products in one request.</li>
+<li><code>page=&lt;number&gt;</code> only works in combination with the <code>items</code> parameter. If not given, the first page will be returned.</li>
+<li><code>onlyAvaialbe=&lt;true/false&gt;</code> if true will only return products that are available. If false or not given it will return all products in database.</li>
+</ul>
+<p><strong>Reply</strong></p>
+<pre><code>[
+   {
+       &quot;id&quot;:&lt;product id as long&gt;,
+       &quot;name&quot;:&lt;product name as string&gt;,
+       &quot;price&quot;:&lt;product price in cent as ing&gt;,
+       &quot;thumbnail&quot;:&lt;url of image thumbnail as string&gt;,
+       &quot;reorder_point&quot;:&lt;reorder point as int&gt;,
+       &quot;is_available&quot;:&lt;is available as boolean&gt;
+   },
+   &lt;more products&gt;
+}
+</code></pre>
+
+<hr />
+<h4 id="query-for-specific-product">Query for specific product</h4>
+<p><code>GET /products/&lt;product_id&gt;</code></p>
+<p><strong>Reply</strong></p>
+<pre><code>{
+    &quot;id&quot;:&lt;product id as long&gt;,
+    &quot;name&quot;:&lt;product name as string&gt;,
+    &quot;price&quot;:&lt;product price in cent as ing&gt;,
+    &quot;thumbnail&quot;:&lt;url of image thumbnail as string&gt;,
+    &quot;reorder_point&quot;:&lt;reorder point as int&gt;,
+    &quot;is_available&quot;:&lt;is available as boolean&gt;
+}
+</code></pre>
+
+<hr />
+<h4 id="add-product">Add product</h4>
+<p><code>POST /products</code></p>
+<p>This request requires Admin privileges.</p>
+<p><strong>Request</strong></p>
+<pre><code>{
+   &quot;name&quot;:&lt;product name as string&gt;,
+   &quot;price&quot;:&lt;product price in cent as long&gt;,
+   &quot;thumbnail&quot;:&lt;url of image thumbnail as string&gt;,
+   &quot;reorder_point&quot;:&lt;reorder point as int&gt;
+}   
+</code></pre>
+
+<hr />
+<h4 id="update-product">Update product</h4>
+<p><code>PATCH /products/&lt;product id&gt;</code></p>
+<p>This request requires Admin privileges.</p>
+<p>This is ment for changing the values of already existing products.</p>
+<p><strong>Request</strong></p>
+<pre><code>{
+   &quot;name&quot;:&lt;product name as string&gt;,
+   &quot;price&quot;:&lt;product price in cent as long&gt;,
+   &quot;thumbnail&quot;:&lt;url of image thumbnail as string&gt;,
+   &quot;reorder_point&quot;:&lt;reorder point as int&gt;
+}   
+</code></pre>
+
+<hr />
+<h4 id="delete-a-product">Delete a product</h4>
+<p><code>DELETE /products/&lt;admin id&gt;</code></p>
+<p>This request requires Admin privileges.</p>
+<hr />
+<h1 id="transaction">Transaction</h1>
+<p><strong>Endpoint: <code>/transactions</code></strong></p>
+<h4 id="query-transactions">Query transactions</h4>
+<p><code>GET /transactions</code></p>
+<p>If this request is made by a regular user it will only display the transactions of the current user.</p>
+<p>If a transaction is of type <code>order</code> or <code>purchase</code>it will also contain an attribute <code>products</code> which will be a list
+of products that where ordered or soled.</p>
+<p>An order is a special kind of purchase, where there is not only an <code>amount</code>, by means the value of the sum of the price
+of all products, but also a <code>buy_cost</code>, which is the price we paied at the marched for the products.
+So the <code>amount</code> will be the price for which we sell the products, and <code>buy_cost</code> will be the price we buy them with.
+The difference between <code>buy_cost</code> and <code>amount</code> will then be our <strong>income</strong>.</p>
+<ul>
+<li><code>items=&lt;number&gt;</code> number of items per page. If this parameter is not given it will return 100 items of the first page.</li>
+<li><code>page=&lt;number&gt;</code> only works in combination with the <code>items</code> parameter. If not given, the first page will be returned.</li>
+<li><code>user=&lt;user_id&gt;</code> get all transactions of the given user. <strong>Atention</strong> this requires admin privileges. made.</li>
+<li><code>type=&lt;purchse/deposit/withdraw/transfer/order/all&gt;</code> this will only show the transactions of a specific type. If left out or set to <code>all</code> it will show all the</li>
+</ul>
+<p><strong>Reply</strong></p>
+<pre><code>[
+    {
+        &quot;id&quot;:&lt;transaction id as long&gt;,
+        &quot;date&quot;:&lt;transaction date as string&gt;,
+        &quot;sender&quot;:&lt;user id of the sender as long&gt;,
+        &quot;receiver&quot;:&lt;user id of the receiver as long&gt;,
+        &quot;amount&quot;:&lt;amount of money transfered in cent as long&gt;,
+        &quot;transaction_type&quot;:&quot;&lt;type of the transaction as string&gt;
+    },
+    {
+        &quot;id&quot;:&lt;transaction id as long&gt;,
+        &quot;date&quot;:&lt;transaction date as string&gt;,
+        &quot;sender&quot;:&lt;user id of the sender as long&gt;,
+        &quot;receiver&quot;:&lt;user id of the receiver as long&gt;,
+        &quot;amount&quot;:&lt;amount of money transfered in cent as long&gt;,
+        &quot;transaction_type&quot;:&quot;purchase&quot;
+        &quot;products&quot;: [
+          &lt;product id&gt;,
+          &lt;produtc id&gt;,
+          &lt;etc&gt;
+       ]
+    },
+    {
+        &quot;id&quot;:&lt;transaction id as long&gt;,
+        &quot;date&quot;:&lt;transaction date as string&gt;,
+        &quot;sender&quot;:&lt;user id of the sender as long&gt;,
+        &quot;receiver&quot;:&lt;user id of the receiver as long&gt;,
+        &quot;amount&quot;:&lt;amount of money transfered in cent as long&gt;,
+        &quot;buy_cost&quot;:&lt;amount of money the order cost at the merchand in cent as long&gt;,
+        &quot;transaction_type&quot;:&quot;order&quot;,
+        &quot;products&quot;: [
+            &lt;product id&gt;,
+            &lt;produtc id&gt;,
+            &lt;etc&gt;
+        ]
+    },
+    &lt;more transactions&gt;
+]
+</code></pre>
+
+<hr />
+<h4 id="query-one-specific-transaction">Query one specific transaction</h4>
+<p><strong>CAUTION</strong> this may only return transactions of the current user (if not admin). Return a 404 if the transaction
+exists but does not belong the the user currently logged</p>
+<p><code>GET /transactions/&lt;transaction id&gt;</code></p>
+<p><strong>Reply</strong></p>
+<pre><code>{
+    &quot;id&quot;:&lt;transaction id as long&gt;,
+    &quot;date&quot;:&lt;transaction date as string&gt;,
+    &quot;sender&quot;:&lt;user id of the sender as long&gt;,
+    &quot;receiver&quot;:&lt;user id of the receiver as long&gt;,
+    &quot;amount&quot;:&lt;amount of money transfered in cent as long&gt;,
+    &quot;transaction_type&quot;:&quot;&lt;type of the transaction as string&gt;
+}
+</code></pre>
+
+<hr />
+<h4 id="make-new-transfer">Make new transfer</h4>
+<p>If you want to make a transfer, a user can not change the sender this a sender
+does not have to be given for a user. However only admins can change both
+sender and receiver. Also a user may not send money to himself.</p>
+<p><code>POST /transactions/transfer</code></p>
+<p><strong>Request for admins</strong></p>
+<pre><code>{
+   &quot;sender&quot;: &lt;id of the sender&gt;,
+   &quot;receiver&quot;: &lt;id of the receiver&gt;,
+   &quot;amount&quot;: &lt;amount of money transfered in cent as long&gt;
+}
+</code></pre>
+
+<p><strong>Request for users</strong></p>
+<pre><code>{
+   &quot;receiver&quot;: &lt;id of the receiver&gt;,
+   &quot;amount&quot;: &lt;amount of money transfered in cent as long&gt;
+}
+</code></pre>
+
+<hr />
+<h4 id="make-new-deposit-transaction">Make new deposit transaction</h4>
+<p><code>POST /transactions/deposit</code></p>
+<p><strong>Request</strong></p>
+<pre><code>{
+   &quot;amount&quot;:&lt;amount of money in cent as long&gt;
+}
+</code></pre>
+
+<hr />
+<h4 id="make-new-withdrawal-transaction">Make new withdrawal transaction</h4>
+<p><code>POST /transactions/withdrawl</code></p>
+<p>This can only be done by admins.</p>
+<p><strong>Request</strong></p>
+<pre><code>{
+   &quot;amount&quot;:&lt;amount of money in cent as long&gt;
+}
+</code></pre>
+
+<hr />
+<h4 id="make-new-order-transaction">Make new <a href="https://www.youtube.com/watch?v=BJcpajX7EdU">order</a> transaction</h4>
+<p><code>POST /transactions/order</code></p>
+<p>This can only be done by admins.</p>
+<p><strong>Request</strong></p>
+<pre><code>{
+   &quot;buy_cost&quot;:&lt;amount of money the order cost in cent as long&gt;,
+   &quot;orders&quot;: [
+      {
+         &quot;product&quot;: &lt;product id&gt;,
+         &quot;amount&quot;: &lt;count of this product ordered&gt;
+      },
+      &lt;more products added by this order&gt;
+   ]
+}
+</code></pre>
+
+<hr />
+<h4 id="make-new-purchase-transaction">Make new purchase transaction</h4>
+<p><code>POST /transactions/purchases</code></p>
+<p><strong>Request</strong></p>
+<pre><code>{
+   &quot;orders&quot;: [
+      {
+         &quot;product&quot;: &lt;product id&gt;,
+         &quot;amount&quot;: &lt;count of this product ordered&gt;
+      },
+      &lt;more products added by this order&gt;
+   ]
+}
+</code></pre>
+
+<hr />
+<h1 id="authentication">Authentication</h1>
+<p>The authentication on Matohmat is done through <a href="https://en.wikipedia.org/wiki/Basic_access_authentication">Basic Auth</a>.
+However it depends if you want to make a Admin login or just a regular user login.</p>
+<p>The basic auth header for an admin is simply
+<code>Authorization: Basic base64(&lt;admin_name&gt;:&lt;admin_password&gt;)</code>.
+So as an example the user <code>test</code> and the password <code>passwd</code> would generate this header:
+<code>Authorization: Basic dGVzdDpwYXNzd2Q=</code>.</p>
+<p>The auth header for a regular user is the double dot followed by the first 25 signes of the base64 encoded sha2 hash of the id entered by the user (mostlikely the RFID of the Ohmcard):
+<code>Authorization: Basic base64(:head(count=25, sha256sum(format=base64, &lt;user_id&gt;)))</code>
+So if a user has the "id": <code>123456789</code> this will undergo these steps:</p>
+<ol>
+<li><code>sha256sum(123456789)</code> =  <code>6d78392a5886177fe5b86e585a0b695a2bcd01a05504b3c4e38bc8eeb21e8326</code></li>
+<li><code>head(count=25, 6d78392a5886177fe5b86e585a0b695a2bcd01a05504b3c4e38bc8eeb21e8326</code> = <code>6d78392a5886177fe5b86e585</code></li>
+<li>Build auth string: <code>:6d78392a5886177fe5b86e585</code></li>
+<li><code>base64(:6d78392a5886177fe5b86e585)</code> = <code>OjZkNzgzOTJhNTg4NjE3N2ZlNWI4NmU1ODU=</code></li>
+<li>Build auth header: <code>Authorization: Basic OjZkNzgzOTJhNTg4NjE3N2ZlNWI4NmU1ODU=</code></li>
+</ol>
+<hr />
+<h1 id="error-handlying">Error handlying</h1>
+<p>First of all a HTTP code will be returned by every request. This is the codes used by this api, and what they mean:</p>
+<ul>
+<li><code>200</code> when send a query and the answer was sent</li>
+<li><code>400</code> the request was malformed</li>
+<li><code>401</code> when something was requested but the login was wrong</li>
+<li><code>404</code> If an entry is not found after a query was send.</li>
+<li><code>500</code> Server errored</li>
+</ul>
+<p>All the error codes beside the success code 200 will also return a JSON containing an error message which can be displayed by the client:</p>
+<pre><code>{
+   &quot;error_message&quot;:&quot;&lt;this is an error message&gt;&quot;
+}
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../documentation/" class="btn btn-neutral" title="Documentation"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../documentation/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+
+</body>
+</html>
