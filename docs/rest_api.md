@@ -276,7 +276,8 @@ __Request__
    "name":<product name as string>,
    "price":<product price in cent as long>,
    "thumbnail":<url of image thumbnail as string>,
-   "reorder_point":<reorder point as int>
+   "reorder_point":<reorder point as int>,
+   "items_per_crate":<items or bottles per crate>
 }   
 ```
 
@@ -296,7 +297,8 @@ __Request__
    "name":<product name as string>,
    "price":<product price in cent as long>,
    "thumbnail":<url of image thumbnail as string>,
-   "reorder_point":<reorder point as int>
+   "reorder_point":<reorder point as int>,
+   "items_per_crate":<items or bottles per crate>
 }   
 ```
 
