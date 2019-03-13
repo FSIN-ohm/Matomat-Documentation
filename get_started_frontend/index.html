@@ -8,7 +8,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Contribute - Matomat Documentation</title>
+  <title>Get started frontend - Matomat Documentation</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
   <link rel="stylesheet" href="../css/theme.css" type="text/css" />
@@ -17,8 +17,8 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Contribute";
-    var mkdocs_page_input_path = "contribute.md";
+    var mkdocs_page_name = "Get started frontend";
+    var mkdocs_page_input_path = "get_started_frontend.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -53,18 +53,9 @@
     <a class="" href="..">MatΩhmat documentation</a>
 	    </li>
           
-            <li class="toctree-l1 current">
+            <li class="toctree-l1">
 		
-    <a class="current" href="./">Contribute</a>
-    <ul class="subnav">
-            
-    <li class="toctree-l2"><a href="#contribute">Contribute</a></li>
-    
-
-    <li class="toctree-l2"><a href="#feature-branching">Feature branching</a></li>
-    
-
-    </ul>
+    <a class="" href="../contribute/">Contribute</a>
 	    </li>
           
             <li class="toctree-l1">
@@ -72,9 +63,21 @@
     <a class="" href="../documentation/">Documentation</a>
 	    </li>
           
-            <li class="toctree-l1">
+            <li class="toctree-l1 current">
 		
-    <a class="" href="../get_started_frontend/">Get started frontend</a>
+    <a class="current" href="./">Get started frontend</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#setting-up-the-development-environment">Setting up the development environment</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#step-1-installing-a-suitable-source-code-editor">Step 1: Installing a suitable source code editor</a></li>
+        
+        </ul>
+    
+
+    </ul>
 	    </li>
           
             <li class="toctree-l1">
@@ -104,7 +107,7 @@
     
       
     
-    <li>Contribute</li>
+    <li>Get started frontend</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -114,16 +117,26 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="contribute">Contribute</h1>
-<p>This side will describe how to contribute to the Matohmat project.</p>
-<h1 id="feature-branching">Feature branching</h1>
-<p>In order to apply changes to a Matohmat repository we use a methode so called
-<a href="https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow">feature branching</a>.
-By means we do not allow commits to be pushed directly to the <code>master</code> branch of any of our repositories.
-Instead what you would want to do is fork our repository, work on your own fork, and if you are done send a
-<a href="https://help.github.com/articles/about-pull-requests/">Merge- or Pullrequest</a>.</p>
-<p>This Merge-/Pullrequest then needs to be tested and code reviewd by another member of the matomat crew.
-<img alt="review pending image" src="../img/review_required.png" /></p>
+                <h1 id="setting-up-the-development-environment">Setting up the development environment</h1>
+<p>The following steps will guide you through the process of setting up the development environment for the admin and user-frontend.</p>
+<h2 id="step-1-installing-a-suitable-source-code-editor">Step 1: Installing a suitable source code editor</h2>
+<p>We recommend using Visual Studio Code, it's available for Windows, macOS and Linux. Furthermore does it support JavaScript, TypeScript, Node.js and npm package manager. All four are required.</p>
+<p>Download Visual Studio Code <a href="https://code.visualstudio.com/Download">here</a></p>
+<h3 id="step-2-installing-nodejs">Step 2: Installing Node.js</h3>
+<p>Angular requires Node.js version 8.x or 10.x.
+<br/>
+Check the version you're running: Open your command line interface (CLI), and type <code>node -v</code></p>
+<p>If Node.js is not installed download it from <a href="https://nodejs.org/en/">here</a></p>
+<h3 id="step-3-installing-the-npm-node-package-manager">Step 3: Installing the npm (Node Package Manager)</h3>
+<p>Angular, the Angular CLI, and Angular apps depend on features and functionality provided by libraries that are available as npm packages (learn more <a href="https://docs.npmjs.com/about-npm/index.html">here</a>). To download and install npm packages, you need to have such a package manager installed.</p>
+<p>This Quick Start uses the <a href="https://docs.npmjs.com/cli/install">npm client</a> command line interface, which is installed with Node.js by default.</p>
+<p>To check that you have the npm client installed, run <code>npm -v</code> in a CLI.</p>
+<h3 id="step-4-installing-the-angular-cli">Step 4: Installing the Angular CLI</h3>
+<p>The Angular CLI was used to create the Matomat.
+Find out more about Angular, <a href="https://angular.io/">here</a></p>
+<p>To install the CLI using npm, run the following command in your command line interface:</p>
+<h5 id="windows-npm-install-g-angularcli">Windows: <code>npm install -g @angular/cli</code></h5>
+<h5 id="macoslinux-sudo-npm-install-g-angularcli">MacOS/Linux: <code>sudo npm install -g @angular/cli</code></h5>
               
             </div>
           </div>
@@ -131,10 +144,10 @@ Instead what you would want to do is fork our repository, work on your own fork,
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../documentation/" class="btn btn-neutral float-right" title="Documentation">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../rest_api/" class="btn btn-neutral float-right" title="Rest api">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href=".." class="btn btn-neutral" title="MatΩhmat documentation"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../documentation/" class="btn btn-neutral" title="Documentation"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -160,10 +173,10 @@ Instead what you would want to do is fork our repository, work on your own fork,
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href=".." style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../documentation/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../documentation/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../rest_api/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
