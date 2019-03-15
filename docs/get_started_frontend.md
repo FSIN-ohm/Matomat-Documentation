@@ -42,3 +42,5 @@ In order to edit the project files in your chosen source editor you have to clon
 
 #### Admin Frontend: [https://github.com/FSIN-ohm/Matomat-Admin-Frontend](https://github.com/FSIN-ohm/Matomat-Admin-Frontend)
 #### Frontend: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [https://github.com/FSIN-ohm/Matomat-Frontend](https://github.com/FSIN-ohm/Matomat-Frontend)
+</br>
+Congratulation, now you should be able to open the downloaded files within your source editor.
