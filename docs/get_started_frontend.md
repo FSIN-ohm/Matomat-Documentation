@@ -12,7 +12,7 @@ Download Visual Studio Code [here](https://code.visualstudio.com/Download)
 ### Step 2: Installing Node.js
 
 Angular requires Node.js version 8.x or 10.x.
-<br/>
+</br>
 Check the version you're running: Open your command line interface (CLI), and type `node -v`
 
 If Node.js is not installed download it from [here](https://nodejs.org/en/)
@@ -35,3 +35,10 @@ To install the CLI using npm, run the following command in your command line int
 ##### Windows: `npm install -g @angular/cli`
 
 ##### MacOS/Linux: `sudo npm install -g @angular/cli`
+
+### Step 5: Cloning the Github Repository
+
+In order to edit the project files in your chosen source editor you have to clone them from our official Github Repository.
+
+#### Admin Frontend: [https://github.com/FSIN-ohm/Matomat-Admin-Frontend](https://github.com/FSIN-ohm/Matomat-Admin-Frontend)
+#### Frontend: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [https://github.com/FSIN-ohm/Matomat-Frontend](https://github.com/FSIN-ohm/Matomat-Frontend)
