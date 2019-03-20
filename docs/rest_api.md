@@ -33,7 +33,7 @@ __Reply__
       "balance":<balance in cent as integer>,
       "last_seen":<last login date as string>,
       "available":<is user available as boolean>,
-      "username":<admin username>,
+      "user_name":<admin username>,
       "email":<email address>
    },
    <furhter admins>
