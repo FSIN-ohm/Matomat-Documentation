@@ -560,6 +560,7 @@ Success codes:
 - `200` when send a query and the answer was sent
 - `201` when a new entry was created through a POST
 - `202` when a change was successfully done through a PATCH
+- `200` when an entry was successfully removed through a DELETE
 
 Failure codes:
 - `400` the request was malformed
