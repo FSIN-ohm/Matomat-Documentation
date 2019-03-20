@@ -107,6 +107,8 @@
         
             <li><a class="toctree-l3" href="#create-new-user">Create new user</a></li>
         
+            <li><a class="toctree-l3" href="#update-a-user">Update a user</a></li>
+        
             <li><a class="toctree-l3" href="#delete-an-user">Delete an user</a></li>
         
         </ul>
@@ -299,7 +301,8 @@ Here is the documentation of it, its ment for the ones who wants to program a cl
        &quot;id&quot;:&lt;user id as long&gt;,
        &quot;balance&quot;:&lt;balance in cent as integer&gt;,
        &quot;last_seen&quot;:&lt;last login date as string&gt;,
-       &quot;available&quot;:&lt;is user available as boolean&gt;
+       &quot;available&quot;:&lt;is user available as boolean&gt;,
+       &quot;name&quot;:&lt;name of the user&gt;
    },
    &lt;more users&gt;
 ]
@@ -314,7 +317,8 @@ Here is the documentation of it, its ment for the ones who wants to program a cl
     &quot;id&quot;:&lt;user id as long&gt;,
     &quot;balance&quot;:&lt;balance in cent as integer&gt;,
     &quot;last_seen&quot;:&lt;last login date as string&gt;,
-    &quot;available&quot;:&lt;is user available as boolean&gt;
+    &quot;available&quot;:&lt;is user available as boolean&gt;,
+    &quot;name&quot;:&lt;name of the user&gt;
 }
 </code></pre>
 
@@ -338,8 +342,9 @@ It will return the user represented by the basic auth credentials.</p>
 <p>A create new user may be sent without auth header, however if no basic auth header is given it requires
 that the request contains a valid client key. These keys are used to permit privileged clients to create new users.
 If an admin auth header is given the <code>client_key</code> can be empty or left out, and should not even be used here.
-Regular users are not permitted to register new users. Only admins or priviliged clients.
-The body of the post must contain this data:</p>
+Regular users are not permitted to register new users. Only admins or priviliged clients.</p>
+<p>The name of the user will be auto generated.</p>
+<p>The body of the post must contain this data:</p>
 <pre><code>{
    &quot;client_key&quot;:&lt;key of the client priviliged to create new users. Can be left out if adbmin basic auth is given&gt;,
    &quot;auth_hash&quot;:&lt;first 25 bytes of the auth hash (sha256) generated from the user id&gt;
@@ -350,6 +355,26 @@ The body of the post must contain this data:</p>
 <pre><code>{
    &quot;client_key&quot;:&quot;09d374ebf788ca96d5c5ad8cfc778317d8efa692766accc609eb5932ccf19c94&quot;,
    &quot;auth_hash&quot;:&quot;6d78392a5886177fe5b86e585&quot;
+}
+</code></pre>
+
+<hr />
+<h4 id="update-a-user">Update a user</h4>
+<p><code>PATCH /v1/user/&lt;user_id&gt;</code></p>
+<p>I can not setup a user name through a create since the matomat does not support it (if it does later, you may sent a PATCH)
+directly after you created a user. The unique name of a user is ment to be used for a potional smarthphone app where
+I would be able to send money to other users without having to know their id.</p>
+<p>The body of the post must contain this data:</p>
+<pre><code>{
+   &quot;auth_hash&quot;:&lt;first 25 bytes of the auth hash (sha256) generated from the user id&gt;,
+   &quot;name&quot;:&lt;the unique user name&gt;
+}
+</code></pre>
+
+<p>Example:</p>
+<pre><code>{
+   &quot;client_key&quot;:&quot;09d374ebf788ca96d5c5ad8cfc778317d8efa692766accc609eb5932ccf19c94&quot;,
+   &quot;auth_hash&quot;:&quot;HansPeter&quot;
 }
 </code></pre>
 
@@ -499,7 +524,7 @@ exists but does not belong the the user currently logged</p>
     &quot;sender&quot;:&lt;user id of the sender as long&gt;,
     &quot;receiver&quot;:&lt;user id of the receiver as long&gt;,
     &quot;amount&quot;:&lt;amount of money transfered in cent as long&gt;,
-    &quot;transaction_type&quot;:&quot;&lt;type of the transaction as string&gt;
+    &quot;transaction_type&quot;:&lt;type of the transaction as string&gt;
 }
 </code></pre>
 
@@ -519,7 +544,7 @@ sender and receiver. Also a user may not send money to himself.</p>
 
 <p><strong>Request for users</strong></p>
 <pre><code>{
-   &quot;receiver&quot;: &lt;id of the receiver&gt;,
+   &quot;receiver&quot;: &lt;id or name of the receiver&gt;,
    &quot;amount&quot;: &lt;amount of money transfered in cent as long&gt;
 }
 </code></pre>
@@ -527,6 +552,7 @@ sender and receiver. Also a user may not send money to himself.</p>
 <hr />
 <h4 id="make-new-deposit-transaction">Make new deposit transaction</h4>
 <p><code>POST /v1/transactions/deposit</code></p>
+<p>This will add money the the account of the currently logged in user.</p>
 <p><strong>Request</strong></p>
 <pre><code>{
    &quot;amount&quot;:&lt;amount of money in cent as long&gt;
@@ -537,6 +563,8 @@ sender and receiver. Also a user may not send money to himself.</p>
 <h4 id="make-new-withdrawal-transaction">Make new withdrawal transaction</h4>
 <p><code>POST /transactions/withdrawl</code></p>
 <p>This can only be done by admins.</p>
+<p>Andmins can only take money from themselves, if they want to take money from other users they first have to transferee
+it to themselves.</p>
 <p><strong>Request</strong></p>
 <pre><code>{
    &quot;amount&quot;:&lt;amount of money in cent as long&gt;
