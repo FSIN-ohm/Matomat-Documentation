@@ -14,7 +14,7 @@ The rest api on the server side is implemented using the [spring rest](https://d
 __Endpoint: `/admins`__
 
 #### Query all admins
-`GET /admins`
+`GET /v1/admins`
 
 This request requires Admin privileges.
 
@@ -41,7 +41,7 @@ __Reply__
 ```
 ----
 #### Query one specific admin
-`GET /admins/<admin_id>`
+`GET /v1/admins/<admin_id>`
 
 This request requires Admin privileges.
 
@@ -60,7 +60,7 @@ __Reply__
 ----
 #### Query the loged in admin
 
-`GET /admins/me`
+`GET /v1/admins/me`
 
 This request requires Admin privileges.
 
@@ -85,7 +85,7 @@ This request requires Admin privileges.
 
 Every existing admin can create new admins.
 
-`POST /admins`
+`POST /v1/admins`
 
 __Request__
 
@@ -117,7 +117,7 @@ __Request__
 ----
 #### Delete an admin
 
-`DELETE /admins/<admin id>`
+`DELETE /v1/admins/<admin id>`
 
 This request requires Admin privileges.
 
@@ -128,7 +128,7 @@ __Endpoint: `/users`__
 
 #### Query all users
 
-`GET /users`
+`GET /v1/users`
 
 This request requires Admin privileges.
 
@@ -152,7 +152,7 @@ __Reply__
 ----
 #### Query one specific user
 
-`GET /users/<user_id>`
+`GET /v1/users/<user_id>`
 
 This request requires Admin privileges.
 
@@ -170,7 +170,7 @@ __Reply__
 ----
 #### Query the current loged in user
 
-`GET /users/me`
+`GET /v1/users/me`
 
 This will require a user to send a basic auth header with his credentials.
 It will return the user represented by the basic auth credentials.
@@ -189,7 +189,7 @@ __Reply__
 ----
 #### Create new user
 
-`POST /user`
+`POST /v1/user`
 
 A create new user may be sent without auth header, however if no basic auth header is given it requires
 that the request contains a valid client key. These keys are used to permit privileged clients to create new users.
@@ -214,7 +214,7 @@ Example:
 ----
 #### Delete an user
 
-`DELETE /users/<admin id>`
+`DELETE /v1/users/<admin id>`
 
 This request requires Admin privileges.
 
@@ -226,7 +226,7 @@ __Endpoint: `/products`__
 
 #### Query all products
 
-`GET /products`
+`GET /v1/products`
 
 - `items=<number>` number of items per page. If this parameter is not given it will return all products in one request.
 - `page=<number>` only works in combination with the `items` parameter. If not given, the first page will be returned.
@@ -249,7 +249,7 @@ __Reply__
 ----
 #### Query for specific product
 
-`GET /products/<product_id>`
+`GET /v1/products/<product_id>`
 
 __Reply__
 ```
@@ -265,7 +265,7 @@ __Reply__
 ----
 #### Add product
 
-`POST /products`
+`POST /v1/products`
 
 This request requires Admin privileges.
 
@@ -284,7 +284,7 @@ __Request__
 ----
 #### Update product
 
-`PATCH /products/<product id>`
+`PATCH /v1/products/<product id>`
 
 This request requires Admin privileges.
 
@@ -305,7 +305,7 @@ __Request__
 ----
 #### Delete a product
 
-`DELETE /products/<admin id>`
+`DELETE /v1/products/<admin id>`
 
 This request requires Admin privileges.
 
@@ -316,7 +316,7 @@ __Endpoint: `/transactions`__
 
 #### Query transactions
 
-`GET /transactions`
+`GET /v1/transactions`
 
 If this request is made by a regular user it will only display the transactions of the current user.
 
@@ -380,7 +380,7 @@ __Reply__
 __CAUTION__ this may only return transactions of the current user (if not admin). Return a 404 if the transaction
 exists but does not belong the the user currently logged
 
-`GET /transactions/<transaction id>`
+`GET /v1/transactions/<transaction id>`
 
 __Reply__
 ```
@@ -401,7 +401,7 @@ If you want to make a transfer, a user can not change the sender this a sender
 does not have to be given for a user. However only admins can change both
 sender and receiver. Also a user may not send money to himself.
 
-`POST /transactions/transfer`
+`POST /v1/transactions/transfer`
 
 __Request for admins__
 ```
@@ -424,7 +424,7 @@ __Request for users__
 ----
 #### Make new deposit transaction
 
-`POST /transactions/deposit`
+`POST /v1/transactions/deposit`
 
 __Request__
 
@@ -454,7 +454,7 @@ __Request__
 ----
 #### Make new [order](https://www.youtube.com/watch?v=BJcpajX7EdU) transaction
 
-`POST /transactions/order`
+`POST /v1/transactions/order`
 
 This can only be done by admins.
 
@@ -477,7 +477,7 @@ __Request__
 ----
 #### Make new purchase transaction
 
-`POST /transactions/purchases`
+`POST /v1/transactions/purchases`
 
 __Request__
 
@@ -521,10 +521,17 @@ So if a user has the "id": `123456789` this will undergo these steps:
 
 First of all a HTTP code will be returned by every request. This is the codes used by this api, and what they mean:
 
+Success codes:
 - `200` when send a query and the answer was sent
+- `201` when a new entry was created through a POST
+- `202` when a change was successfully done through a PATCH
+
+Failure codes:
 - `400` the request was malformed
 - `401` when something was requested but the login was wrong
 - `404` If an entry is not found after a query was send.
+
+Error codes:
 - `500` Server errored
 
 All the error codes beside the success code 200 will also return a JSON containing an error message which can be displayed by the client:
