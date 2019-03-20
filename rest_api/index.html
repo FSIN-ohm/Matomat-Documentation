@@ -200,7 +200,7 @@ Here is the documentation of it, its ment for the ones who wants to program a cl
 <h1 id="admin">Admin</h1>
 <p><strong>Endpoint: <code>/admins</code></strong></p>
 <h4 id="query-all-admins">Query all admins</h4>
-<p><code>GET /admins</code></p>
+<p><code>GET /v1/admins</code></p>
 <p>This request requires Admin privileges.</p>
 <ul>
 <li><code>items=&lt;number&gt;</code> number of items per page. If this parameter is not given it will return all admins in one request.</li>
@@ -223,7 +223,7 @@ Here is the documentation of it, its ment for the ones who wants to program a cl
 
 <hr />
 <h4 id="query-one-specific-admin">Query one specific admin</h4>
-<p><code>GET /admins/&lt;admin_id&gt;</code></p>
+<p><code>GET /v1/admins/&lt;admin_id&gt;</code></p>
 <p>This request requires Admin privileges.</p>
 <p><strong>Reply</strong></p>
 <pre><code>{
@@ -239,7 +239,7 @@ Here is the documentation of it, its ment for the ones who wants to program a cl
 
 <hr />
 <h4 id="query-the-loged-in-admin">Query the loged in admin</h4>
-<p><code>GET /admins/me</code></p>
+<p><code>GET /v1/admins/me</code></p>
 <p>This request requires Admin privileges.</p>
 <p>It will return the user represented by the basic auth credentials.</p>
 <p><strong>Reply</strong></p>
@@ -258,7 +258,7 @@ Here is the documentation of it, its ment for the ones who wants to program a cl
 <h4 id="create-a-new-admin">Create a new admin</h4>
 <p>This request requires Admin privileges.</p>
 <p>Every existing admin can create new admins.</p>
-<p><code>POST /admins</code></p>
+<p><code>POST /v1/admins</code></p>
 <p><strong>Request</strong></p>
 <pre><code>{
    &quot;user_name&quot;:&lt;admin username&gt;,
@@ -281,13 +281,13 @@ Here is the documentation of it, its ment for the ones who wants to program a cl
 
 <hr />
 <h4 id="delete-an-admin">Delete an admin</h4>
-<p><code>DELETE /admins/&lt;admin id&gt;</code></p>
+<p><code>DELETE /v1/admins/&lt;admin id&gt;</code></p>
 <p>This request requires Admin privileges.</p>
 <hr />
 <h1 id="user">User</h1>
 <p><strong>Endpoint: <code>/users</code></strong></p>
 <h4 id="query-all-users">Query all users</h4>
-<p><code>GET /users</code></p>
+<p><code>GET /v1/users</code></p>
 <p>This request requires Admin privileges.</p>
 <ul>
 <li><code>items=&lt;number&gt;</code> number of items per page. If this parameter is not given it will return all users in one request.</li>
@@ -307,7 +307,7 @@ Here is the documentation of it, its ment for the ones who wants to program a cl
 
 <hr />
 <h4 id="query-one-specific-user">Query one specific user</h4>
-<p><code>GET /users/&lt;user_id&gt;</code></p>
+<p><code>GET /v1/users/&lt;user_id&gt;</code></p>
 <p>This request requires Admin privileges.</p>
 <p><strong>Reply</strong></p>
 <pre><code>{
@@ -320,7 +320,7 @@ Here is the documentation of it, its ment for the ones who wants to program a cl
 
 <hr />
 <h4 id="query-the-current-loged-in-user">Query the current loged in user</h4>
-<p><code>GET /users/me</code></p>
+<p><code>GET /v1/users/me</code></p>
 <p>This will require a user to send a basic auth header with his credentials.
 It will return the user represented by the basic auth credentials.</p>
 <p><strong>Reply</strong></p>
@@ -334,7 +334,7 @@ It will return the user represented by the basic auth credentials.</p>
 
 <hr />
 <h4 id="create-new-user">Create new user</h4>
-<p><code>POST /user</code></p>
+<p><code>POST /v1/user</code></p>
 <p>A create new user may be sent without auth header, however if no basic auth header is given it requires
 that the request contains a valid client key. These keys are used to permit privileged clients to create new users.
 If an admin auth header is given the <code>client_key</code> can be empty or left out, and should not even be used here.
@@ -355,13 +355,13 @@ The body of the post must contain this data:</p>
 
 <hr />
 <h4 id="delete-an-user">Delete an user</h4>
-<p><code>DELETE /users/&lt;admin id&gt;</code></p>
+<p><code>DELETE /v1/users/&lt;admin id&gt;</code></p>
 <p>This request requires Admin privileges.</p>
 <hr />
 <h1 id="product">Product</h1>
 <p><strong>Endpoint: <code>/products</code></strong></p>
 <h4 id="query-all-products">Query all products</h4>
-<p><code>GET /products</code></p>
+<p><code>GET /v1/products</code></p>
 <ul>
 <li><code>items=&lt;number&gt;</code> number of items per page. If this parameter is not given it will return all products in one request.</li>
 <li><code>page=&lt;number&gt;</code> only works in combination with the <code>items</code> parameter. If not given, the first page will be returned.</li>
@@ -383,7 +383,7 @@ The body of the post must contain this data:</p>
 
 <hr />
 <h4 id="query-for-specific-product">Query for specific product</h4>
-<p><code>GET /products/&lt;product_id&gt;</code></p>
+<p><code>GET /v1/products/&lt;product_id&gt;</code></p>
 <p><strong>Reply</strong></p>
 <pre><code>{
     &quot;id&quot;:&lt;product id as long&gt;,
@@ -397,7 +397,7 @@ The body of the post must contain this data:</p>
 
 <hr />
 <h4 id="add-product">Add product</h4>
-<p><code>POST /products</code></p>
+<p><code>POST /v1/products</code></p>
 <p>This request requires Admin privileges.</p>
 <p><strong>Request</strong></p>
 <pre><code>{
@@ -411,7 +411,7 @@ The body of the post must contain this data:</p>
 
 <hr />
 <h4 id="update-product">Update product</h4>
-<p><code>PATCH /products/&lt;product id&gt;</code></p>
+<p><code>PATCH /v1/products/&lt;product id&gt;</code></p>
 <p>This request requires Admin privileges.</p>
 <p>This is ment for changing the values of already existing products.</p>
 <p><strong>Request</strong></p>
@@ -426,13 +426,13 @@ The body of the post must contain this data:</p>
 
 <hr />
 <h4 id="delete-a-product">Delete a product</h4>
-<p><code>DELETE /products/&lt;admin id&gt;</code></p>
+<p><code>DELETE /v1/products/&lt;admin id&gt;</code></p>
 <p>This request requires Admin privileges.</p>
 <hr />
 <h1 id="transaction">Transaction</h1>
 <p><strong>Endpoint: <code>/transactions</code></strong></p>
 <h4 id="query-transactions">Query transactions</h4>
-<p><code>GET /transactions</code></p>
+<p><code>GET /v1/transactions</code></p>
 <p>If this request is made by a regular user it will only display the transactions of the current user.</p>
 <p>If a transaction is of type <code>order</code> or <code>purchase</code>it will also contain an attribute <code>products</code> which will be a list
 of products that where ordered or soled.</p>
@@ -491,7 +491,7 @@ The difference between <code>buy_cost</code> and <code>amount</code> will then b
 <h4 id="query-one-specific-transaction">Query one specific transaction</h4>
 <p><strong>CAUTION</strong> this may only return transactions of the current user (if not admin). Return a 404 if the transaction
 exists but does not belong the the user currently logged</p>
-<p><code>GET /transactions/&lt;transaction id&gt;</code></p>
+<p><code>GET /v1/transactions/&lt;transaction id&gt;</code></p>
 <p><strong>Reply</strong></p>
 <pre><code>{
     &quot;id&quot;:&lt;transaction id as long&gt;,
@@ -508,7 +508,7 @@ exists but does not belong the the user currently logged</p>
 <p>If you want to make a transfer, a user can not change the sender this a sender
 does not have to be given for a user. However only admins can change both
 sender and receiver. Also a user may not send money to himself.</p>
-<p><code>POST /transactions/transfer</code></p>
+<p><code>POST /v1/transactions/transfer</code></p>
 <p><strong>Request for admins</strong></p>
 <pre><code>{
    &quot;sender&quot;: &lt;id of the sender&gt;,
@@ -526,7 +526,7 @@ sender and receiver. Also a user may not send money to himself.</p>
 
 <hr />
 <h4 id="make-new-deposit-transaction">Make new deposit transaction</h4>
-<p><code>POST /transactions/deposit</code></p>
+<p><code>POST /v1/transactions/deposit</code></p>
 <p><strong>Request</strong></p>
 <pre><code>{
    &quot;amount&quot;:&lt;amount of money in cent as long&gt;
@@ -545,7 +545,7 @@ sender and receiver. Also a user may not send money to himself.</p>
 
 <hr />
 <h4 id="make-new-order-transaction">Make new <a href="https://www.youtube.com/watch?v=BJcpajX7EdU">order</a> transaction</h4>
-<p><code>POST /transactions/order</code></p>
+<p><code>POST /v1/transactions/order</code></p>
 <p>This can only be done by admins.</p>
 <p><strong>Request</strong></p>
 <pre><code>{
@@ -562,7 +562,7 @@ sender and receiver. Also a user may not send money to himself.</p>
 
 <hr />
 <h4 id="make-new-purchase-transaction">Make new purchase transaction</h4>
-<p><code>POST /transactions/purchases</code></p>
+<p><code>POST /v1/transactions/purchases</code></p>
 <p><strong>Request</strong></p>
 <pre><code>{
    &quot;orders&quot;: [
@@ -596,13 +596,16 @@ So if a user has the "id": <code>123456789</code> this will undergo these steps:
 <hr />
 <h1 id="error-handlying">Error handlying</h1>
 <p>First of all a HTTP code will be returned by every request. This is the codes used by this api, and what they mean:</p>
-<ul>
-<li><code>200</code> when send a query and the answer was sent</li>
-<li><code>400</code> the request was malformed</li>
-<li><code>401</code> when something was requested but the login was wrong</li>
-<li><code>404</code> If an entry is not found after a query was send.</li>
-<li><code>500</code> Server errored</li>
-</ul>
+<p>Success codes:
+- <code>200</code> when send a query and the answer was sent
+- <code>201</code> when a new entry was created through a POST
+- <code>202</code> when a change was successfully done through a PATCH</p>
+<p>Failure codes:
+- <code>400</code> the request was malformed
+- <code>401</code> when something was requested but the login was wrong
+- <code>404</code> If an entry is not found after a query was send.</p>
+<p>Error codes:
+- <code>500</code> Server errored</p>
 <p>All the error codes beside the success code 200 will also return a JSON containing an error message which can be displayed by the client:</p>
 <pre><code>{
    &quot;error_message&quot;:&quot;&lt;this is an error message&gt;&quot;
