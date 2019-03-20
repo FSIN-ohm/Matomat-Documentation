@@ -143,7 +143,8 @@ __Reply__
        "id":<user id as long>,
        "balance":<balance in cent as integer>,
        "last_seen":<last login date as string>,
-       "available":<is user available as boolean>
+       "available":<is user available as boolean>,
+       "name":<name of the user>
    },
    <more users>
 ]
@@ -163,7 +164,8 @@ __Reply__
     "id":<user id as long>,
     "balance":<balance in cent as integer>,
     "last_seen":<last login date as string>,
-    "available":<is user available as boolean>
+    "available":<is user available as boolean>,
+    "name":<name of the user>
 }
 ```
 
@@ -195,6 +197,9 @@ A create new user may be sent without auth header, however if no basic auth head
 that the request contains a valid client key. These keys are used to permit privileged clients to create new users.
 If an admin auth header is given the `client_key` can be empty or left out, and should not even be used here.
 Regular users are not permitted to register new users. Only admins or priviliged clients.
+
+The name of the user will be auto generated.
+
 The body of the post must contain this data:
 ```
 {
@@ -208,6 +213,31 @@ Example:
 {
    "client_key":"09d374ebf788ca96d5c5ad8cfc778317d8efa692766accc609eb5932ccf19c94",
    "auth_hash":"6d78392a5886177fe5b86e585"
+}
+```
+
+----
+#### Update a user
+
+`PATCH /v1/user/<user_id>`
+
+I can not setup a user name through a create since the matomat does not support it (if it does later, you may sent a PATCH)
+directly after you created a user. The unique name of a user is ment to be used for a potional smarthphone app where
+I would be able to send money to other users without having to know their id.
+
+The body of the post must contain this data:
+```
+{
+   "auth_hash":<first 25 bytes of the auth hash (sha256) generated from the user id>,
+   "name":<the unique user name>
+}
+```
+
+Example:
+```
+{
+   "client_key":"09d374ebf788ca96d5c5ad8cfc778317d8efa692766accc609eb5932ccf19c94",
+   "auth_hash":"HansPeter"
 }
 ```
 
@@ -390,7 +420,7 @@ __Reply__
     "sender":<user id of the sender as long>,
     "receiver":<user id of the receiver as long>,
     "amount":<amount of money transfered in cent as long>,
-    "transaction_type":"<type of the transaction as string>
+    "transaction_type":<type of the transaction as string>
 }
 ```
 
@@ -415,7 +445,7 @@ __Request for admins__
 __Request for users__
 ```
 {
-   "receiver": <id of the receiver>,
+   "receiver": <id or name of the receiver>,
    "amount": <amount of money transfered in cent as long>
 }
 ```
@@ -425,6 +455,8 @@ __Request for users__
 #### Make new deposit transaction
 
 `POST /v1/transactions/deposit`
+
+This will add money the the account of the currently logged in user.
 
 __Request__
 
@@ -441,6 +473,9 @@ __Request__
 `POST /transactions/withdrawl`
 
 This can only be done by admins.
+
+Andmins can only take money from themselves, if they want to take money from other users they first have to transferee
+it to themselves.
 
 __Request__
 
