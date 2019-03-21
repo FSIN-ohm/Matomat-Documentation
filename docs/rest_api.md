@@ -271,7 +271,9 @@ __Reply__
        "price":<product price in cent as ing>,
        "thumbnail":<url of image thumbnail as string>,
        "reorder_point":<reorder point as int>,
-       "is_available":<is available as boolean>
+       "barcode":<barcode of the product as string>,
+       "is_available":<is available as boolean>,
+       "items_per_crate":<items or bottles per crate>
    },
    <more products>
 }
@@ -289,7 +291,9 @@ __Reply__
     "price":<product price in cent as ing>,
     "thumbnail":<url of image thumbnail as string>,
     "reorder_point":<reorder point as int>,
-    "is_available":<is available as boolean>
+    "barcode":<barcode of the product as string>,
+    "is_available":<is available as boolean>,
+    "items_per_crate":<items or bottles per crate>
 }
 ```
 ----
@@ -307,6 +311,7 @@ __Request__
    "price":<product price in cent as long>,
    "thumbnail":<url of image thumbnail as string>,
    "reorder_point":<reorder point as int>,
+   "barcode":<barcode of the product as string>,
    "items_per_crate":<items or bottles per crate>
 }   
 ```
@@ -328,6 +333,7 @@ __Request__
    "price":<product price in cent as long>,
    "thumbnail":<url of image thumbnail as string>,
    "reorder_point":<reorder point as int>,
+   "barcode":<barcode of the product as string>,
    "items_per_crate":<items or bottles per crate>
 }   
 ```
@@ -335,7 +341,7 @@ __Request__
 ----
 #### Delete a product
 
-`DELETE /v1/products/<admin id>`
+`DELETE /v1/products/<product id>`
 
 This request requires Admin privileges.
 
