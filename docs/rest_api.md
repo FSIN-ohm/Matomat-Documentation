@@ -260,7 +260,7 @@ __Endpoint: `/products`__
 
 - `count=<number>` number of items per page. If this parameter is not given it will return all products in one request.
 - `page=<number>` only works in combination with the `items` parameter. If not given, the first page will be returned.
-- `onlyAvaialbe=<true/false>` if true will only return products that are available. If false or not given it will return all products in database.
+- `onlyAvailable=<true/false>` if true will only return products that are available. If false or not given it will return all products in database.
 
 __Reply__
 ```
