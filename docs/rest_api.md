@@ -546,15 +546,14 @@ The basic auth header for an admin is simply
 So as an example the user `test` and the password `passwd` would generate this header:
 `Authorization: Basic dGVzdDpwYXNzd2Q=`.
 
-The auth header for a regular user is the double dot followed by the first 25 signes of the base64 encoded sha2 hash of the id entered by the user (mostlikely the RFID of the Ohmcard):
-`Authorization: Basic base64(:head(count=25, sha256sum(format=base64, <user_id>)))`
+The auth header for a regular user is the base64 encoded double dot followed by the sha1 hash of the id entered by the user (mostlikely the RFID of the Ohmcard):
+`Authorization: Basic base64(:sha1hash(<user_id>))`
 So if a user has the "id": `123456789` this will undergo these steps:
 
-1. `sha256sum(123456789)` =  `6d78392a5886177fe5b86e585a0b695a2bcd01a05504b3c4e38bc8eeb21e8326`
-2. `head(count=25, 6d78392a5886177fe5b86e585a0b695a2bcd01a05504b3c4e38bc8eeb21e8326` = `6d78392a5886177fe5b86e585`
-3. Build auth string: `:6d78392a5886177fe5b86e585`
-4. `base64(:6d78392a5886177fe5b86e585)` = `OjZkNzgzOTJhNTg4NjE3N2ZlNWI4NmU1ODU=`
-5. Build auth header: `Authorization: Basic OjZkNzgzOTJhNTg4NjE3N2ZlNWI4NmU1ODU=`
+1. `sha1sum(123456789)` =  `98O8HYCOBHMq32eZZczDTKeuNEE=`
+3. Build auth string: `:98O8HYCOBHMq32eZZczDTKeuNEE=`
+4. `base64(:98O8HYCOBHMq32eZZczDTKeuNEE=)` = `Ojk4TzhIWUNPQkhNcTMyZVpaY3pEVEtldU5FRT0K`
+5. Build auth header: `Authorization: Basic Ojk4TzhIWUNPQkhNcTMyZVpaY3pEVEtldU5FRT0K`
 
 ----
 
@@ -563,17 +562,20 @@ So if a user has the "id": `123456789` this will undergo these steps:
 First of all a HTTP code will be returned by every request. This is the codes used by this api, and what they mean:
 
 Success codes:
+
 - `200` when send a query and the answer was sent
 - `201` when a new entry was created through a POST
 - `202` when a change was successfully done through a PATCH
 - `200` when an entry was successfully removed through a DELETE
 
 Failure codes:
+
 - `400` the request was malformed
 - `401` when something was requested but the login was wrong
 - `404` If an entry is not found after a query was send.
 
 Error codes:
+
 - `500` Server errored
 
 All the error codes beside the success code 200 will also return a JSON containing an error message which can be displayed by the client:
