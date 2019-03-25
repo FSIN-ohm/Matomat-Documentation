@@ -622,30 +622,35 @@ However it depends if you want to make a Admin login or just a regular user logi
 <code>Authorization: Basic base64(&lt;admin_name&gt;:&lt;admin_password&gt;)</code>.
 So as an example the user <code>test</code> and the password <code>passwd</code> would generate this header:
 <code>Authorization: Basic dGVzdDpwYXNzd2Q=</code>.</p>
-<p>The auth header for a regular user is the double dot followed by the first 25 signes of the base64 encoded sha2 hash of the id entered by the user (mostlikely the RFID of the Ohmcard):
-<code>Authorization: Basic base64(:head(count=25, sha256sum(format=base64, &lt;user_id&gt;)))</code>
+<p>The auth header for a regular user is the base64 encoded double dot followed by the sha1 hash of the id entered by the user (mostlikely the RFID of the Ohmcard):
+<code>Authorization: Basic base64(:sha1hash(&lt;user_id&gt;))</code>
 So if a user has the "id": <code>123456789</code> this will undergo these steps:</p>
 <ol>
-<li><code>sha256sum(123456789)</code> =  <code>6d78392a5886177fe5b86e585a0b695a2bcd01a05504b3c4e38bc8eeb21e8326</code></li>
-<li><code>head(count=25, 6d78392a5886177fe5b86e585a0b695a2bcd01a05504b3c4e38bc8eeb21e8326</code> = <code>6d78392a5886177fe5b86e585</code></li>
-<li>Build auth string: <code>:6d78392a5886177fe5b86e585</code></li>
-<li><code>base64(:6d78392a5886177fe5b86e585)</code> = <code>OjZkNzgzOTJhNTg4NjE3N2ZlNWI4NmU1ODU=</code></li>
-<li>Build auth header: <code>Authorization: Basic OjZkNzgzOTJhNTg4NjE3N2ZlNWI4NmU1ODU=</code></li>
+<li><code>sha1sum(123456789)</code> =  <code>98O8HYCOBHMq32eZZczDTKeuNEE=</code></li>
+<li>Build auth string: <code>:98O8HYCOBHMq32eZZczDTKeuNEE=</code></li>
+<li><code>base64(:98O8HYCOBHMq32eZZczDTKeuNEE=)</code> = <code>Ojk4TzhIWUNPQkhNcTMyZVpaY3pEVEtldU5FRT0K</code></li>
+<li>Build auth header: <code>Authorization: Basic Ojk4TzhIWUNPQkhNcTMyZVpaY3pEVEtldU5FRT0K</code></li>
 </ol>
 <hr />
 <h1 id="error-handlying">Error handlying</h1>
 <p>First of all a HTTP code will be returned by every request. This is the codes used by this api, and what they mean:</p>
-<p>Success codes:
-- <code>200</code> when send a query and the answer was sent
-- <code>201</code> when a new entry was created through a POST
-- <code>202</code> when a change was successfully done through a PATCH
-- <code>200</code> when an entry was successfully removed through a DELETE</p>
-<p>Failure codes:
-- <code>400</code> the request was malformed
-- <code>401</code> when something was requested but the login was wrong
-- <code>404</code> If an entry is not found after a query was send.</p>
-<p>Error codes:
-- <code>500</code> Server errored</p>
+<p>Success codes:</p>
+<ul>
+<li><code>200</code> when send a query and the answer was sent</li>
+<li><code>201</code> when a new entry was created through a POST</li>
+<li><code>202</code> when a change was successfully done through a PATCH</li>
+<li><code>200</code> when an entry was successfully removed through a DELETE</li>
+</ul>
+<p>Failure codes:</p>
+<ul>
+<li><code>400</code> the request was malformed</li>
+<li><code>401</code> when something was requested but the login was wrong</li>
+<li><code>404</code> If an entry is not found after a query was send.</li>
+</ul>
+<p>Error codes:</p>
+<ul>
+<li><code>500</code> Server errored</li>
+</ul>
 <p>All the error codes beside the success code 200 will also return a JSON containing an error message which can be displayed by the client:</p>
 <pre><code>{
    &quot;error_message&quot;:&quot;&lt;this is an error message&gt;&quot;
