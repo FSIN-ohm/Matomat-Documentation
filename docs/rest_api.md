@@ -18,7 +18,7 @@ __Endpoint: `/admins`__
 
 This request requires Admin privileges.
 
-- `items=<number>` number of items per page. If this parameter is not given it will return all admins in one request.
+- `count=<number>` number of items per page. If this parameter is not given it will return all admins in one request.
 - `page=<number>` only works in combination with the `items` parameter. If not given, the first page will be returned.
 
 
@@ -132,7 +132,7 @@ __Endpoint: `/users`__
 
 This request requires Admin privileges.
 
-- `items=<number>` number of items per page. If this parameter is not given it will return all users in one request.
+- `count=<number>` number of items per page. If this parameter is not given it will return all users in one request.
 - `page=<number>` only works in combination with the `items` parameter. If not given, the first page will be returned.
 
 __Reply__
@@ -258,7 +258,7 @@ __Endpoint: `/products`__
 
 `GET /v1/products`
 
-- `items=<number>` number of items per page. If this parameter is not given it will return all products in one request.
+- `count=<number>` number of items per page. If this parameter is not given it will return all products in one request.
 - `page=<number>` only works in combination with the `items` parameter. If not given, the first page will be returned.
 - `onlyAvaialbe=<true/false>` if true will only return products that are available. If false or not given it will return all products in database.
 
@@ -364,7 +364,7 @@ of all products, but also a `buy_cost`, which is the price we paied at the march
 So the `amount` will be the price for which we sell the products, and `buy_cost` will be the price we buy them with.
 The difference between `buy_cost` and `amount` will then be our __income__.
 
-- `items=<number>` number of items per page. If this parameter is not given it will return 100 items of the first page.
+- `count=<number>` number of items per page. If this parameter is not given it will return 100 items of the first page.
 - `page=<number>` only works in combination with the `items` parameter. If not given, the first page will be returned.
 - `user=<user_id>` get all transactions of the given user. __Atention__ this requires admin privileges. made.
 - `type=<purchse/deposit/withdraw/transfer/order/all>` this will only show the transactions of a specific type. If left out or set to `all` it will show all the
