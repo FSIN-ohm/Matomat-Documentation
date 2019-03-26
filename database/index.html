@@ -8,7 +8,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Contribute - Matomat Documentation</title>
+  <title>Database - Matomat Documentation</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
   <link rel="stylesheet" href="../css/theme.css" type="text/css" />
@@ -17,8 +17,8 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Contribute";
-    var mkdocs_page_input_path = "contribute.md";
+    var mkdocs_page_name = "Database";
+    var mkdocs_page_input_path = "database.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -53,23 +53,20 @@
     <a class="" href="..">MatΩhmat documentation</a>
 	    </li>
           
+            <li class="toctree-l1">
+		
+    <a class="" href="../contribute/">Contribute</a>
+	    </li>
+          
             <li class="toctree-l1 current">
 		
-    <a class="current" href="./">Contribute</a>
+    <a class="current" href="./">Database</a>
     <ul class="subnav">
             
-    <li class="toctree-l2"><a href="#contribute">Contribute</a></li>
-    
-
-    <li class="toctree-l2"><a href="#feature-branching">Feature branching</a></li>
+    <li class="toctree-l2"><a href="#database">Database</a></li>
     
 
     </ul>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="../database/">Database</a>
 	    </li>
           
             <li class="toctree-l1">
@@ -114,7 +111,7 @@
     
       
     
-    <li>Contribute</li>
+    <li>Database</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -124,16 +121,19 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="contribute">Contribute</h1>
-<p>This side will describe how to contribute to the Matohmat project.</p>
-<h1 id="feature-branching">Feature branching</h1>
-<p>In order to apply changes to a Matohmat repository we use a methode so called
-<a href="https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow">feature branching</a>.
-By means we do not allow commits to be pushed directly to the <code>master</code> branch of any of our repositories.
-Instead what you would want to do is fork our repository, work on your own fork, and if you are done send a
-<a href="https://help.github.com/articles/about-pull-requests/">Merge- or Pullrequest</a>.</p>
-<p>This Merge-/Pullrequest then needs to be tested and code reviewd by another member of the matomat crew.
-<img alt="review pending image" src="../img/review_required.png" /></p>
+                <h1 id="database">Database</h1>
+<p>The database is designed using MySql.</p>
+<p>There are 3 Default users.
+These users are the first 3 numbers in the user table
+- <strong><code>1</code> World User</strong>:<br />
+  Every transaction from or to this user is a transaction where money enteres or leaves the system.
+- <strong><code>2</code> Matohmat User</strong>:<br />
+  Every transaction from or to this user
+  is a transaction where money leaves or
+  enteres the matomat box.
+  This total in this amount should be the money that is stored in Matohmat <strong>Pigibank</strong>.
+- <strong><code>3</code> Root Admin</strong>*:<br />
+  This is the first admin that exists. From this account on further admins can be created.</p>
               
             </div>
           </div>
@@ -141,10 +141,10 @@ Instead what you would want to do is fork our repository, work on your own fork,
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../database/" class="btn btn-neutral float-right" title="Database">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../documentation/" class="btn btn-neutral float-right" title="Documentation">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href=".." class="btn btn-neutral" title="MatΩhmat documentation"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../contribute/" class="btn btn-neutral" title="Contribute"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -170,10 +170,10 @@ Instead what you would want to do is fork our repository, work on your own fork,
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href=".." style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../contribute/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../database/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../documentation/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
