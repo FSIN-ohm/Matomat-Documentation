@@ -390,10 +390,12 @@ __Reply__
         "receiver":<user id of the receiver as long>,
         "amount":<amount of money transfered in cent as long>,
         "transaction_type":"purchase"
-        "products": [
-          <product id>,
-          <produtc id>,
-          <etc>
+        "purchased": [
+            {
+               "product":<product id as int>,
+               "amount":<amount of this bought as int>
+            },
+            <etc>
        ]
     },
     {
@@ -404,9 +406,11 @@ __Reply__
         "amount":<amount of money transfered in cent as long>,
         "buy_cost":<amount of money the order cost at the merchand in cent as long>,
         "transaction_type":"order",
-        "products": [
-            <product id>,
-            <produtc id>,
+        "purchased": [
+            {
+               "product":<product id as int>,
+               "amount":<amount of this bought as int>
+            },
             <etc>
         ]
     },
