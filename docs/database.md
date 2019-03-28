@@ -16,3 +16,4 @@ These users are the first 3 numbers in the user table
 - **`3` Root Admin***:  
   This is the first admin that exists. From this account on further admins can be created.
   
+  ![database](img/database.svg)
