@@ -1,7 +1,7 @@
 Mockup Server
 =============
 
-The mockup server is used for developing the [REST](/rest_api/) request of the clients without having to utilize the actual server.
+The mockup server is used for developing the [REST](/Matomat-Documentation/rest_api/) request of the clients without having to utilize the actual server.
 This is used for the time the actual server does not have full functionality yet, or when the full server is not needed.
 
 The mockup server has no logic embodied, on POST, DELETE and PATCH methods it will always respond with a success
