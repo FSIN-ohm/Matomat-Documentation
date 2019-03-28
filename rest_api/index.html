@@ -506,10 +506,12 @@ The difference between <code>buy_cost</code> and <code>amount</code> will then b
         &quot;receiver&quot;:&lt;user id of the receiver as long&gt;,
         &quot;amount&quot;:&lt;amount of money transfered in cent as long&gt;,
         &quot;transaction_type&quot;:&quot;purchase&quot;
-        &quot;products&quot;: [
-          &lt;product id&gt;,
-          &lt;produtc id&gt;,
-          &lt;etc&gt;
+        &quot;purchased&quot;: [
+            {
+               &quot;product&quot;:&lt;product id as int&gt;,
+               &quot;amount&quot;:&lt;amount of this bought as int&gt;
+            },
+            &lt;etc&gt;
        ]
     },
     {
@@ -520,9 +522,11 @@ The difference between <code>buy_cost</code> and <code>amount</code> will then b
         &quot;amount&quot;:&lt;amount of money transfered in cent as long&gt;,
         &quot;buy_cost&quot;:&lt;amount of money the order cost at the merchand in cent as long&gt;,
         &quot;transaction_type&quot;:&quot;order&quot;,
-        &quot;products&quot;: [
-            &lt;product id&gt;,
-            &lt;produtc id&gt;,
+        &quot;purchased&quot;: [
+            {
+               &quot;product&quot;:&lt;product id as int&gt;,
+               &quot;amount&quot;:&lt;amount of this bought as int&gt;
+            },
             &lt;etc&gt;
         ]
     },
