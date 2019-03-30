@@ -45,7 +45,7 @@ In order to edit the project files, in your chosen source code editor, clone the
 
 ### Step 6: Setup the source code editor
 
-Now that you've cloned the project folder to your workstation. Follow these steps prepare Visual Studio Code for deploying the project:
+Now that you've cloned the project folder to your workstation. Follow these steps to prepare Visual Studio Code for deploying the project, the process could be different with other editors:
 #### Setting up the file explorer:
 ######  `File > Open Folder > "Path"\Matomat-Admin-Frontend > open folder`
 ######  `File > Open Folder > "Path"\Matomat-Frontend > open folder`
