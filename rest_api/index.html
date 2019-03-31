@@ -147,7 +147,11 @@
         
             <li><a class="toctree-l3" href="#query-transactions">Query transactions</a></li>
         
-            <li><a class="toctree-l3" href="#query-one-specific-transaction">Query one specific transaction</a></li>
+            <li><a class="toctree-l3" href="#query-a-transfer">Query a transfer</a></li>
+        
+            <li><a class="toctree-l3" href="#query-a-purchase">Query a purchase</a></li>
+        
+            <li><a class="toctree-l3" href="#query-an-order">Query an order</a></li>
         
             <li><a class="toctree-l3" href="#make-new-transfer">Make new transfer</a></li>
         
@@ -477,19 +481,27 @@ I would be able to send money to other users without having to know their id.</p
 <h4 id="query-transactions">Query transactions</h4>
 <p><code>GET /v1/transactions</code></p>
 <p>If this request is made by a regular user it will only display the transactions of the current user.</p>
-<p>If a transaction is of type <code>order</code> or <code>purchase</code>it will also contain an attribute <code>products</code> which will be a list
-of products that where ordered or soled.</p>
-<p>An order is a special kind of purchase, where there is not only an <code>amount</code>, by means the value of the sum of the price
+<p>If specific transactions are picked they will lock different from how they look like when you query for all of them.
+So make sure to check <code>transaction_type</code> before parsing the rest of the data. So for example, if 
+a transaction is of type <code>order</code> or <code>purchase</code>it will also contain an attribute <code>products</code> which will be a list
+of products that where ordered or soled.<br />
+On top of this an order is a special kind of purchase, where there is not only an <code>amount</code>, by means the value of the sum of the price
 of all products, but also a <code>buy_cost</code>, which is the price we paied at the marched for the products.
 So the <code>amount</code> will be the price for which we sell the products, and <code>buy_cost</code> will be the price we buy them with.
 The difference between <code>buy_cost</code> and <code>amount</code> will then be our <strong>income</strong>.</p>
+<p>If <code>all</code> is entered as transaction type only the head of the transaction will be transmitted, by means only
+the <code>id</code>, <code>date</code>, <code>sender</code> <code>receiver</code> and <code>transaction_type</code> will be visible. This is due to a simple and more efficient
+implementation of the database.</p>
 <ul>
 <li><code>count=&lt;number&gt;</code> number of items per page. If this parameter is not given it will return 100 items of the first page.</li>
 <li><code>page=&lt;number&gt;</code> only works in combination with the <code>items</code> parameter. If not given, the first page will be returned.</li>
 <li><code>user=&lt;user_id&gt;</code> get all transactions of the given user. <strong>Atention</strong> this requires admin privileges. made.</li>
-<li><code>type=&lt;purchse/deposit/withdraw/transfer/order/all&gt;</code> this will only show the transactions of a specific type. If left out or set to <code>all</code> it will show all the</li>
+<li><code>type=&lt;purchase/deposit/withdraw/transfer/order/all&gt;</code> this will only show the transactions of a specific type.
+  If left out or set to <code>all</code> it will show all the transactions.</li>
 </ul>
-<p><strong>Reply</strong></p>
+<p><strong>Request</strong>
+<code>GET /v1/transactions</code><br />
+<strong>Reply</strong></p>
 <pre><code>[
     {
         &quot;id&quot;:&lt;transaction id as long&gt;,
@@ -497,49 +509,24 @@ The difference between <code>buy_cost</code> and <code>amount</code> will then b
         &quot;sender&quot;:&lt;user id of the sender as long&gt;,
         &quot;receiver&quot;:&lt;user id of the receiver as long&gt;,
         &quot;amount&quot;:&lt;amount of money transfered in cent as long&gt;,
-        &quot;transaction_type&quot;:&quot;&lt;type of the transaction as string&gt;
+        &quot;transaction_type&quot;:&lt;type of the transaction as string&gt;
     },
-    {
-        &quot;id&quot;:&lt;transaction id as long&gt;,
-        &quot;date&quot;:&lt;transaction date as string&gt;,
-        &quot;sender&quot;:&lt;user id of the sender as long&gt;,
-        &quot;receiver&quot;:&lt;user id of the receiver as long&gt;,
-        &quot;amount&quot;:&lt;amount of money transfered in cent as long&gt;,
-        &quot;transaction_type&quot;:&quot;purchase&quot;
-        &quot;purchased&quot;: [
-            {
-               &quot;product&quot;:&lt;product id as int&gt;,
-               &quot;amount&quot;:&lt;amount of this bought as int&gt;
-            },
-            &lt;etc&gt;
-       ]
-    },
-    {
-        &quot;id&quot;:&lt;transaction id as long&gt;,
-        &quot;date&quot;:&lt;transaction date as string&gt;,
-        &quot;sender&quot;:&lt;user id of the sender as long&gt;,
-        &quot;receiver&quot;:&lt;user id of the receiver as long&gt;,
-        &quot;amount&quot;:&lt;amount of money transfered in cent as long&gt;,
-        &quot;buy_cost&quot;:&lt;amount of money the order cost at the merchand in cent as long&gt;,
-        &quot;transaction_type&quot;:&quot;order&quot;,
-        &quot;purchased&quot;: [
-            {
-               &quot;product&quot;:&lt;product id as int&gt;,
-               &quot;amount&quot;:&lt;amount of this bought as int&gt;
-            },
-            &lt;etc&gt;
-        ]
-    },
-    &lt;more transactions&gt;
+    &lt;etc&gt;
 ]
 </code></pre>
 
-<hr />
-<h4 id="query-one-specific-transaction">Query one specific transaction</h4>
+<h4 id="query-a-transfer">Query a transfer</h4>
 <p><strong>CAUTION</strong> this may only return transactions of the current user (if not admin). Return a 404 if the transaction
-exists but does not belong the the user currently logged</p>
-<p><code>GET /v1/transactions/&lt;transaction id&gt;</code></p>
-<p><strong>Reply</strong></p>
+exists but does not belong the the user currently logged in.</p>
+<p>A transfer will look like a transaction without more details. A transfer can be of type</p>
+<ul>
+<li><code>deposid</code> if someone pays money into the Matohmat system</li>
+<li><code>withdraw</code> if someone takes away money form the Matohmat system (only possible for admins)</li>
+<li><code>transfer</code> if someone sends money to someone else</li>
+</ul>
+<p><strong>Request</strong>
+<code>GET /v1/transactions/&lt;transaction_id&gt;</code><br />
+<strong>Response</strong></p>
 <pre><code>{
     &quot;id&quot;:&lt;transaction id as long&gt;,
     &quot;date&quot;:&lt;transaction date as string&gt;,
@@ -547,6 +534,56 @@ exists but does not belong the the user currently logged</p>
     &quot;receiver&quot;:&lt;user id of the receiver as long&gt;,
     &quot;amount&quot;:&lt;amount of money transfered in cent as long&gt;,
     &quot;transaction_type&quot;:&lt;type of the transaction as string&gt;
+}
+</code></pre>
+
+<h4 id="query-a-purchase">Query a purchase</h4>
+<p><strong>CAUTION</strong> this may only return transactions of the current user (if not admin). Return a 404 if the transaction
+exists but does not belong the the user currently logged in.</p>
+<p>Purchases have an extra data value called <code>purchases</code> which contains a list of products, and how much of them got bought.</p>
+<p><strong>Request</strong>
+<code>GET /v1/transactions/&lt;transaction_id&gt;</code><br />
+<strong>Response</strong></p>
+<pre><code>{
+    &quot;id&quot;:&lt;transaction id as long&gt;,
+    &quot;date&quot;:&lt;transaction date as string&gt;,
+    &quot;sender&quot;:&lt;user id of the sender as long&gt;,
+    &quot;receiver&quot;:&lt;user id of the receiver as long&gt;,
+    &quot;amount&quot;:&lt;amount of money transfered in cent as long&gt;,
+    &quot;transaction_type&quot;:&quot;purchase&quot;
+    &quot;purchased&quot;: [
+        {
+           &quot;product&quot;:&lt;product id as int&gt;,
+           &quot;amount&quot;:&lt;amount of this bought as int&gt;
+        },
+        &lt;etc&gt;
+    ]
+}
+</code></pre>
+
+<h4 id="query-an-order">Query an order</h4>
+<p><strong>CAUTION</strong> this may only return transactions of the current user (if not admin). Return a 404 if the transaction
+exists but does not belong the the user currently logged in.</p>
+<p>Order are special kind of purchases they not only contain a list of <code>purchases</code> but also a <code>buy_cost</code> which is the
+price for how much the product got bought for.</p>
+<p><strong>Request</strong>
+<code>GET /v1/transactions/&lt;transaction_id&gt;</code><br />
+<strong>Response</strong></p>
+<pre><code>{
+   &quot;id&quot;:&lt;transaction id as long&gt;,
+   &quot;date&quot;:&lt;transaction date as string&gt;,
+   &quot;sender&quot;:&lt;user id of the sender as long&gt;,
+   &quot;receiver&quot;:&lt;user id of the receiver as long&gt;,
+   &quot;amount&quot;:&lt;amount of money transfered in cent as long&gt;,
+   &quot;buy_cost&quot;:&lt;amount of money the order cost at the merchand in cent as long&gt;,
+   &quot;transaction_type&quot;:&quot;order&quot;,
+   &quot;purchased&quot;: [
+      {
+          &quot;product&quot;:&lt;product id as int&gt;,
+          &quot;amount&quot;:&lt;amount of this bought as int&gt;
+      },
+      &lt;etc&gt;
+   ]
 }
 </code></pre>
 
@@ -583,7 +620,7 @@ sender and receiver. Also a user may not send money to himself.</p>
 
 <hr />
 <h4 id="make-new-withdrawal-transaction">Make new withdrawal transaction</h4>
-<p><code>POST /transactions/withdrawl</code></p>
+<p><code>POST /v1/transactions/withdraw</code></p>
 <p>This can only be done by admins.</p>
 <p>Andmins can only take money from themselves, if they want to take money from other users they first have to transferee
 it to themselves.</p>
