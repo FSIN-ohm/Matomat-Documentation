@@ -348,7 +348,7 @@ This request requires Admin privileges.
 ----
 # Transaction
 
-__Endpoint: `/transactions`__
+__Endpoint: `/v1/transactions`__
 
 There are 6 different types of transactions if a `type` is requested or given it can only be one of these values:
 `purchse/deposit/withdraw/transfer/order/all`.
