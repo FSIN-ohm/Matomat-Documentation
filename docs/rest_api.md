@@ -238,8 +238,8 @@ The body of the post must contain this data:
 Example:
 ```
 {
-   "client_key":"09d374ebf788ca96d5c5ad8cfc778317d8efa692766accc609eb5932ccf19c94",
-   "auth_hash":"HansPeter"
+   "auth_hash":"09d374ebf788ca96d5c5ad8cfc778317d8efa692766accc609eb5932ccf19c94",
+   "name":"HansPeter"
 }
 ```
 
