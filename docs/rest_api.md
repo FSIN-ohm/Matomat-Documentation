@@ -20,6 +20,7 @@ This request requires Admin privileges.
 
 - `count=<number>` number of items per page. If this parameter is not given it will return all admins in one request.
 - `page=<number>` only works in combination with the `items` parameter. If not given, the first page will be returned.
+- `onlyAvailable=<true/false>` if true will only return admins that are available. If false or not given it will return all admins in database.
 
 
 __Reply__
@@ -134,6 +135,7 @@ This request requires Admin privileges.
 
 - `count=<number>` number of items per page. If this parameter is not given it will return all users in one request.
 - `page=<number>` only works in combination with the `items` parameter. If not given, the first page will be returned.
+- `onlyAvailable=<true/false>` if true will only return users that are available. If false or not given it will return all users in database.
 
 __Reply__
 
