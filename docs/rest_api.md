@@ -256,13 +256,127 @@ This request requires Admin privileges.
 
 __Endpoint: `/products`__
 
+`GET /v1/products`
+
+- `onlyAvailable=<true/false>` if true will only return products that are available. If false or not given it will return all products in database.
+
+__Reply__
+```
+[
+   {
+      "id":<product id as long>,
+      "info_id":<id of the coresponding product info as long>
+      "price":<product price in cent as int>
+      "valid_from":<date as string>
+   },
+   <more products>
+}
+```
+----
+
+#### Query for specific product
+
+`GET /v1/products/<product_id>`
+
+__Reply__
+```
+{
+   "id":<product id as long>,
+   "info_id":<id of the coresponding product info as long>
+   "price":<product price in cent as int>
+   "valid_from":<date as string>
+}
+```
+
+----
+#### Add product
+
+`POST /v1/products`
+
+This request requires Admin privileges.
+Here not only the product, but also the product info will be given,
+since this has to be created at the same time.
+
+__Request__
+
+```
+{
+   "name":<product name as string>,
+   "price":<product price in cent as long>,
+   "thumbnail":<url of image thumbnail as string>,
+   "reorder_point":<reorder point as int>,
+   "barcode":<barcode of the product as string>,
+   "items_per_crate":<items or bottles per crate>
+}   
+```
+----
+
+# Product info
+
+__Endpoint: `/product_infos`__
+
+#### Query all product infos
+
+`GET /v1/product_infos`
+
+__Reply__
+```
+[
+   {
+       "id":<product info id as long>,
+       "name":<product name as string>,
+       "thumbnail":<url of image thumbnail as string>,
+       "reorder_point":<reorder point as int>,
+       "barcode":<barcode of the product as string>,
+       "is_available":<is available as boolean>,
+       "items_per_crate":<items or bottles per crate>
+   },
+   <more product infos>
+}
+```
+
+----
+#### Query specific product info
+
+`GET /v1/product_infos`
+
+__Reply__
+```
+{
+   "id":<product info id as long>,
+   "name":<product name as string>,
+   "thumbnail":<url of image thumbnail as string>,
+   "reorder_point":<reorder point as int>,
+   "barcode":<barcode of the product as string>,
+   "is_available":<is available as boolean>,
+   "items_per_crate":<items or bottles per crate>
+}
+```
+
+----
+#### Update existing product info
+
+`PATCH /v1/product_infos/<product info id>`
+
+__Request__
+```
+{
+   "name":<product name as string>,
+   "thumbnail":<url of image thumbnail as string>,
+   "reorder_point":<reorder point as int>,
+   "barcode":<barcode of the product as string>,
+   "is_available":<is available as boolean>,
+   "items_per_crate":<items or bottles per crate>
+}
+```
+
+# Product
+
+__Endpoint: `/products`__
+
 #### Query all products
 
 `GET /v1/products`
-
-- `count=<number>` number of items per page. If this parameter is not given it will return all products in one request.
-- `page=<number>` only works in combination with the `items` parameter. If not given, the first page will be returned.
-- `onlyAvailable=<true/false>` if true will only return products that are available. If false or not given it will return all products in database.
 
 __Reply__
 ```
@@ -467,11 +581,10 @@ __Response__
    "sender":<user id of the sender as long>,
    "receiver":<user id of the receiver as long>,
    "amount":<amount of money transfered in cent as long>,
-   "buy_cost":<amount of money the order cost at the merchand in cent as long>,
    "transaction_type":"order",
    "purchased": [
       {
-          "product":<product id as int>,
+          "product_info":<product info id as int>,
           "amount":<amount of this bought as int>
       },
       <etc>
@@ -554,7 +667,7 @@ __Request__
    "buy_cost":<amount of money the order cost in cent as long>,
    "orders": [
       {
-         "product": <product id>,
+         "product_info": <product info id>,
          "amount": <count of this product ordered>
       },
       <more products added by this order>
@@ -581,8 +694,6 @@ __Request__
    ]
 }
 ```
-
-
 
 ----
 # Authentication
@@ -625,11 +736,3 @@ Failure codes:
 Error codes:
 
 - `500` Server errored
-
-All the error codes beside the success code 200 will also return a JSON containing an error message which can be displayed by the client:
-
-```
-{
-   "error_message":"<this is an error message>"
-}
-```
