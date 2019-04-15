@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Prep dev environment - Matomat Documentation</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Prep dev environment";
+    var mkdocs_page_input_path = "prep_dev_environment.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Matomat Documentation</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">MatΩhmat documentation</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../contribute/">Contribute</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../database/">Database</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../documentation/">Documentation</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../hardware/">Hardware</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../mockup_server/">Mockup server</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">Prep dev environment</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#preparing-the-development-environment">Preparing the development environment</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#step-1-installing-a-suitable-source-code-editor">Step 1: Installing a suitable source code editor</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../rest_api/">Rest api</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Matomat Documentation</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Prep dev environment</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="preparing-the-development-environment">Preparing the development environment</h1>
+<p>The following steps will guide you through the process of preparing the development environment for the admin and user-frontend on your computer.</p>
+<h2 id="step-1-installing-a-suitable-source-code-editor">Step 1: Installing a suitable source code editor</h2>
+<p>We recommend using Visual Studio Code, it's available for Windows, macOS and Linux. Furthermore does it support JavaScript, TypeScript, Node.js and npm package manager. All four are required to edit the project files.</br></p>
+<p>Download Visual Studio Code <a href="https://code.visualstudio.com/Download">here</a></p>
+<h3 id="step-2-installing-nodejs">Step 2: Installing Node.js</h3>
+<p>Node.js is an free open source server environment which can generate dynamic page content.</br>
+Angular requires Node.js version 8.x or 10.x.</br></p>
+<p>Check the version you're running: Open your command line interface (CLI), and type <code>node -v</code></p>
+<p>If Node.js is not installed download it from <a href="https://nodejs.org/en/">here</a></p>
+<h3 id="step-3-installing-the-npm-node-package-manager">Step 3: Installing the npm (Node Package Manager)</h3>
+<p>NPM is a package manager for Node.js packages. A package in Node.js contains all the files you need for a module. Modules are JavaScript libraries Angular, the Angular CLI, and Angular apps depend on. Learn more <a href="https://docs.npmjs.com/about-npm/index.html">here</a>.</br>
+In order to download and install npm packages, you need to have such a package manager installed.</p>
+<p>This Quick Start uses the <a href="https://docs.npmjs.com/cli/install">npm client</a> command line interface, which is installed with Node.js by default.</p>
+<p>To check whether you have the npm client installed, run <code>npm -v</code> in a CLI.</p>
+<h3 id="step-4-installing-the-angular-cli">Step 4: Installing the Angular CLI</h3>
+<p>The Angular CLI was used to create the Matomat. Find out more about Angular, <a href="https://angular.io/">here</a> </br>
+To install the CLI using npm, run the following command in your command line interface:</p>
+<h5 id="windows-npm-install-g-angularcli">Windows: <code>npm install -g @angular/cli</code></h5>
+<h5 id="macoslinux-sudo-npm-install-g-angularcli">MacOS/Linux: <code>sudo npm install -g @angular/cli</code></h5>
+<h3 id="step-5-cloning-the-github-repository">Step 5: Cloning the Github Repository</h3>
+<p>In order to edit the project files, in your chosen source code editor, clone the project folder from our official Github Repository on your computer.</p>
+<h4 id="admin-frontend-httpsgithubcomfsin-ohmmatomat-admin-frontend">Admin Frontend: <a href="https://github.com/FSIN-ohm/Matomat-Admin-Frontend">https://github.com/FSIN-ohm/Matomat-Admin-Frontend</a></h4>
+<h4 id="frontend-httpsgithubcomfsin-ohmmatomat-frontend">Frontend: <a href="https://github.com/FSIN-ohm/Matomat-Frontend">https://github.com/FSIN-ohm/Matomat-Frontend</a></h4>
+<h3 id="step-6-setup-the-source-code-editor">Step 6: Setup the source code editor</h3>
+<p>Now that you've cloned the project folder to your workstation. Follow these steps to prepare Visual Studio Code for deploying the project, the process could be different with other editors:</p>
+<h4 id="setting-up-the-file-explorer">Setting up the file explorer:</h4>
+<h6 id="file-gt-open-folder-gt-pathmatomat-admin-frontend-gt-open-folder"><code>File &gt; Open Folder &gt; "Path"\Matomat-Admin-Frontend &gt; open folder</code></h6>
+<h6 id="file-gt-open-folder-gt-pathmatomat-frontend-gt-open-folder"><code>File &gt; Open Folder &gt; "Path"\Matomat-Frontend &gt; open folder</code></h6>
+<h4 id="installing-required-extensions">Installing required extensions:</h4>
+<h6 id="terminal-gt-new-terminal"><code>Terminal &gt; New Terminal</code></h6>
+<h6 id="run-ng-add-ngx-bootstrap">run: <code>ng add ngx-bootstrap</code></h6>
+<h4 id="deploy-the-admin-frontend">Deploy the Admin-Frontend:</h4>
+<h6 id="terminal-ng-serve-o">Terminal: <code>ng serve -o</code></h6>
+<h4 id="common-error">Common error:</h4>
+<h6 id="error-in-webpackhotemitterjs"><code>ERROR in (webpack)/hot/emitter.js</code></h6>
+<h6 id="run-this-fix-npm-install-events">Run this fix: <code>npm install events</code></h6>
+<p></br>
+Congratiolations, now you should be able to edit the Matomat-Frontend and Matomat-Admin-Frontend.</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../rest_api/" class="btn btn-neutral float-right" title="Rest api">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../mockup_server/" class="btn btn-neutral" title="Mockup server"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../mockup_server/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../rest_api/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+
+</body>
+</html>

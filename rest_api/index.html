@@ -70,12 +70,17 @@
           
             <li class="toctree-l1">
 		
-    <a class="" href="../get_started_frontend/">Get started frontend</a>
+    <a class="" href="../hardware/">Hardware</a>
 	    </li>
           
             <li class="toctree-l1">
 		
     <a class="" href="../mockup_server/">Mockup server</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../prep_dev_environment/">Prep dev environment</a>
 	    </li>
           
             <li class="toctree-l1 current">
@@ -128,15 +133,22 @@
     
         <ul>
         
-            <li><a class="toctree-l3" href="#query-all-products">Query all products</a></li>
-        
             <li><a class="toctree-l3" href="#query-for-specific-product">Query for specific product</a></li>
         
             <li><a class="toctree-l3" href="#add-product">Add product</a></li>
         
-            <li><a class="toctree-l3" href="#update-product">Update product</a></li>
+        </ul>
+    
+
+    <li class="toctree-l2"><a href="#product-info">Product info</a></li>
+    
+        <ul>
         
-            <li><a class="toctree-l3" href="#delete-a-product">Delete a product</a></li>
+            <li><a class="toctree-l3" href="#query-all-product-infos">Query all product infos</a></li>
+        
+            <li><a class="toctree-l3" href="#query-specific-product-info">Query specific product info</a></li>
+        
+            <li><a class="toctree-l3" href="#update-existing-product-info">Update existing product info</a></li>
         
         </ul>
     
@@ -401,24 +413,17 @@ I would be able to send money to other users without having to know their id.</p
 <hr />
 <h1 id="product">Product</h1>
 <p><strong>Endpoint: <code>/products</code></strong></p>
-<h4 id="query-all-products">Query all products</h4>
 <p><code>GET /v1/products</code></p>
 <ul>
-<li><code>count=&lt;number&gt;</code> number of items per page. If this parameter is not given it will return all products in one request.</li>
-<li><code>page=&lt;number&gt;</code> only works in combination with the <code>items</code> parameter. If not given, the first page will be returned.</li>
 <li><code>onlyAvailable=&lt;true/false&gt;</code> if true will only return products that are available. If false or not given it will return all products in database.</li>
 </ul>
 <p><strong>Reply</strong></p>
 <pre><code>[
    {
-       &quot;id&quot;:&lt;product id as long&gt;,
-       &quot;name&quot;:&lt;product name as string&gt;,
-       &quot;price&quot;:&lt;product price in cent as ing&gt;,
-       &quot;thumbnail&quot;:&lt;url of image thumbnail as string&gt;,
-       &quot;reorder_point&quot;:&lt;reorder point as int&gt;,
-       &quot;barcode&quot;:&lt;barcode of the product as string&gt;,
-       &quot;is_available&quot;:&lt;is available as boolean&gt;,
-       &quot;items_per_crate&quot;:&lt;items or bottles per crate&gt;
+      &quot;id&quot;:&lt;product id as long&gt;,
+      &quot;info_id&quot;:&lt;id of the coresponding product info as long&gt;
+      &quot;price&quot;:&lt;product price in cent as int&gt;
+      &quot;valid_from&quot;:&lt;date as string&gt;
    },
    &lt;more products&gt;
 }
@@ -429,21 +434,19 @@ I would be able to send money to other users without having to know their id.</p
 <p><code>GET /v1/products/&lt;product_id&gt;</code></p>
 <p><strong>Reply</strong></p>
 <pre><code>{
-    &quot;id&quot;:&lt;product id as long&gt;,
-    &quot;name&quot;:&lt;product name as string&gt;,
-    &quot;price&quot;:&lt;product price in cent as ing&gt;,
-    &quot;thumbnail&quot;:&lt;url of image thumbnail as string&gt;,
-    &quot;reorder_point&quot;:&lt;reorder point as int&gt;,
-    &quot;barcode&quot;:&lt;barcode of the product as string&gt;,
-    &quot;is_available&quot;:&lt;is available as boolean&gt;,
-    &quot;items_per_crate&quot;:&lt;items or bottles per crate&gt;
+   &quot;id&quot;:&lt;product id as long&gt;,
+   &quot;info_id&quot;:&lt;id of the coresponding product info as long&gt;
+   &quot;price&quot;:&lt;product price in cent as int&gt;
+   &quot;valid_from&quot;:&lt;date as string&gt;
 }
 </code></pre>
 
 <hr />
 <h4 id="add-product">Add product</h4>
 <p><code>POST /v1/products</code></p>
-<p>This request requires Admin privileges.</p>
+<p>This request requires Admin privileges.
+Here not only the product, but also the product info will be given,
+since this has to be created at the same time.</p>
 <p><strong>Request</strong></p>
 <pre><code>{
    &quot;name&quot;:&lt;product name as string&gt;,
@@ -456,26 +459,54 @@ I would be able to send money to other users without having to know their id.</p
 </code></pre>
 
 <hr />
-<h4 id="update-product">Update product</h4>
-<p><code>PATCH /v1/products/&lt;product id&gt;</code></p>
-<p>This request requires Admin privileges.</p>
-<p>This is ment for changing the values of already existing products.</p>
-<p><strong>Request</strong></p>
-<pre><code>{
-   &quot;name&quot;:&lt;product name as string&gt;,
-   &quot;price&quot;:&lt;product price in cent as long&gt;,
-   &quot;thumbnail&quot;:&lt;url of image thumbnail as string&gt;,
-   &quot;reorder_point&quot;:&lt;reorder point as int&gt;,
-   &quot;barcode&quot;:&lt;barcode of the product as string&gt;,
-   &quot;items_per_crate&quot;:&lt;items or bottles per crate&gt;
-}   
+<h1 id="product-info">Product info</h1>
+<p><strong>Endpoint: <code>/product_infos</code></strong></p>
+<h4 id="query-all-product-infos">Query all product infos</h4>
+<p><code>GET /v1/product_infos</code></p>
+<p><strong>Reply</strong></p>
+<pre><code>[
+   {
+       &quot;id&quot;:&lt;product info id as long&gt;,
+       &quot;name&quot;:&lt;product name as string&gt;,
+       &quot;thumbnail&quot;:&lt;url of image thumbnail as string&gt;,
+       &quot;reorder_point&quot;:&lt;reorder point as int&gt;,
+       &quot;barcode&quot;:&lt;barcode of the product as string&gt;,
+       &quot;is_available&quot;:&lt;is available as boolean&gt;,
+       &quot;items_per_crate&quot;:&lt;items or bottles per crate&gt;
+   },
+   &lt;more product infos&gt;
+}
 </code></pre>
 
 <hr />
-<h4 id="delete-a-product">Delete a product</h4>
-<p><code>DELETE /v1/products/&lt;product id&gt;</code></p>
-<p>This request requires Admin privileges.</p>
+<h4 id="query-specific-product-info">Query specific product info</h4>
+<p><code>GET /v1/product_infos</code></p>
+<p><strong>Reply</strong></p>
+<pre><code>{
+   &quot;id&quot;:&lt;product info id as long&gt;,
+   &quot;name&quot;:&lt;product name as string&gt;,
+   &quot;thumbnail&quot;:&lt;url of image thumbnail as string&gt;,
+   &quot;reorder_point&quot;:&lt;reorder point as int&gt;,
+   &quot;barcode&quot;:&lt;barcode of the product as string&gt;,
+   &quot;is_available&quot;:&lt;is available as boolean&gt;,
+   &quot;items_per_crate&quot;:&lt;items or bottles per crate&gt;
+}
+</code></pre>
+
 <hr />
+<h4 id="update-existing-product-info">Update existing product info</h4>
+<p><code>PATCH /v1/product_infos/&lt;product info id&gt;</code></p>
+<p><strong>Request</strong></p>
+<pre><code>{
+   &quot;name&quot;:&lt;product name as string&gt;,
+   &quot;thumbnail&quot;:&lt;url of image thumbnail as string&gt;,
+   &quot;reorder_point&quot;:&lt;reorder point as int&gt;,
+   &quot;barcode&quot;:&lt;barcode of the product as string&gt;,
+   &quot;is_available&quot;:&lt;is available as boolean&gt;,
+   &quot;items_per_crate&quot;:&lt;items or bottles per crate&gt;
+}
+</code></pre>
+
 <h1 id="transaction">Transaction</h1>
 <p><strong>Endpoint: <code>/v1/transactions</code></strong></p>
 <p>There are 6 different types of transactions if a <code>type</code> is requested or given it can only be one of these values:
@@ -577,11 +608,10 @@ price for how much the product got bought for.</p>
    &quot;sender&quot;:&lt;user id of the sender as long&gt;,
    &quot;receiver&quot;:&lt;user id of the receiver as long&gt;,
    &quot;amount&quot;:&lt;amount of money transfered in cent as long&gt;,
-   &quot;buy_cost&quot;:&lt;amount of money the order cost at the merchand in cent as long&gt;,
    &quot;transaction_type&quot;:&quot;order&quot;,
    &quot;purchased&quot;: [
       {
-          &quot;product&quot;:&lt;product id as int&gt;,
+          &quot;product_info&quot;:&lt;product info id as int&gt;,
           &quot;amount&quot;:&lt;amount of this bought as int&gt;
       },
       &lt;etc&gt;
@@ -641,7 +671,7 @@ it to themselves.</p>
    &quot;buy_cost&quot;:&lt;amount of money the order cost in cent as long&gt;,
    &quot;orders&quot;: [
       {
-         &quot;product&quot;: &lt;product id&gt;,
+         &quot;product_info&quot;: &lt;product info id&gt;,
          &quot;amount&quot;: &lt;count of this product ordered&gt;
       },
       &lt;more products added by this order&gt;
@@ -701,11 +731,6 @@ So if a user has the "id": <code>123456789</code> this will undergo these steps:
 <ul>
 <li><code>500</code> Server errored</li>
 </ul>
-<p>All the error codes beside the success code 200 will also return a JSON containing an error message which can be displayed by the client:</p>
-<pre><code>{
-   &quot;error_message&quot;:&quot;&lt;this is an error message&gt;&quot;
-}
-</code></pre>
               
             </div>
           </div>
@@ -714,7 +739,7 @@ So if a user has the "id": <code>123456789</code> this will undergo these steps:
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="../mockup_server/" class="btn btn-neutral" title="Mockup server"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../prep_dev_environment/" class="btn btn-neutral" title="Prep dev environment"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -740,7 +765,7 @@ So if a user has the "id": <code>123456789</code> this will undergo these steps:
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href="../mockup_server/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../prep_dev_environment/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
     </span>
