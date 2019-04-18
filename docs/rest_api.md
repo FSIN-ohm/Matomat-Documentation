@@ -338,7 +338,7 @@ __Reply__
 ----
 #### Query specific product info
 
-`GET /v1/product_infos`
+`GET /v1/product_infos/<id>`
 
 __Reply__
 ```
