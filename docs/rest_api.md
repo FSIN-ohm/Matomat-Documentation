@@ -490,6 +490,7 @@ __Response__
    "receiver":<user id of the receiver as long>,
    "amount":<amount of money transfered in cent as long>,
    "transaction_type":"order",
+   "admin":<id of the admin who created the order>,
    "purchased": [
       {
           "product_info":<product info id as int>,
