@@ -573,7 +573,7 @@ __Request__
 
 ```
 {
-   "buy_cost":<amount of money the order cost in cent as long>,
+   "amount":<amount of money the order cost in cent as long>,
    "orders": [
       {
          "product_info": <product info id>,
