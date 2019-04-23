@@ -311,6 +311,24 @@ __Request__
 ```
 ----
 
+#### Update Product price
+
+`PATCH /v1/products/<id>`
+
+This request requires Admin privileges.
+Here only the product price can be updated, if you want to update the product info
+you have to use a PATCH on the `/v1/product_info` endpoint.
+
+__Request__
+
+```
+{
+   "price":<product price in cent as long>
+}   
+```
+----
+
+
 # Product info
 
 __Endpoint: `/product_infos`__
