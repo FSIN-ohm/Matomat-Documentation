@@ -137,6 +137,8 @@
         
             <li><a class="toctree-l3" href="#add-product">Add product</a></li>
         
+            <li><a class="toctree-l3" href="#update-product-price">Update Product price</a></li>
+        
         </ul>
     
 
@@ -455,6 +457,18 @@ since this has to be created at the same time.</p>
    &quot;reorder_point&quot;:&lt;reorder point as int&gt;,
    &quot;barcode&quot;:&lt;barcode of the product as string&gt;,
    &quot;items_per_crate&quot;:&lt;items or bottles per crate&gt;
+}   
+</code></pre>
+
+<hr />
+<h4 id="update-product-price">Update Product price</h4>
+<p><code>PATCH /v1/products/&lt;id&gt;</code></p>
+<p>This request requires Admin privileges.
+Here only the product price can be updated, if you want to update the product info
+you have to use a PATCH on the <code>/v1/product_info</code> endpoint.</p>
+<p><strong>Request</strong></p>
+<pre><code>{
+   &quot;price&quot;:&lt;product price in cent as long&gt;
 }   
 </code></pre>
 
