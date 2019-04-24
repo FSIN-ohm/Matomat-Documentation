@@ -259,15 +259,21 @@ __Endpoint: `/products`__
 `GET /v1/products`
 
 - `onlyAvailable=<true/false>` if true will only return products that are available. If false or not given it will return all products in database.
+  Default value for this is false
 
 __Reply__
 ```
 [
    {
       "id":<product id as long>,
-      "info_id":<id of the coresponding product info as long>
-      "price":<product price in cent as int>
-      "valid_from":<date as string>
+      "price":<product price in cent as int>,
+      "valid_from":<date since current price is valid as string>,
+      "name":<product name as string>,
+      "thumbnail":<url of image thumbnail as string>,
+      "reorder_point":<reorder point as int>,
+      "barcode":<barcode of the product as string>,
+      "items_per_crate":<items or bottles per crate>,
+      "stock":<amount of items currently available>
    },
    <more products>
 }
@@ -282,9 +288,14 @@ __Reply__
 ```
 {
    "id":<product id as long>,
-   "info_id":<id of the coresponding product info as long>
-   "price":<product price in cent as int>
-   "valid_from":<date as string>
+   "price":<product price in cent as int>,
+   "valid_from":<date since current price is valid as string>,
+   "name":<product name as string>,
+   "thumbnail":<url of image thumbnail as string>,
+   "reorder_point":<reorder point as int>,
+   "barcode":<barcode of the product as string>,
+   "items_per_crate":<items or bottles per crate>,
+   "stock":<amount of items currently available>
 }
 ```
 
@@ -301,92 +312,37 @@ __Request__
 
 ```
 {
+   "price":<product price in cent as int>,
    "name":<product name as string>,
-   "price":<product price in cent as long>,
    "thumbnail":<url of image thumbnail as string>,
    "reorder_point":<reorder point as int>,
    "barcode":<barcode of the product as string>,
-   "items_per_crate":<items or bottles per crate>
+   "items_per_crate":<items or bottles per crate>,
 }   
 ```
 ----
 
-#### Update Product price
+#### Update Product
 
 `PATCH /v1/products/<id>`
 
 This request requires Admin privileges.
-Here only the product price can be updated, if you want to update the product info
-you have to use a PATCH on the `/v1/product_info` endpoint.
 
 __Request__
 
 ```
 {
-   "price":<product price in cent as long>
+   "price":<product price in cent as long>,
+   "name":<product name as string>,
+   "thumbnail":<url of image thumbnail as string>,
+   "reorder_point":<reorder point as int>,
+   "barcode":<barcode of the product as string>,
+   "is_available":<is available as boolean>,
+   "items_per_crate":<items or bottles per crate>
 }   
 ```
-----
-
-
-# Product info
-
-__Endpoint: `/product_infos`__
-
-#### Query all product infos
-
-`GET /v1/product_infos`
-
-__Reply__
-```
-[
-   {
-       "id":<product info id as long>,
-       "name":<product name as string>,
-       "thumbnail":<url of image thumbnail as string>,
-       "reorder_point":<reorder point as int>,
-       "barcode":<barcode of the product as string>,
-       "is_available":<is available as boolean>,
-       "items_per_crate":<items or bottles per crate>
-   },
-   <more product infos>
-}
-```
 
 ----
-#### Query specific product info
-
-`GET /v1/product_infos/<id>`
-
-__Reply__
-```
-{
-   "id":<product info id as long>,
-   "name":<product name as string>,
-   "thumbnail":<url of image thumbnail as string>,
-   "reorder_point":<reorder point as int>,
-   "barcode":<barcode of the product as string>,
-   "is_available":<is available as boolean>,
-   "items_per_crate":<items or bottles per crate>
-}
-```
-
-----
-#### Update existing product info
-
-`PATCH /v1/product_infos/<product info id>`
-
-__Request__
-```
-{
-   "name":<product name as string>,
-   "thumbnail":<url of image thumbnail as string>,
-   "reorder_point":<reorder point as int>,
-   "barcode":<barcode of the product as string>,
-   "is_available":<is available as boolean>,
-   "items_per_crate":<items or bottles per crate>
-}
-```
 
 # Transaction
 
