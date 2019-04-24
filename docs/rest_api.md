@@ -468,7 +468,8 @@ __Response__
    "purchased": [
       {
           "product_info":<product info id as int>,
-          "amount":<amount of this bought as int>
+          "amount":<amount of this bought as int>,
+          "price_per_unit":<price for which one piece was sold by  then>
       },
       <etc>
    ]
