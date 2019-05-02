@@ -137,20 +137,7 @@
         
             <li><a class="toctree-l3" href="#add-product">Add product</a></li>
         
-            <li><a class="toctree-l3" href="#update-product-price">Update Product price</a></li>
-        
-        </ul>
-    
-
-    <li class="toctree-l2"><a href="#product-info">Product info</a></li>
-    
-        <ul>
-        
-            <li><a class="toctree-l3" href="#query-all-product-infos">Query all product infos</a></li>
-        
-            <li><a class="toctree-l3" href="#query-specific-product-info">Query specific product info</a></li>
-        
-            <li><a class="toctree-l3" href="#update-existing-product-info">Update existing product info</a></li>
+            <li><a class="toctree-l3" href="#update-product">Update Product</a></li>
         
         </ul>
     
@@ -417,15 +404,21 @@ I would be able to send money to other users without having to know their id.</p
 <p><strong>Endpoint: <code>/products</code></strong></p>
 <p><code>GET /v1/products</code></p>
 <ul>
-<li><code>onlyAvailable=&lt;true/false&gt;</code> if true will only return products that are available. If false or not given it will return all products in database.</li>
+<li><code>onlyAvailable=&lt;true/false&gt;</code> if true will only return products that are available. If false or not given it will return all products in database.
+  Default value for this is false</li>
 </ul>
 <p><strong>Reply</strong></p>
 <pre><code>[
    {
       &quot;id&quot;:&lt;product id as long&gt;,
-      &quot;info_id&quot;:&lt;id of the coresponding product info as long&gt;
-      &quot;price&quot;:&lt;product price in cent as int&gt;
-      &quot;valid_from&quot;:&lt;date as string&gt;
+      &quot;price&quot;:&lt;product price in cent as int&gt;,
+      &quot;valid_from&quot;:&lt;date since current price is valid as string&gt;,
+      &quot;name&quot;:&lt;product name as string&gt;,
+      &quot;thumbnail&quot;:&lt;url of image thumbnail as string&gt;,
+      &quot;reorder_point&quot;:&lt;reorder point as int&gt;,
+      &quot;barcode&quot;:&lt;barcode of the product as string&gt;,
+      &quot;items_per_crate&quot;:&lt;items or bottles per crate&gt;,
+      &quot;stock&quot;:&lt;amount of items currently available&gt;
    },
    &lt;more products&gt;
 }
@@ -437,9 +430,14 @@ I would be able to send money to other users without having to know their id.</p
 <p><strong>Reply</strong></p>
 <pre><code>{
    &quot;id&quot;:&lt;product id as long&gt;,
-   &quot;info_id&quot;:&lt;id of the coresponding product info as long&gt;
-   &quot;price&quot;:&lt;product price in cent as int&gt;
-   &quot;valid_from&quot;:&lt;date as string&gt;
+   &quot;price&quot;:&lt;product price in cent as int&gt;,
+   &quot;valid_from&quot;:&lt;date since current price is valid as string&gt;,
+   &quot;name&quot;:&lt;product name as string&gt;,
+   &quot;thumbnail&quot;:&lt;url of image thumbnail as string&gt;,
+   &quot;reorder_point&quot;:&lt;reorder point as int&gt;,
+   &quot;barcode&quot;:&lt;barcode of the product as string&gt;,
+   &quot;items_per_crate&quot;:&lt;items or bottles per crate&gt;,
+   &quot;stock&quot;:&lt;amount of items currently available&gt;
 }
 </code></pre>
 
@@ -451,76 +449,32 @@ Here not only the product, but also the product info will be given,
 since this has to be created at the same time.</p>
 <p><strong>Request</strong></p>
 <pre><code>{
+   &quot;price&quot;:&lt;product price in cent as int&gt;,
    &quot;name&quot;:&lt;product name as string&gt;,
-   &quot;price&quot;:&lt;product price in cent as long&gt;,
    &quot;thumbnail&quot;:&lt;url of image thumbnail as string&gt;,
    &quot;reorder_point&quot;:&lt;reorder point as int&gt;,
    &quot;barcode&quot;:&lt;barcode of the product as string&gt;,
-   &quot;items_per_crate&quot;:&lt;items or bottles per crate&gt;
+   &quot;items_per_crate&quot;:&lt;items or bottles per crate&gt;,
 }   
 </code></pre>
 
 <hr />
-<h4 id="update-product-price">Update Product price</h4>
+<h4 id="update-product">Update Product</h4>
 <p><code>PATCH /v1/products/&lt;id&gt;</code></p>
-<p>This request requires Admin privileges.
-Here only the product price can be updated, if you want to update the product info
-you have to use a PATCH on the <code>/v1/product_info</code> endpoint.</p>
+<p>This request requires Admin privileges.</p>
 <p><strong>Request</strong></p>
 <pre><code>{
-   &quot;price&quot;:&lt;product price in cent as long&gt;
+   &quot;price&quot;:&lt;product price in cent as long&gt;,
+   &quot;name&quot;:&lt;product name as string&gt;,
+   &quot;thumbnail&quot;:&lt;url of image thumbnail as string&gt;,
+   &quot;reorder_point&quot;:&lt;reorder point as int&gt;,
+   &quot;barcode&quot;:&lt;barcode of the product as string&gt;,
+   &quot;is_available&quot;:&lt;is available as boolean&gt;,
+   &quot;items_per_crate&quot;:&lt;items or bottles per crate&gt;
 }   
 </code></pre>
 
 <hr />
-<h1 id="product-info">Product info</h1>
-<p><strong>Endpoint: <code>/product_infos</code></strong></p>
-<h4 id="query-all-product-infos">Query all product infos</h4>
-<p><code>GET /v1/product_infos</code></p>
-<p><strong>Reply</strong></p>
-<pre><code>[
-   {
-       &quot;id&quot;:&lt;product info id as long&gt;,
-       &quot;name&quot;:&lt;product name as string&gt;,
-       &quot;thumbnail&quot;:&lt;url of image thumbnail as string&gt;,
-       &quot;reorder_point&quot;:&lt;reorder point as int&gt;,
-       &quot;barcode&quot;:&lt;barcode of the product as string&gt;,
-       &quot;is_available&quot;:&lt;is available as boolean&gt;,
-       &quot;items_per_crate&quot;:&lt;items or bottles per crate&gt;
-   },
-   &lt;more product infos&gt;
-}
-</code></pre>
-
-<hr />
-<h4 id="query-specific-product-info">Query specific product info</h4>
-<p><code>GET /v1/product_infos/&lt;id&gt;</code></p>
-<p><strong>Reply</strong></p>
-<pre><code>{
-   &quot;id&quot;:&lt;product info id as long&gt;,
-   &quot;name&quot;:&lt;product name as string&gt;,
-   &quot;thumbnail&quot;:&lt;url of image thumbnail as string&gt;,
-   &quot;reorder_point&quot;:&lt;reorder point as int&gt;,
-   &quot;barcode&quot;:&lt;barcode of the product as string&gt;,
-   &quot;is_available&quot;:&lt;is available as boolean&gt;,
-   &quot;items_per_crate&quot;:&lt;items or bottles per crate&gt;
-}
-</code></pre>
-
-<hr />
-<h4 id="update-existing-product-info">Update existing product info</h4>
-<p><code>PATCH /v1/product_infos/&lt;product info id&gt;</code></p>
-<p><strong>Request</strong></p>
-<pre><code>{
-   &quot;name&quot;:&lt;product name as string&gt;,
-   &quot;thumbnail&quot;:&lt;url of image thumbnail as string&gt;,
-   &quot;reorder_point&quot;:&lt;reorder point as int&gt;,
-   &quot;barcode&quot;:&lt;barcode of the product as string&gt;,
-   &quot;is_available&quot;:&lt;is available as boolean&gt;,
-   &quot;items_per_crate&quot;:&lt;items or bottles per crate&gt;
-}
-</code></pre>
-
 <h1 id="transaction">Transaction</h1>
 <p><strong>Endpoint: <code>/v1/transactions</code></strong></p>
 <p>There are 6 different types of transactions if a <code>type</code> is requested or given it can only be one of these values:
@@ -627,7 +581,8 @@ price for how much the product got bought for.</p>
    &quot;purchased&quot;: [
       {
           &quot;product_info&quot;:&lt;product info id as int&gt;,
-          &quot;amount&quot;:&lt;amount of this bought as int&gt;
+          &quot;amount&quot;:&lt;amount of this bought as int&gt;,
+          &quot;price_per_unit&quot;:&lt;price for which one piece was sold by  then&gt;
       },
       &lt;etc&gt;
    ]
@@ -722,9 +677,9 @@ So as an example the user <code>test</code> and the password <code>passwd</code>
 So if a user has the "id": <code>123456789</code> this will undergo these steps:</p>
 <ol>
 <li><code>sha1sum(123456789)</code> =  <code>98O8HYCOBHMq32eZZczDTKeuNEE=</code></li>
-<li>Build auth string: <code>:98O8HYCOBHMq32eZZczDTKeuNEE=</code></li>
-<li><code>base64(:98O8HYCOBHMq32eZZczDTKeuNEE=)</code> = <code>Ojk4TzhIWUNPQkhNcTMyZVpaY3pEVEtldU5FRT0K</code></li>
-<li>Build auth header: <code>Authorization: Basic Ojk4TzhIWUNPQkhNcTMyZVpaY3pEVEtldU5FRT0K</code></li>
+<li>Build auth string: <code>98O8HYCOBHMq32eZZczDTKeuNEE=:</code></li>
+<li><code>base64(98O8HYCOBHMq32eZZczDTKeuNEE=:)</code> = <code>OThPOEhZQ09CSE1xMzJlWlpjekRUS2V1TkVFPToK</code></li>
+<li>Build auth header: <code>Authorization: Basic OThPOEhZQ09CSE1xMzJlWlpjekRUS2V1TkVFPToK</code></li>
 </ol>
 <hr />
 <h1 id="error-handlying">Error handlying</h1>
