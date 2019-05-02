@@ -594,9 +594,9 @@ The auth header for a regular user is the base64 encoded double dot followed by 
 So if a user has the "id": `123456789` this will undergo these steps:
 
 1. `sha1sum(123456789)` =  `98O8HYCOBHMq32eZZczDTKeuNEE=`
-3. Build auth string: `:98O8HYCOBHMq32eZZczDTKeuNEE=`
-4. `base64(:98O8HYCOBHMq32eZZczDTKeuNEE=)` = `Ojk4TzhIWUNPQkhNcTMyZVpaY3pEVEtldU5FRT0K`
-5. Build auth header: `Authorization: Basic Ojk4TzhIWUNPQkhNcTMyZVpaY3pEVEtldU5FRT0K`
+3. Build auth string: `98O8HYCOBHMq32eZZczDTKeuNEE=:`
+4. `base64(98O8HYCOBHMq32eZZczDTKeuNEE=:)` = `OThPOEhZQ09CSE1xMzJlWlpjekRUS2V1TkVFPToK`
+5. Build auth header: `Authorization: Basic OThPOEhZQ09CSE1xMzJlWlpjekRUS2V1TkVFPToK`
 
 ----
 
