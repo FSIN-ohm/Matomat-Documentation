@@ -195,17 +195,12 @@ __Reply__
 
 `POST /v1/user`
 
-A create new user may be sent without auth header, however if no basic auth header is given it requires
-that the request contains a valid client key. These keys are used to permit privileged clients to create new users.
-If an admin auth header is given the `client_key` can be empty or left out, and should not even be used here.
-Regular users are not permitted to register new users. Only admins or priviliged clients.
-
-The name of the user will be auto generated.
+A create new user may be created by an admin or a priviliged device. Priviliged devices must send
+their client key as the `user` in the Basic authentication header.
 
 The body of the post must contain this data:
 ```
 {
-   "client_key":<key of the client priviliged to create new users. Can be left out if adbmin basic auth is given>,
    "auth_hash":<first 25 bytes of the auth hash (sha256) generated from the user id>
 }
 ```
@@ -213,7 +208,6 @@ The body of the post must contain this data:
 Example:
 ```
 {
-   "client_key":"09d374ebf788ca96d5c5ad8cfc778317d8efa692766accc609eb5932ccf19c94",
    "auth_hash":"6d78392a5886177fe5b86e585"
 }
 ```
