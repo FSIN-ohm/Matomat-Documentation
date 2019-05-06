@@ -356,21 +356,16 @@ It will return the user represented by the basic auth credentials.</p>
 <hr />
 <h4 id="create-new-user">Create new user</h4>
 <p><code>POST /v1/user</code></p>
-<p>A create new user may be sent without auth header, however if no basic auth header is given it requires
-that the request contains a valid client key. These keys are used to permit privileged clients to create new users.
-If an admin auth header is given the <code>client_key</code> can be empty or left out, and should not even be used here.
-Regular users are not permitted to register new users. Only admins or priviliged clients.</p>
-<p>The name of the user will be auto generated.</p>
+<p>A create new user may be created by an admin or a priviliged device. Priviliged devices must send
+their client key as the <code>user</code> in the Basic authentication header.</p>
 <p>The body of the post must contain this data:</p>
 <pre><code>{
-   &quot;client_key&quot;:&lt;key of the client priviliged to create new users. Can be left out if adbmin basic auth is given&gt;,
    &quot;auth_hash&quot;:&lt;first 25 bytes of the auth hash (sha256) generated from the user id&gt;
 }
 </code></pre>
 
 <p>Example:</p>
 <pre><code>{
-   &quot;client_key&quot;:&quot;09d374ebf788ca96d5c5ad8cfc778317d8efa692766accc609eb5932ccf19c94&quot;,
    &quot;auth_hash&quot;:&quot;6d78392a5886177fe5b86e585&quot;
 }
 </code></pre>
