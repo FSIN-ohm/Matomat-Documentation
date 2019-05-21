@@ -584,7 +584,7 @@ So as an example the user `test` and the password `passwd` would generate this h
 `Authorization: Basic dGVzdDpwYXNzd2Q=`.
 
 The auth header for a regular user is the base64 encoded double dot followed by the sha1 hash of the id entered by the user (mostlikely the RFID of the Ohmcard):
-`Authorization: Basic base64(:sha1hash(<user_id>))`
+`Authorization: Basic base64(sha1hash(<user_id>):)`
 So if a user has the "id": `123456789` this will undergo these steps:
 
 1. `sha1sum(123456789)` =  `98O8HYCOBHMq32eZZczDTKeuNEE=`
