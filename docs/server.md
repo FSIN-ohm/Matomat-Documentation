@@ -11,6 +11,12 @@ For seting up the Matohmat server it is hightly suggested to use [Docker](https:
 
 The Docker repository for the server can be found at the [matohmat-docker](https://github.com/FSIN-ohm/matohmat-Docker). The repo makes use of Docker and [docker-compose](https://docs.Docker.com/compose/). Before seting up the server make sure you understand both tools.
 
+**What you need to know to setup a matohmat server**
+- Basic understanding of **GIT**
+- Good understanding of **docker**
+- Good understanding of **nginx** and reverse proxy
+- Basic understanding of **SQL**
+
 #### Seting up the server
 1. Make sure [Docker](https://docs.docker.com/install/) and [docker-compose](https://docs.docker.com/compose/install/) and [git](https://git-scm.com/) are installed on your system. These tools are both available for the moust major operation systems, including Linux, Windows and Mac.
 2. Clone the matohmat-docker repository: `git clone https://github.com/FSIN-ohm/matohmat-docker.git`
@@ -21,6 +27,17 @@ The Docker repository for the server can be found at the [matohmat-docker](https
    - `docker-compose up -d` for running the server in daemonized mode.
 6. When you start the server for the first time the matohmat image might start faster then the database because database is not initialized yet. This will lead to a crash. If this happens simply wait for a bit and the restart the docker image: `docker-compose down` then `docker-compose up`.
 7. In order to make your installation be ready for production you will want to [configure it](#configuration)
+
+### Update
+For Updating an already existing installation you will want to do these things
+1. **BACKUP your installation directory.** Do an **offsite backup** at best.
+2. Enter your docker installation directory
+3. Shutdown the current installation: `docker-compose down`
+4. Get the current docker configuration with `git update`
+5. Build the update: `docker-compose build`
+6. Start the new server again: `docker-compose up`
+
+If something fails do a rollback, and if you can't get the update running [contact the developers](https://github.com/FSIN-ohm/matohmat-docker/issues/new).
 
 ### Configuration
 
@@ -69,6 +86,37 @@ The data that filebrowser manages is Stored in `/filebrowser/data` and the datab
 
 # Testing
 
-# Role out
+# Releasing
+
+Sadly role out/role out is not done automatically. You will have to build and deploy the server by hand.
+
+This is what you will want to do to publish a new version.
+
+**When something changed at the database**
+Copy the `*.sql` file from the [/Database](https://github.com/FSIN-ohm/Matomat-Server/tree/master/Database) directory from the **matohmat-server** repo into the [/Database](https://github.com/FSIN-ohm/matohmat-docker/tree/master/Database) directory of the **matohmat-docker** repo.  
+**!!ATTENTION!!** If you ever want to update the database scheme make sure you include an update routine. For already existing databases. 
+
+**When something changes at the server**
+
+1. **Run tests and make sure everything works before releasing.**
+2. Edit the file `build.gradle` and update the version number:
+   `version x.y`
+3. Build the release version of the server:  
+   Within the root directory of the Project run: `./gradlew assemble`
+4. Enter the direcotry `/build/libs`. Here you will find find a `*.jar` file with the given version number in the name. This is the build server.
+5. Create a new release in github:
+    - Create a tag with the version number e.g.: `git tag v1.2 -m "v1.2"`
+    - Push that tag to github e.g.: `git push origin v1.2`
+    - Create a new [release draft](https://github.com/FSIN-ohm/Matomat-Server/releases/new)  
+     ![new_draft](img/draft_new_version.png)
+6. Attach the build build `*.jar` file to the release
+     ![attatch_file](img/attach_file.png)
+7. Hit `Publish Release`
+8. Copy the link to the jar file
+   ![copy_server_location](img/copy_server_location.png)
+9. Replace [the line](https://github.com/FSIN-ohm/matohmat-docker/blob/2104f9bc36fd3fb1d7094f8053fbbb0c7fd672b9/Server/Dockerfile#L4) in the `Dockerfile` where the old server got downloaded with `wget`.
+10. Make the docker setup be compatible with your new server release if necessary. Then push your changes on the matohmat-docker repo to master
+11. **Test the matohmat-docker repo**
+**!!ATTENTION!!** Always make sure the master branch of the matohmat-docker repository is **stable**.
 
 # Architecture
