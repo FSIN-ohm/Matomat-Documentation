@@ -105,6 +105,8 @@
         
             <li><a class="toctree-l3" href="#seting-up-the-server">Seting up the server</a></li>
         
+            <li><a class="toctree-l3" href="#update">Update</a></li>
+        
             <li><a class="toctree-l3" href="#configuration">Configuration</a></li>
         
             <li><a class="toctree-l3" href="#storage">Storage</a></li>
@@ -122,7 +124,7 @@
     <li class="toctree-l2"><a href="#testing">Testing</a></li>
     
 
-    <li class="toctree-l2"><a href="#role-out">Role out</a></li>
+    <li class="toctree-l2"><a href="#releasing">Releasing</a></li>
     
 
     <li class="toctree-l2"><a href="#architecture">Architecture</a></li>
@@ -169,6 +171,11 @@
 <h1 id="setup">Setup</h1>
 <p>For seting up the Matohmat server it is hightly suggested to use <a href="https://www.Docker.com">Docker</a>. It is possible to run it without, however you may have to configure a bit more in order to get it ruing without Docker. This or that way you may have to have experience in Docker in order to be able to read and understand the Docker config.</p>
 <p>The Docker repository for the server can be found at the <a href="https://github.com/FSIN-ohm/matohmat-Docker">matohmat-docker</a>. The repo makes use of Docker and <a href="https://docs.Docker.com/compose/">docker-compose</a>. Before seting up the server make sure you understand both tools.</p>
+<p><strong>What you need to know to setup a matohmat server</strong>
+- Basic understanding of <strong>GIT</strong>
+- Good understanding of <strong>docker</strong>
+- Good understanding of <strong>nginx</strong> and reverse proxy
+- Basic understanding of <strong>SQL</strong></p>
 <h4 id="seting-up-the-server">Seting up the server</h4>
 <ol>
 <li>Make sure <a href="https://docs.docker.com/install/">Docker</a> and <a href="https://docs.docker.com/compose/install/">docker-compose</a> and <a href="https://git-scm.com/">git</a> are installed on your system. These tools are both available for the moust major operation systems, including Linux, Windows and Mac.</li>
@@ -181,6 +188,15 @@
 <li>When you start the server for the first time the matohmat image might start faster then the database because database is not initialized yet. This will lead to a crash. If this happens simply wait for a bit and the restart the docker image: <code>docker-compose down</code> then <code>docker-compose up</code>.</li>
 <li>In order to make your installation be ready for production you will want to <a href="#configuration">configure it</a></li>
 </ol>
+<h3 id="update">Update</h3>
+<p>For Updating an already existing installation you will want to do these things
+1. <strong>BACKUP your installation directory.</strong> Do an <strong>offsite backup</strong> at best.
+2. Enter your docker installation directory
+3. Shutdown the current installation: <code>docker-compose down</code>
+4. Get the current docker configuration with <code>git update</code>
+5. Build the update: <code>docker-compose build</code>
+6. Start the new server again: <code>docker-compose up</code></p>
+<p>If something fails do a rollback, and if you can't get the update running <a href="https://github.com/FSIN-ohm/matohmat-docker/issues/new">contact the developers</a>.</p>
 <h3 id="configuration">Configuration</h3>
 <p>Within the <code>matohmat-docker</code> directory you will find the <code>docker-compose.yml</code> file. <em>(Please make sure you understand <a href="https://docs.docker.com/compose/compose-file/compose-file-v2/">docker-compose version 2.1</a>)</em></p>
 <h4 id="the-db-server">The db server</h4>
@@ -215,7 +231,37 @@ The data that filebrowser manages is Stored in <code>/filebrowser/data</code> an
 <strong>!!!ATTENTION!!!</strong> After the first setup you will want to change the admin password as by default the login will be admin:admin.</p>
 <h1 id="development-setup">Development setup</h1>
 <h1 id="testing">Testing</h1>
-<h1 id="role-out">Role out</h1>
+<h1 id="releasing">Releasing</h1>
+<p>Sadly role out/role out is not done automatically. You will have to build and deploy the server by hand.</p>
+<p>This is what you will want to do to publish a new version.</p>
+<p><strong>When something changed at the database</strong>
+Copy the <code>*.sql</code> file from the <a href="https://github.com/FSIN-ohm/Matomat-Server/tree/master/Database">/Database</a> directory from the <strong>matohmat-server</strong> repo into the <a href="https://github.com/FSIN-ohm/matohmat-docker/tree/master/Database">/Database</a> directory of the <strong>matohmat-docker</strong> repo.<br />
+<strong>!!ATTENTION!!</strong> If you ever want to update the database scheme make sure you include an update routine. For already existing databases. </p>
+<p><strong>When something changes at the server</strong></p>
+<ol>
+<li><strong>Run tests and make sure everything works before releasing.</strong></li>
+<li>Edit the file <code>build.gradle</code> and update the version number:
+   <code>version x.y</code></li>
+<li>Build the release version of the server:<br />
+   Within the root directory of the Project run: <code>./gradlew assemble</code></li>
+<li>Enter the direcotry <code>/build/libs</code>. Here you will find find a <code>*.jar</code> file with the given version number in the name. This is the build server.</li>
+<li>Create a new release in github:<ul>
+<li>Create a tag with the version number e.g.: <code>git tag v1.2 -m "v1.2"</code></li>
+<li>Push that tag to github e.g.: <code>git push origin v1.2</code></li>
+<li>Create a new <a href="https://github.com/FSIN-ohm/Matomat-Server/releases/new">release draft</a><br />
+<img alt="new_draft" src="../img/draft_new_version.png" /></li>
+</ul>
+</li>
+<li>Attach the build build <code>*.jar</code> file to the release
+     <img alt="attatch_file" src="../img/attach_file.png" /></li>
+<li>Hit <code>Publish Release</code></li>
+<li>Copy the link to the jar file
+   <img alt="copy_server_location" src="../img/copy_server_location.png" /></li>
+<li>Replace <a href="https://github.com/FSIN-ohm/matohmat-docker/blob/2104f9bc36fd3fb1d7094f8053fbbb0c7fd672b9/Server/Dockerfile#L4">the line</a> in the <code>Dockerfile</code> where the old server got downloaded with <code>wget</code>.</li>
+<li>Make the docker setup be compatible with your new server release if necessary. Then push your changes on the matohmat-docker repo to master</li>
+<li><strong>Test the matohmat-docker repo</strong>
+<strong>!!ATTENTION!!</strong> Always make sure the master branch of the matohmat-docker repository is <strong>stable</strong>.</li>
+</ol>
 <h1 id="architecture">Architecture</h1>
               
             </div>
