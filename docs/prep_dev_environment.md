@@ -1,11 +1,11 @@
 Preparing the development environment
 ==
 
-The following steps will guide you through the process of preparing the development environment for the admin and user-frontend on your computer.
+The following steps will guide you through the process of preparing the development environment for the Admin- and User-Frontend on your computer.
 
 ## Step 1: Installing a suitable source code editor
 
-We recommend using Visual Studio Code, it's available for Windows, macOS and Linux. Furthermore does it support JavaScript, TypeScript, Node.js and npm package manager. All four are required to edit the project files.</br>
+We recommend using Visual Studio Code, it's available for Windows, macOS and Linux. Furthermore does it support JavaScript, TypeScript, Node.js and npm package manager. All four are required, in order to build the Admin-Frontend.</br>
 
 Download Visual Studio Code [here](https://code.visualstudio.com/Download)
 
