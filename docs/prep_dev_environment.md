@@ -50,7 +50,7 @@ Now that you've cloned the project folder to your workstation. Follow these step
 ######  `File > Open Folder > "Path"\Matomat-Admin-Frontend > open folder`
 ######  `File > Open Folder > "Path"\Matomat-Frontend > open folder`
 
-#### Installing required extensions:
+#### Installing required extensions for the Admin-Frontend:
 
 ######  `Terminal > New Terminal`
 ######  run: `ng add ngx-bootstrap`
