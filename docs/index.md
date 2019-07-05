@@ -33,7 +33,7 @@ framework. It is a web application that can be delivered by a static web sever l
 All the the persistent data it need it gets form the [MatΩhmat Server](#the_server).
 
 ### The User-Frontend
-The User-Frontend is a little wooden box containing a touch display a RaspberryPI, and a RFID scanner. It displays a
+The User-Frontend is a little wooden box containing a touch display, a RaspberryPI, and a RFID scanner. It displays a
 touch friendly webpage hosted on the device itself. The page comunicates directly with the [MatΩhmat Server](#the_server)
 through its REST-API. It is created using pure HTML5, CSS and JavaScript.
 
@@ -68,8 +68,28 @@ If you do not want to buy any products at all you can cancel with the button "Ab
 
 After a few seconds the thank-you-page will forwarded you to the first page with the RFID-scanner and the whole session is cleared.
 
-##### Manual for Admins
+##### Manual for System-Admins
 
-##### Manual for Developers
+Using the User-Frontend as a Point-Of-Sale-System you need a Raspberry PI and a server. First you need to understand how to set the MatΩhmat-Server up and know the structure of the REST API to start with the MatΩhmat-Frontend. The webpage will hosted on the Raspberry PI itself. Then you need to clone the folder of the [MatΩhmat-Frontend](https://github.com/FSIN-ohm/Matomat-Frontend) on github to install the User-Frontend on you computer. There is a file in folder named "config.js" to set the servername up for the MatΩhmat-Frontend and take several configuration. 
+
+![Overview](img/config_js_user_frontend.png)
+
+As you can see in this picture above just replace your servername in the string of the variable "server". To see the webpage we recommend a touchdisplay for the Raspberry PI. 
+
+Through requests in the MatΩhmat-Frontend you can get the products through the REST API from the server to see the productlist on the webpage. If you want to change products or add more to the productlist you need to do this in the MatΩhmat-Admin-Frontend. To understand how to install the MatΩhmat-Admin-Frontend on your system just go to this link: [MatΩhmat-Admin-Frontend](#Admin_Frontend).
+
+##### Manual for Admins and Developers
 
 To start developing the User-Frontend you need to go on this github-link: [MatΩhmat-Frontend](https://github.com/FSIN-ohm/Matomat-Frontend) to clone the folder on your desktop. In this folder there is a file named config.js where you can take several configuration for the use of the User-Frontend like where the server is hosted or the session timeouts.
+
+As you have done all these configurations in this file there is another file named script.js where you can do bugfixes if you find some or you can develop more features for the User-Frontend. The functionalities of the User-Frontend will be described in the further sections.
+
+First of all it is important to know the structure of the User-Frontend. This is why we start with the pages we have in it. You can see this underneath in the picture.
+
+![Overview](img/pages_user_frontend.png)
+
+As you can see in this picture above we have seven pages in the function window.onload in the User-Frontend. The startPage where you put your Ohm-Card on the RFID-scanner, then the mainPage where you can see the productlist for the order you choose to buy and the bar on the mainPage above with your credits, the amount of money for your order and where the button for leading you to the addMoneyPage where you can recharge your credits with money and if you need to register yourself first we have the registrationPage, too. After the order you will forwarded to the thankYouPage. Between these pages we have a loadingScreen with the hamster-gif you see for a short time if you will forwarded to another page on the webpage of the User-Frontend. If there is any error in a function or in the pages we have an errorScreen because on the Raspberry PI it is just important for the user that there is an error or not and if so he just needs to contact the person responsible for the User-Frontend for resolving the problem for this errorScreen.
+
+In the function window.onload there are also several functions like to hide every other pages which are not the current page where the user just needs to see. That means if the user is on the mainPage then all other pages will be hided from the user.
+
+...
