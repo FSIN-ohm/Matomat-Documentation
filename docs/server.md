@@ -17,7 +17,7 @@ The Docker repository for the server can be found at the [matohmat-docker](https
 - Good understanding of **nginx** and reverse proxy
 - Basic understanding of **SQL**
 
-#### Seting up the server
+#### Seting up the server via docker
 1. Make sure [Docker](https://docs.docker.com/install/) and [docker-compose](https://docs.docker.com/compose/install/) and [git](https://git-scm.com/) are installed on your system. These tools are both available for the moust major operation systems, including Linux, Windows and Mac.
 2. Clone the matohmat-docker repository: `git clone https://github.com/FSIN-ohm/matohmat-docker.git`
 3. Enter the matohmat-docker directory: `cd matohmat-docker`
@@ -153,6 +153,27 @@ The currently available values are:
 
 In addition to the template file there is also a template line for the `Subject` header. This template line is written directly into the `conf` file of the server using the `mail_subject` key.  
 This line will also accept the `<{product}>` template value, which has the same meaning as the one used in the email content.
+
+# Security
+
+This section will describe how to secure your matohmat server. Please be aware that you will want to know how to do these steps __BEFORE__ you finally setup the matohmat server.
+
+1. Change the password for the matohmat user in the database.  
+   This is required if you setup the server without using docker. Within docker this step is not that crustal, as database and 
+   server containers are connected through an internal virtual network, that is not accessible from the host, or outside these
+   two containers.  
+   However if you do not use docker for your setup you will first want to edit the `CreateDatabase.sql` file first. Here you will find a `CREATE USER` line near the end. Her you can replace the `password_here` default password with your own password.  
+   After initializing the database make sure to set the db user password in the server config accordingly.
+2. Use Encryption  
+   The Matohmat server is not ment to be accessable from the internet directly, as it can only accept HTTP requests,
+   however without using __HTTPS__ any security messure will be useless. Therefore you must setup a nginx or an apache web server (or others), to acct as a __reverse proxy__ server that will take care of the encryption.
+3. Change the default device key that is listed in your `deviceKey.txt`. This __MUST__ be changed otherwise users which are not       physicals in your fissility can register a new user, which will clutter up your database.
+4. Change the Default password of the `root` admin.  
+   You can do this once the server is fully set up. Please look into the description of the admin frontend, how to change the
+   passwort of the root admin. However if you don't do this everyone who ever saw this source code will have access to your system.
+5. Ensure the database is backed up.  
+   It is highly suggested to regularily backup your database or if you use docker, the whole matohmat docker folder.
+   Do this by using offsite backup, which means you should backup your data (encrypted) to another device/sever in another building place, to ensure the data is not lost even if the matomat server crashes, or the building its in is struck by a nuclear war head. It's suggested to backup once a day.
 
 # Development setup
 
