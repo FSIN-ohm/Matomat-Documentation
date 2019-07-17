@@ -3,7 +3,7 @@ Server
 
 # Introduction
 
-The matohmat server is REST Api server written in Java8 and [spring](https://spring.io/). For the persistence it uses a [MySQL 8](https://dev.mysql.com/doc/relnotes/mysql/8.0/en/) database. For hosting it it is highly suggested to use [Docker](https://www.Docker.com/) as there is already a Docker compose setup available. Read more about the setup [here](#setup). The server is only supposed to provide the bare api.
+The matohmat server is a REST Api server written in Java8 and [spring](https://spring.io/). For the persistence it uses a [MySQL 8](https://dev.mysql.com/doc/relnotes/mysql/8.0/en/) database. For hosting it it is highly suggested to use [Docker](https://www.Docker.com/) as there is already a Docker compose setup available. Read more about the setup [here](#setup). The server is only supposed to provide the bare api.
 
 # Setup
 
@@ -65,9 +65,9 @@ the host to the container.
 
 Two files are being mapped __read only__ from the host to the host filesystem to the container filesystem.
 These are
-- device_keys.txt
-- server.conf
-- mail_template.txt
+- __`device_keys.txt`__
+- __`server.conf`__
+- __`mail_template.txt`__
 
 If you change their location outside and inside the container make sure the configuration where to find this files is changed as well.
 
@@ -95,34 +95,34 @@ When the server is configured you can run it by using the command `java -jar mat
 The configuration of the Matohmat Server is done through a configuration file which is passed to the server as parameter. The file is not a `.ini` file even if it looks like it. The separator between key and value is a `=` sign which may not contain a space before or after.
 
 Here is what the single keys mean:
-- `db_host`: Host name of the database server. You may not need to edit this if you want to run pure docker setup as it is already set to the host name of the database image `db`.
-- `db_schema`: The schema used for storing the matohmat tables into. You may not change this without editing the sql files inside the `database` directory.
-- `db_user`: The user which accesses the database. You must not make this the root user! Also before changing the user here you might want edit the sql files inside the `database` direcotry.
+- __`db_host`__: Host name of the database server. You may not need to edit this if you want to run pure docker setup as it is already set to the host name of the database image `db`.
+- __`db_schema`__: The schema used for storing the matohmat tables into. You may not change this without editing the sql files inside the `database` directory.
+- __`db_user`__: The user which accesses the database. You must not make this the root user! Also before changing the user here you might want edit the sql files inside the `database` direcotry.
   __!!CAUTION!!__ changing the user through the sql file can only be done before setting up the server,
   if you already have meaningfull data in your database you must change the user by hand through sql commands. If you do remember to backup the database.
-- `db_password`: Password for accsing the database as `DB_USER`. You may not change this without editing the sql files inside the `database` directory.
+- __`db_password`__: Password for accsing the database as `DB_USER`. You may not change this without editing the sql files inside the `database` directory.
   __!!CAUTION!!__ changing the password through the sql file can only be done before setting up the server,
   if you already have meaningfull data in your database you must change the password by hand through sql commands. If you do remember to backup the database.
-- `device_keys`: The file containing the device keys. You must edit this file as leaving the default value in it is considered insecure. Read more about this file at [device keys section](#device_keys).
-- `origin`: Write down the **urls of the clients** that want to access the api server. If you don't list the URLs of the clients here you will get issues with [`CORS`](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) later, and you may not be able to send requests. Seperate the different urs with a `;;`. Use the `null` as a url if you want to connect with a client that you load from a file and not from a server. However remove `null` in production as having `null` in the origin list is considered insecure.
-- `context_path`: This is the url context path on wich the server is running. That means if the server can be accessed by simply doing http requests against the host name, for example `https://api.exmaple.com` the context path is simply `/`, but if the server should be reached through a sub bath, for example `https://example.com/api` the context patch has to be `/api`. Please be aware that you must not write a tiling slash behind the path!
-- `mail_enabled`: If set to true the email interface of the server will be activated. Read more about this at the [email interface section](#email_interface)
-- `mail_starttls`: This will make emails send by the email interface be encrypted by the `STARTTLS` m/api`. Please be aware that you must not write a tiethod.
+- __`device_keys`__: The file containing the device keys. You must edit this file as leaving the default value in it is considered insecure. Read more about this file at [device keys section](#device_keys).
+- __`origin`__: Write down the **urls of the clients** that want to access the api server. If you don't list the URLs of the clients here you will get issues with [`CORS`](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) later, and you may not be able to send requests. Seperate the different urs with a `;;`. Use the `null` as a url if you want to connect with a client that you load from a file and not from a server. However remove `null` in production as having `null` in the origin list is considered insecure.
+- __`context_path`__: This is the url context path on wich the server is running. That means if the server can be accessed by simply doing http requests against the host name, for example `https://api.exmaple.com` the context path is simply `/`, but if the server should be reached through a sub bath, for example `https://example.com/api` the context patch has to be `/api`. Please be aware that you must not write a tiling slash behind the path!
+- __`mail_enabled`__: If set to true the email interface of the server will be activated. Read more about this at the [email interface section](#email_interface)
+- __`mail_starttls`__: This will make emails send by the email interface be encrypted by the `STARTTLS` m/api`. Please be aware that you must not write a tiethod.
 __!!CAUTION!!__ disabling this is considered insecure.
-- `mail_smtp_host`: The url of the smtp server from which you want to send the emails from.
-- `mail_smtp_port`: The port at the `mail_smtp_host` where smtp is running at. If you use `STARTTLS` this port will usually be __587__, if you don't use encryption it will be __25__.
-- `mail_address`: The mail address that will be used as sender when a mail got send by the email interface.
-- `mail_smtp_user`: The name of the user at the smtp server.
-- `mail_smtp_password`: The password of the `mail_smtp_user`.
-- `mail_template_file`: The relative path to the mail template. Read more about the mail template file over at the [email interface section](#email_interface).
-- `mail_subject`: This line is the template for the mail subject. Read more about this over at the [email interface section](#email_interface)
-- `check_interval`: If the email interface is enabled this will contain the period of minutes after which the stock is being checked. Read more about this over at the Read more about this over at the [email interface section](#email_interface)
+- __`mail_smtp_host`__: The url of the smtp server from which you want to send the emails from.
+- __`mail_smtp_port`__: The port at the `mail_smtp_host` where smtp is running at. If you use `STARTTLS` this port will usually be __587__, if you don't use encryption it will be __25__.
+- __`mail_address`__: The mail address that will be used as sender when a mail got send by the email interface.
+- __`mail_smtp_user`__: The name of the user at the smtp server.
+- __`mail_smtp_password`__: The password of the `mail_smtp_user`.
+- __`mail_template_file`__: The relative path to the mail template. Read more about the mail template file over at the [email interface section](#email_interface).
+- __`mail_subject`__: This line is the template for the mail subject. Read more about this over at the [email interface section](#email_interface)
+- __`check_interval`__: If the email interface is enabled this will contain the period of minutes after which the stock is being checked. Read more about this over at the Read more about this over at the [email interface section](#email_interface)
 
 ### Commandline Parameters
 
-- `--test-mail`: if the email interface is setup correctly you can send a test email to all registered
+- __`--test-mail`__: if the email interface is setup correctly you can send a test email to all registered
 matohmat admins by starting the server with this email. The server will quit emedially after.
-- `--help`: Will give you a rudimentary information about the parameters the server will take.
+- __`--help`__: Will give you a rudimentary information about the parameters the server will take.
 
 ### Device keys
 
