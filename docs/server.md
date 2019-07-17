@@ -3,7 +3,7 @@ Server
 
 # Introduction
 
-The matohmat server is REST Api server written in Java8 and [spring](https://spring.io/). For the persistence it uses a [MySQL 8](https://dev.mysql.com/doc/relnotes/mysql/8.0/en/) database. For hosting it it is highly suggested to use [Docker](https://www.Docker.com/) as there is already a Docker compose setup available. Read more about the setup [here](#setup). The server is only supposed to provide the bare api, however the Docker setup will also serve the admin frontend and service to upload images to.
+The matohmat server is REST Api server written in Java8 and [spring](https://spring.io/). For the persistence it uses a [MySQL 8](https://dev.mysql.com/doc/relnotes/mysql/8.0/en/) database. For hosting it it is highly suggested to use [Docker](https://www.Docker.com/) as there is already a Docker compose setup available. Read more about the setup [here](#setup). The server is only supposed to provide the bare api.
 
 # Setup
 
@@ -25,7 +25,7 @@ The Docker repository for the server can be found at the [matohmat-docker](https
 5. When the build is done you can already test run the server with
    - `docker-compose up` for running in forground
    - `docker-compose up -d` for running the server in daemonized mode.
-6. !!CAUTION!! When you start the server for the first time the matohmat image might start faster then the database because database is not initialized yet. This will lead to a crash. If this happens simply wait for a bit and the restart the docker image: `docker-compose down` then `docker-compose up`.
+6. !!CAUTION!! When you start the server for the first time the matohmat container might start faster then the database because database is not initialized yet. This will lead to a crash. If this happens simply wait for a bit and the restart the docker container: `docker-compose stop` then `docker-compose up`.
 7. In order to make your installation be ready for production you will want to [configure it](#configuration)
 
 ### Update
@@ -67,6 +67,7 @@ Two files are being mapped __read only__ from the host to the host filesystem to
 These are
 - device_keys.txt
 - server.conf
+- mail_template.txt
 
 If you change their location outside and inside the container make sure the configuration where to find this files is changed as well.
 
@@ -96,7 +97,7 @@ __!!CAUTION!!__ disabling this is considered insecure.
 - `mail_smtp_password`: The password of the `mail_smtp_user`.
 - `mail_template_file`: The relative path to the mail template. Read more about the mail template file over at the [email interface section](#email_interface).
 - `mail_subject`: This line is the template for the mail subject. Read more about this over at the [email interface section](#email_interface)
-- `check_interfal`: If the email interface is enabled this will contain the period of minutes after which the stock is being checked. Read more about this over at the Read more about this over at the [email interface section](#email_interface)
+- `check_interval`: If the email interface is enabled this will contain the period of minutes after which the stock is being checked. Read more about this over at the Read more about this over at the [email interface section](#email_interface)
 
 ### Storage
 
@@ -111,15 +112,28 @@ If you edit this file you will have to rebuild the docker container using `docke
 
 The scheme of the file looks like this: Evenry line contains a name of a key and the key itself. Name and key are seperated by a `:`. Like this:  
 `<name of the key>:<the key it self in some giberish>`.  
-**!!!ATTENTION!!!** There is already a default key. Remove this key and replace it by a custom one.
-
-### Image hosting
-
-In order to host images [Filebrowser](https://filebrowser.xyz/) is used. It is a simple tool hosted next to the server, which can be used to upload files to. Images droped into can have a public url which you can post into the product img url.
-The data that filebrowser manages is Stored in `/filebrowser/data` and the database it uses for management is stored in `/filebrowser/db`.  
-**!!!ATTENTION!!!** After the first setup you will want to change the admin password as by default the login will be admin:admin.
+**!!!ATTENTION!!!** There is already a default key. Remove this key and replace it by a custom one. Otherwise your system will be insecure.
 
 # Email Interface
+
+The Email Interface of the server is a service that will send an Email to every active admin if a reorder point was hit. The email interface needs to be configured and enabled using the `.conf` file of the matohmat, and requires to have a connection to a working email service somewhere. __!!CAUTION!!__ it is not suggested to use a private email account for the Email Interface. Please register a new one for the matohmat.  
+
+The email interface can not yet predict how much should be bought once a reorder point has been meet. This function will require heuristic prediction models, which is rather complicated. However the function could be implemented in the future.  
+At the current state the email interface can notify about the current stock.
+
+Since for checking the stock a great amount of calculation is required, required stock is only checked in certain intervals. The default value for `check_interval` is 1440 (minutes), which means that stock is checked once a day.
+
+#### Configureing the Email Interface
+
+The Email interface first needs to be configured in the `.conf` file of the server. Please read the [configuration section](#configuration) in order to know how to do that.  
+
+When having set up the email interface you can modify the email template file. This file will be what is send in an email, however it contains variables that will be replaced with the value calculated by the server. Every replacement value begins with `<{` and ends with `}>`. In between the name of the value is written.
+The currently available values are:
+- __`product`__: The Product that went below the reorder point and triggered the email.
+- __`crates_left_list`__: A list of how much is still left of each product.
+
+In addition to the template file there is also a template line for the `Subject` header. This template line is written directly into the `conf` file of the server using the `mail_subject` key.  
+This line will also accept the `<{product}>` template value, which has the same meaning as the one used in the email content.
 
 # Development setup
 
