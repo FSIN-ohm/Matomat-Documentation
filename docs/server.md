@@ -106,11 +106,10 @@ With in the matohmat-docker directory you will find the directory [data](https:/
 
 ### Device keys
 
-The file `Server/device_keys.txt` contains a list of keys for clients that shall have the permission to add users. If a client is not listed here it is not able to add users. (Except the admin frontend as admins can always add new users).  
-The keys listed in this file also have to be installed in the matohmat client.  
-If you edit this file you will have to rebuild the docker container using `docker-compose build`
+The file `device_keys.txt` contains a list of keys for clients that shall have the permission to add users. If a client is not listed here it is not able to add users. (Except the admin frontend as admins can always add new users).  
+The keys listed in this file also have to be installed in the matohmat client. Please see the documentation about the user client to find out how to install device keys there.
 
-The scheme of the file looks like this: Evenry line contains a name of a key and the key itself. Name and key are seperated by a `:`. Like this:  
+The scheme of the file looks like this: every line contains a name of a key and the key itself. Name and key are separated by a `:`. Like this:  
 `<name of the key>:<the key it self in some giberish>`.  
 **!!!ATTENTION!!!** There is already a default key. Remove this key and replace it by a custom one. Otherwise your system will be insecure.
 
