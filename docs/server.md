@@ -28,7 +28,7 @@ The Docker repository for the server can be found at the [matohmat-docker](https
 6. !!CAUTION!! When you start the server for the first time the matohmat container might start faster then the database because database is not initialized yet. This will lead to a crash. If this happens simply wait for a bit and the restart the docker container: `docker-compose stop` then `docker-compose up`.
 7. In order to make your installation be ready for production you will want to [configure it](#configuration)
 
-### Update
+### Update via docker
 For Updating an already existing installation you will want to do these things
 1. **BACKUP your installation directory.** Do an **offsite backup** at best.
 2. Enter your docker installation directory
@@ -46,7 +46,7 @@ Within the `matohmat-docker` directory you will find the `docker-compose.yml` fi
 #### The Database Server Container
 In the `db` server you will find the `volumes` entry  
 - `./data:/var/lib/mysql`  
-This is pointing to the `data` directory. So here the database is saved. More about this [here](#storage).
+This is pointing to the `data` directory. So here the database is saved. More about this [here](#docker_storage).
 
 #### The Server Container 
 **Ports:**  
@@ -56,7 +56,7 @@ by default the matohmat server is mapped to `127.0.0.1:8080`. You may want to ch
 
 Here the Environment variables are listed that will be passed into the server docker container. Here is what they mean.
 
-- `PARAM`: Parameters that will be passed to the matohmat server binary. Se the server configuration section for more details
+- `PARAM`: Parameters that will be passed to the matohmat server binary. Se the server [commandline parameter secion](#commandline_parameters) for more details
 - `CONFIG_FILE`: This is the relative path to the server configurationfile within the container. If you change this, you also need to change
 the location to where the config file is mapped to from
 the host to the container.
@@ -70,6 +70,25 @@ These are
 - mail_template.txt
 
 If you change their location outside and inside the container make sure the configuration where to find this files is changed as well.
+
+### Docker storage
+
+With in the matohmat-docker directory you will find the directory [data](https://github.com/FSIN-ohm/matohmat-docker/tree/master/data). Here the content of the database is saved.  
+**!!!ATTENTION!!!** When backing up the matohmat data it is highly recomended to backup the whole `matohmat-docker` directory, not only the `data` folder.
+
+### Setup without docker
+
+If you want to let the server run directly on you machine without using docker, you many want to download the latest version of the server `*.jar` file as well as the source code `*zip` from
+https://github.com/fsin-ohm/matomat-server/releases.  
+
+1. Before running the actual matohmat server you will want to setup the database. For doing this you will find three SQL files in the `Database` directory within the zip file. These files are:
+- CreateDatabase.sql
+- create_routines.sql
+- create_views.sql
+Login to your mysql server, and run all of these files in exactly that order. However you must edit the `CreateDatabase.sql` first, and change the password of the `matohmat` user first. Read more about this in the [security section](#security).
+
+2. After you've setup the database, you can configure the server by first taking the default configuration file called `server.conf` from the zip file, and editing it so it will fit your needs. Read about how to configure the server in the [configuration secion](#configuration).  
+When the server is configured you can run it by using the command `java -jar matohmat.jar <path_to_the_confgig_file>.conf`. The config file always has to be passed to the server as parameter.
 
 ### Configuration
 
@@ -99,10 +118,11 @@ __!!CAUTION!!__ disabling this is considered insecure.
 - `mail_subject`: This line is the template for the mail subject. Read more about this over at the [email interface section](#email_interface)
 - `check_interval`: If the email interface is enabled this will contain the period of minutes after which the stock is being checked. Read more about this over at the Read more about this over at the [email interface section](#email_interface)
 
-### Storage
+### Commandline Parameters
 
-With in the matohmat-docker directory you will find the directory [data](https://github.com/FSIN-ohm/matohmat-docker/tree/master/data). Here the content of the database is saved.  
-**!!!ATTENTION!!!** When backing up the matohmat data it is highly recomended to backup the whole `matohmat-docker` directory, not only the `data` folder.
+- `--test-mail`: if the email interface is setup correctly you can send a test email to all registered
+matohmat admins by starting the server with this email. The server will quit emedially after.
+- `--help`: Will give you a rudimentary information about the parameters the server will take.
 
 ### Device keys
 
