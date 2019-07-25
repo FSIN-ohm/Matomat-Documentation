@@ -3,7 +3,7 @@ Server
 
 # Introduction
 
-The matohmat server is REST Api server written in Java8 ans [spring](https://spring.io/). For the presistence it uses a [MySQL 8](https://dev.mysql.com/doc/relnotes/mysql/8.0/en/) database. For hosting it it is highly suggested to use [Docker](https://www.Docker.com/) as there is already a Docker compose setup eavailable. Read more about the setup [here](#setup). The server is only supposed to provide the bare api, however the Docker setup will also serve the admin frontend and service to upload images to.
+The matohmat server is a REST Api server written in Java8 and [spring](https://spring.io/). For the persistence it uses a [MySQL 8](https://dev.mysql.com/doc/relnotes/mysql/8.0/en/) database. For hosting it it is highly suggested to use [Docker](https://www.Docker.com/) as there is already a Docker compose setup available. Read more about the setup [here](#setup). The server is only supposed to provide the bare api.
 
 # Setup
 
@@ -25,10 +25,10 @@ The Docker repository for the server can be found at the [matohmat-docker](https
 5. When the build is done you can already test run the server with
    - `docker-compose up` for running in forground
    - `docker-compose up -d` for running the server in daemonized mode.
-6. When you start the server for the first time the matohmat image might start faster then the database because database is not initialized yet. This will lead to a crash. If this happens simply wait for a bit and the restart the docker image: `docker-compose down` then `docker-compose up`.
+6. !!CAUTION!! When you start the server for the first time the matohmat container might start faster then the database because database is not initialized yet. This will lead to a crash. If this happens simply wait for a bit and the restart the docker container: `docker-compose stop` then `docker-compose up`.
 7. In order to make your installation be ready for production you will want to [configure it](#configuration)
 
-### Update
+### Update via docker
 For Updating an already existing installation you will want to do these things
 1. **BACKUP your installation directory.** Do an **offsite backup** at best.
 2. Enter your docker installation directory
@@ -39,48 +39,120 @@ For Updating an already existing installation you will want to do these things
 
 If something fails do a rollback, and if you can't get the update running [contact the developers](https://github.com/FSIN-ohm/matohmat-docker/issues/new).
 
-### Configuration
+### Configuration via Docker
 
 Within the `matohmat-docker` directory you will find the `docker-compose.yml` file. *(Please make sure you understand [docker-compose version 2.1](https://docs.docker.com/compose/compose-file/compose-file-v2/))*
 
-#### The db server
-In the db server you will find the `volumes` entry  
-- `${PWD}/data:/var/lib/mysql`  
-This is pointing to the `data` direcotry. So here the database is saved. More about this [here](#storage).
+#### The Database Server Container
+In the `db` server you will find the `volumes` entry  
+- `./data:/var/lib/mysql`  
+This is pointing to the `data` directory. So here the database is saved. More about this [here](#docker_storage).
 
-#### The Server
+#### The Server Container 
 **Ports:**  
-by default the matohmat server is mapped to `127.0.0.1:8080`. You may want to change this line if you want to make the server run under another port. However be aware if you remove the `127.0.0.1` ip address the port will be exposed to the network, **even if you are running a firewall!**
+by default the matohmat server is mapped to `127.0.0.1:8080`. You may want to change this line if you want to make the server run under another port. However be aware if you remove the `127.0.0.1` ip address the port will be exposed to the network, **even if you are running a firewall, as docker might manipulate the iptables!**
 
 **Environment:**
 
-- `DB_HOST`: Host name of the database server. You may not need to edit this if you want to run pure docker setup, as it is already set to the host name of the database image `db`.
-- `DB_SCHEMA`: The schema used for storing the matohmat tables into. You may not change this without editing the sql files inside the `database` directory.
-- `DB_USER`: The user which accesses the database. You must not make this the root user! Also before changing the user here you might also edit the sql files inside the `database` direcotry.
-- `DB_PWD`: Password for accsing the database as `DB_USER`. You may not change this without editing the sql files inside the `database` directory.
-- `DEVICE_KEYS`: The file containing the device keys. You must edit this file. However editing this file will require you to rebuild the docker container!. Read more about this file at [device keys section](#device_keys).
-- `ORIGIN`: Write down the **urls of the clients** that want to access the api server. If you don't list the URLs of the clients here you will get issues with [`CORS`](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) later, and you may not be able to send requests. Seperate the different urs with a `::`. Use the `null` as a url if you want to connect with a client that you load from a file and not from a server. However remove `null` in production.
+Here the Environment variables are listed that will be passed into the server docker container. Here is what they mean.
 
-### Storage
+- `PARAM`: Parameters that will be passed to the matohmat server binary. Se the server [commandline parameter secion](#commandline_parameters) for more details
+- `CONFIG_FILE`: This is the relative path to the server configurationfile within the container. If you change this, you also need to change
+the location to where the config file is mapped to from
+the host to the container.
+
+**Volumes**
+
+Two files are being mapped __read only__ from the host to the host filesystem to the container filesystem.
+These are
+- __`device_keys.txt`__
+- __`server.conf`__
+- __`mail_template.txt`__
+
+If you change their location outside and inside the container make sure the configuration where to find this files is changed as well.
+
+### Docker storage
 
 With in the matohmat-docker directory you will find the directory [data](https://github.com/FSIN-ohm/matohmat-docker/tree/master/data). Here the content of the database is saved.  
 **!!!ATTENTION!!!** When backing up the matohmat data it is highly recomended to backup the whole `matohmat-docker` directory, not only the `data` folder.
 
+### Setup without docker
+
+If you want to let the server run directly on you machine without using docker, you many want to download the latest version of the server `*.jar` file as well as the source code `*zip` from
+https://github.com/fsin-ohm/matomat-server/releases.  
+
+1. Before running the actual matohmat server you will want to setup the database. For doing this you will find three SQL files in the `Database` directory within the zip file. These files are:
+- CreateDatabase.sql
+- create_routines.sql
+- create_views.sql
+Login to your mysql server, and run all of these files in exactly that order. However you must edit the `CreateDatabase.sql` first, and change the password of the `matohmat` user first. Read more about this in the [security section](#security).
+
+2. After you've setup the database, you can configure the server by first taking the default configuration file called `server.conf` from the zip file, and editing it so it will fit your needs. Read about how to configure the server in the [configuration secion](#configuration).  
+When the server is configured you can run it by using the command `java -jar matohmat.jar <path_to_the_confgig_file>.conf`. The config file always has to be passed to the server as parameter.
+
+### Configuration
+
+The configuration of the Matohmat Server is done through a configuration file which is passed to the server as parameter. The file is not a `.ini` file even if it looks like it. The separator between key and value is a `=` sign which may not contain a space before or after.
+
+Here is what the single keys mean:
+- __`db_host`__: Host name of the database server. You may not need to edit this if you want to run pure docker setup as it is already set to the host name of the database image `db`.
+- __`db_schema`__: The schema used for storing the matohmat tables into. You may not change this without editing the sql files inside the `database` directory.
+- __`db_user`__: The user which accesses the database. You must not make this the root user! Also before changing the user here you might want edit the sql files inside the `database` direcotry.
+  __!!CAUTION!!__ changing the user through the sql file can only be done before setting up the server,
+  if you already have meaningfull data in your database you must change the user by hand through sql commands. If you do remember to backup the database.
+- __`db_password`__: Password for accsing the database as `DB_USER`. You may not change this without editing the sql files inside the `database` directory.
+  __!!CAUTION!!__ changing the password through the sql file can only be done before setting up the server,
+  if you already have meaningfull data in your database you must change the password by hand through sql commands. If you do remember to backup the database.
+- __`device_keys`__: The file containing the device keys. You must edit this file as leaving the default value in it is considered insecure. Read more about this file at [device keys section](#device_keys).
+- __`origin`__: Write down the **urls of the clients** that want to access the api server. If you don't list the URLs of the clients here you will get issues with [`CORS`](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) later, and you may not be able to send requests. Seperate the different urs with a `;;`. Use the `null` as a url if you want to connect with a client that you load from a file and not from a server. However remove `null` in production as having `null` in the origin list is considered insecure.
+- __`context_path`__: This is the url context path on wich the server is running. That means if the server can be accessed by simply doing http requests against the host name, for example `https://api.exmaple.com` the context path is simply `/`, but if the server should be reached through a sub bath, for example `https://example.com/api` the context patch has to be `/api`. Please be aware that you must not write a tiling slash behind the path!
+- __`mail_enabled`__: If set to true the email interface of the server will be activated. Read more about this at the [email interface section](#email_interface)
+- __`mail_starttls`__: This will make emails send by the email interface be encrypted by the `STARTTLS` m/api`. Please be aware that you must not write a tiethod.
+__!!CAUTION!!__ disabling this is considered insecure.
+- __`mail_smtp_host`__: The url of the smtp server from which you want to send the emails from.
+- __`mail_smtp_port`__: The port at the `mail_smtp_host` where smtp is running at. If you use `STARTTLS` this port will usually be __587__, if you don't use encryption it will be __25__.
+- __`mail_address`__: The mail address that will be used as sender when a mail got send by the email interface.
+- __`mail_smtp_user`__: The name of the user at the smtp server.
+- __`mail_smtp_password`__: The password of the `mail_smtp_user`.
+- __`mail_template_file`__: The relative path to the mail template. Read more about the mail template file over at the [email interface section](#email_interface).
+- __`mail_subject`__: This line is the template for the mail subject. Read more about this over at the [email interface section](#email_interface)
+- __`check_interval`__: If the email interface is enabled this will contain the period of minutes after which the stock is being checked. Read more about this over at the Read more about this over at the [email interface section](#email_interface)
+
+### Commandline Parameters
+
+- __`--test-mail`__: if the email interface is setup correctly you can send a test email to all registered
+matohmat admins by starting the server with this email. The server will quit emedially after.
+- __`--help`__: Will give you a rudimentary information about the parameters the server will take.
+
 ### Device keys
 
-The file `Server/device_keys.txt` contains a list of keys for clients that shall have the permission to add users. If a client is not listed here it is not able to add users. (Except the admin frontend as admins can always add new users).  
-The keys listed in this file also have to be installed in the matohmat client.  
-If you edit this file you will have to rebuild the docker container using `docker-compose build`
+The file `device_keys.txt` contains a list of keys for clients that shall have the permission to add users. If a client is not listed here it is not able to add users. (Except the admin frontend as admins can always add new users).  
+The keys listed in this file also have to be installed in the matohmat client. Please see the documentation about the user client to find out how to install device keys there.
 
-The scheme of the file looks like this: Evenry line contains a name of a key and the key itself. Name and key are seperated by a `:`. Like this:  
+The scheme of the file looks like this: every line contains a name of a key and the key itself. Name and key are separated by a `:`. Like this:  
 `<name of the key>:<the key it self in some giberish>`.  
-**!!!ATTENTION!!!** There is already a default key. Remove this key and replace it by a custom one.
+**!!!ATTENTION!!!** There is already a default key. Remove this key and replace it by a custom one. Otherwise your system will be insecure.
 
-### Image hosting
+# Email Interface
 
-In order to host images [Filebrowser](https://filebrowser.xyz/) is used. It is a simple tool hosted next to the server, which can be used to upload files to. Images droped into can have a public url which you can post into the product img url.
-The data that filebrowser manages is Stored in `/filebrowser/data` and the database it uses for management is stored in `/filebrowser/db`.  
-**!!!ATTENTION!!!** After the first setup you will want to change the admin password as by default the login will be admin:admin.
+The Email Interface of the server is a service that will send an Email to every active admin if a reorder point was hit. The email interface needs to be configured and enabled using the `.conf` file of the matohmat, and requires to have a connection to a working email service somewhere. __!!CAUTION!!__ it is not suggested to use a private email account for the Email Interface. Please register a new one for the matohmat.  
+
+The email interface can not yet predict how much should be bought once a reorder point has been meet. This function will require heuristic prediction models, which is rather complicated. However the function could be implemented in the future.  
+At the current state the email interface can notify about the current stock.
+
+Since for checking the stock a great amount of calculation is required, required stock is only checked in certain intervals. The default value for `check_interval` is 1440 (minutes), which means that stock is checked once a day.
+
+#### Configureing the Email Interface
+
+The Email interface first needs to be configured in the `.conf` file of the server. Please read the [configuration section](#configuration) in order to know how to do that.  
+
+When having set up the email interface you can modify the email template file. This file will be what is send in an email, however it contains variables that will be replaced with the value calculated by the server. Every replacement value begins with `<{` and ends with `}>`. In between the name of the value is written.
+The currently available values are:
+- __`product`__: The Product that went below the reorder point and triggered the email.
+- __`crates_left_list`__: A list of how much is still left of each product.
+
+In addition to the template file there is also a template line for the `Subject` header. This template line is written directly into the `conf` file of the server using the `mail_subject` key.  
+This line will also accept the `<{product}>` template value, which has the same meaning as the one used in the email content.
 
 # Development setup
 
