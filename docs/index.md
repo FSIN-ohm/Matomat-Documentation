@@ -68,19 +68,38 @@ If you do not want to buy any products at all you can cancel with the button "Ab
 
 After a few seconds the thank-you-page will forwarded you to the first page with the RFID-scanner and the whole session is cleared.
 
+On the User-Frontend there could be server or other problems which can arise once in a while. If it appears it looks something like this: 
+
+![Overview](img/error_page.png)
+
+Then you should contact an admin to let him solve this problem.
+
 ##### Manual for System-Admins
 
-Using the User-Frontend as a Point-Of-Sale-System you need a Raspberry PI and a server. First you need to understand how to set the MatΩhmat-Server up and know the structure of the REST API to start with the MatΩhmat-Frontend. The webpage will hosted on the Raspberry PI itself. Then you need to clone the folder of the [MatΩhmat-Frontend](https://github.com/FSIN-ohm/Matomat-Frontend) on github to install the User-Frontend on you computer. There is a file in folder named "config.js" to set the servername up for the MatΩhmat-Frontend and take several configuration. 
+Using the User-Frontend as a Point-Of-Sale-System you need a Raspberry PI and a server. First you need to understand how to set the MatΩhmat-Server up and know the structure of the REST API to start with the MatΩhmat-Frontend. The webpage will hosted on the Raspberry PI itself. Then you need to clone the folder of the [MatΩhmat-Frontend](https://github.com/FSIN-ohm/Matomat-Frontend) on github to install the User-Frontend on your computer. There is a file in the folder named "config.js" to set the servername up for the MatΩhmat-Frontend and take several configurations. 
 
 ![Overview](img/config_js_user_frontend.png)
 
-As you can see in this picture above just replace your servername in the string of the variable "server". To see the webpage we recommend a touchdisplay for the Raspberry PI. 
+As you can see in this picture above just replace your servername in the string of the variable "server". To see the webpage we recommend a touchdisplay for the Raspberry PI. The other variables are for the behavior of the timeouts of the User Frontend. You can change the timeouts at discretion.
+
+You can use GitHub Pages to host the websites of the User Frontend directly from its GitHub Repository [MatΩhmat-Frontend](https://github.com/FSIN-ohm/Matomat-Frontend). Here is a guide for setting up the GitHub Pages: First of all you need to create a new branch in the existing repository and name it `gh-pages`. Otherwise it will not work. Then you delete all unnecessary files like the "README.md" and the `scatch` folder in the `gh-pages` branch because you do not need them on the hosted websites of the User Frontend. Next step to see your repository as websites you will need to write the owner of the repository (this can be your organization or username as you first have created this repository) then backslash `/` add `github.io`, then backslash `/` again and write the repository name in it. It should look like this `<organization/username>/github.io/<repository name>`.
+You can also go on the repository in github. Make sure you are on the right branch. This should be the branch `gh-pages`. Then you can go on `Settings` and scroll down to the caption `GitHub Pages`. There is a link which directed you to the hosted websites of your repository.
+
+Alternatively you can use `NGINX`as a webserver for hosting the User-Frontend and pull the necessary files to the webserver. It is necessary that you use Linux for this. 
+
+So when you are on the hosted website you need to add a `device key` as a parameter to your link. This then should look like this `?device_key=<your key>`. The device key lets the server check if a client is listed in the file `device_keys.txt` of the server. For the User Frontend the `device key` is for the device of the Raspberry Pi. You need to edit the file `device_keys.txt`of the server and generate random device keys for the devices you have. So it should not have any kind of password. It should be URL compliant and have an ideal of 100 symbols consisting of numbers and alphabetic character. The use of those device keys is that the clients if they are listed in the file `device_keys.txt` have the permission to add new users to the database. This is important because a user who wants to register himself in the User Frontend can do this on his own through the Raspberry PI. Otherwise he needs to contact an admin from the Fachschaft to add him through the Admin Frontend.
 
 Through requests in the MatΩhmat-Frontend you can get the products through the REST API from the server to see the productlist on the webpage. If you want to change products or add more to the productlist you need to do this in the MatΩhmat-Admin-Frontend. To understand how to install the MatΩhmat-Admin-Frontend on your system just go to this link: [MatΩhmat-Admin-Frontend](#Admin_Frontend).
 
-##### Manual for Admins and Developers
+##### Manual for Admins
 
-To start developing the User-Frontend you need to go on this github-link: [MatΩhmat-Frontend](https://github.com/FSIN-ohm/Matomat-Frontend) to clone the folder on your desktop. In this folder there is a file named config.js where you can take several configuration for the use of the User-Frontend like where the server is hosted or the session timeouts.
+As an admin of the User-Frontend you can also create user for the User-Frontend through the Admin-Frontend if you do not want to do this on the Raspberry PI itself. For more information read the documentation of the [MatΩhmat-Admin-Frontend](#Admin_Frontend). 
+
+If the error page appears you can see in the description of the error page where you can find the source for the error. If you can not handle the error yourself you need to contact a developer for the User-Frontend or for the Server.
+
+##### Manual for Developers
+
+To start developing the User-Frontend you need to go on this github-link: [MatΩhmat-Frontend](https://github.com/FSIN-ohm/Matomat-Frontend) to clone the folder on your desktop. In this folder there is a file named config.js where you can take several configuration for the use of the User-Frontend like where the server is hosted or the timeouts.
 
 As you have done all these configurations in this file there is another file named script.js where you can do bugfixes if you find some or you can develop more features for the User-Frontend. The functionalities of the User-Frontend will be described in the further sections.
 
@@ -88,8 +107,10 @@ First of all it is important to know the structure of the User-Frontend. This is
 
 ![Overview](img/pages_user_frontend.png)
 
-As you can see in this picture above we have seven pages in the function window.onload in the User-Frontend. The startPage where you put your Ohm-Card on the RFID-scanner, then the mainPage where you can see the productlist for the order you choose to buy and the bar on the mainPage above with your credits, the amount of money for your order and where the button for leading you to the addMoneyPage where you can recharge your credits with money and if you need to register yourself first we have the registrationPage, too. After the order you will forwarded to the thankYouPage. Between these pages we have a loadingScreen with the hamster-gif you see for a short time if you will forwarded to another page on the webpage of the User-Frontend. If there is any error in a function or in the pages we have an errorScreen because on the Raspberry PI it is just important for the user that there is an error or not and if so he just needs to contact the person responsible for the User-Frontend for resolving the problem for this errorScreen.
+As you can see in this picture above we have seven pages in the function `window.onload` in the User-Frontend. The `startPage` where you put your Ohm-Card on the RFID-scanner, then the `mainPage` where you can see the productlist for the order you choose to buy and the bar on the `mainPage` above with your credits, the amount of money for your order and where the button for leading you to the `addMoneyPage` where you can recharge your credits with money and if you need to register yourself first we have the `registrationPage`, too. After the order you will forwarded to the `thankYouPage`. Between these pages we have a `loadingScreen` with the hamster-gif you see for a short time if you will forwarded to another page on the webpage of the User-Frontend. If there is any error in a function or in the pages we have an `errorScreen` because on the Raspberry PI it is just important for the user that there is an error or not and if so he just needs to contact the person responsible for the User-Frontend for resolving the problem for this errorScreen.
 
-In the function window.onload there are also several functions like to hide every other pages which are not the current page where the user just needs to see. That means if the user is on the mainPage then all other pages will be hided from the user.
+In the function window.onload there are also several functions like to hide every other pages which are not the current page where the user just needs to see. That means if the user is on the `mainPage` then all other pages will be hided from the user.
 
-...
+![Overview](img/add_product.png)
+
+In this picture above you can see how the products are created into a productlist for the main Page. When the User-Frontend gets the request from the server with its products the User-Frontend adds the products in a productlist and shows them up in the main Page.
